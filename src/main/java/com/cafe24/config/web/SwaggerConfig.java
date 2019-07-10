@@ -19,7 +19,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter{
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.cafe24.mall.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.cafe24.mall.controller.api"))
                 .paths(PathSelectors.any())
                 .build();
 

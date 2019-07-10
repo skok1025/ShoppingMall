@@ -4,15 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller("testController")
-@RequestMapping("/api/test")
-public class TestController {
+@RestController("MainAPIController")
+
+public class MainController {
 
 	@ResponseBody
-	@GetMapping("/sample")
-	public String sample() {
-		return "서비스 준비중 입니다.";
+	@GetMapping("/index")
+	public String index() {
+		return "시작페이지";
 	}
-	
 }

@@ -1,4 +1,4 @@
-package com.cafe24.mysite.dto;
+package com.cafe24.mall.dto;
 
 public class JSONResult {
 	private String result; // success,fail

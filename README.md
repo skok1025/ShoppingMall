@@ -62,10 +62,14 @@ API LIST -> 사용자 시나리오 -> JUnitTest
 
 (U) PUT /api/user/10
 
----------------------------------------- body { name:"안대혁", email:"skok1025@naver.com" }
+---
+
+강사님 말씀 body { name:"안대혁", email:"skok1025@naver.com" }
 
 ```
           (Junit + Spring Test + Mockito)
 ```
 
 Controller <-> Service <-> Repository view (selenium)
+
+회원가입 할 때, 메일 인증코드 보내기
