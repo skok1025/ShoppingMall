@@ -1,6 +1,10 @@
 package com.cafe24.mall.controller.api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,5 +32,11 @@ public class AdminControllerTest {
 		mockMvc = MockMvcBuilders.
 				webAppContextSetup(webApplicationContext).
 				build();
+	}
+	
+	@Test
+	public void testGoodsList() throws Exception{
+		mockMvc
+		.perform(get("/api/admin/goodslist")).andExpect(status().isOk());
 	}
 }

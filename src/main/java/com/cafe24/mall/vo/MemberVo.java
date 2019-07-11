@@ -16,6 +16,18 @@ public class MemberVo {
 	
 	private List<MemberTermsVo> termlist; // 약관동의 리스트
 	
+	
+	public MemberVo() {
+		
+	}
+	
+	// 테스트 용
+	public MemberVo(String id, String password) {
+		this.id = id;
+		this.password = password;
+	}
+	
+	
 	public List<MemberTermsVo> getTermlist() {
 		return termlist;
 	}

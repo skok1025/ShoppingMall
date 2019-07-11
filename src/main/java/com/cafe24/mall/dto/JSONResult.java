@@ -5,8 +5,8 @@ public class JSONResult {
 	private String message;//if fail, set message
 	private Object data;// if success, set Object
 	
-	public static JSONResult success(Object data) {
-		return new JSONResult("success", null, data);
+	public static JSONResult success(String message,Object data) {
+		return new JSONResult("success", message, data);
 	}
 	
 	public static JSONResult fail(String message) {
