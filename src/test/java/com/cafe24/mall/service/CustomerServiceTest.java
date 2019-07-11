@@ -13,6 +13,7 @@ import com.cafe24.mall.config.AppConfig;
 import com.cafe24.mall.config.TestWebConfig;
 
 
+// WebConfig 뺴라
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
