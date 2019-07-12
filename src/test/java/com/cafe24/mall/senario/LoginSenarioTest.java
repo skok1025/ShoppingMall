@@ -42,7 +42,7 @@ private MockMvc mockMvc;
 	}
 	
 	/**
-	 * 존재하는 아이디 (skok1025)에 일치하는 비밀번호(1234) 를 입력한 경우 -> 성공
+	 * 테스트케이스1(성공): 존재하는 아이디 (skok1025)에 일치하는 비밀번호(1234) 를 입력한 경우 
 	 * @throws Exception 예외
 	 */
 	@Test
@@ -51,6 +51,44 @@ private MockMvc mockMvc;
 		vo.setId("skok1025");  // 사용자 입력
 		vo.setPassword("1234");
 		
+		p1_auth(vo);		
+	}
+	
+	/**
+	 * 테스트케이스2(실패):존재하지 않는 아이디 (noid) 를 입력하였을 경우 
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testLoginFailId() throws Exception{
+		MemberVo vo = new MemberVo();
+		vo.setId("noid");  // 사용자 입력
+		vo.setPassword("1234");
+		
+		p1_auth(vo);	
+	}
+	
+	/**
+	 * 테스트케이스3(실패):존재하는 아이디 (skok1025) 에 일치하지 않은 비밀번호 (12345) 입력한 경우 -> 실패
+	 * @throws Exception
+	 */
+	@Test
+	public void testLoginFailPw() throws Exception{
+		MemberVo vo = new MemberVo();
+		vo.setId("skok1025");  // 사용자 입력
+		vo.setPassword("12345");
+		
+		p1_auth(vo);	
+	}
+	
+	
+	
+////////////////////////////////각 테스트 케이스에 사용될 로그인 Process
+	/**
+	 * 로그인 진행프로세스 : 인증
+	 * @param vo 인증이 필요한 MemberVo
+	 * @throws Exception 예외
+	 */
+	public void p1_auth(MemberVo vo) throws Exception{
 		ResultActions resultActions =
 				mockMvc
 				.perform(post("/api/customer/auth").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
@@ -62,50 +100,6 @@ private MockMvc mockMvc;
 				.andExpect(jsonPath("$.result", is("success")))
 				.andExpect(jsonPath("$.data.id", is(vo.getId())))
 				;		
-	}
-	
-	/**
-	 * 존재하지 않는 아이디 (noid) 를 입력하였을 경우 -> 실패
-	 * @throws Exception 예외
-	 */
-	@Test
-	public void testLoginFailId() throws Exception{
-		MemberVo vo = new MemberVo();
-		vo.setId("noid");  // 사용자 입력
-		vo.setPassword("1234");
-		
-		ResultActions resultActions =
-				mockMvc
-				.perform(post("/api/customer/auth").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
-		
-				
-				resultActions
-				.andExpect(status().isOk())
-				.andDo(print())
-				.andExpect(jsonPath("$.result", is("fail")))
-				;	
-	}
-	
-	/**
-	 * 존재하는 아이디 (skok1025) 에 일치하지 않은 비밀번호 (12345) 입력한 경우 -> 실패
-	 * @throws Exception
-	 */
-	@Test
-	public void testLoginFailPw() throws Exception{
-		MemberVo vo = new MemberVo();
-		vo.setId("skok1025");  // 사용자 입력
-		vo.setPassword("12345");
-		
-		ResultActions resultActions =
-				mockMvc
-				.perform(post("/api/customer/auth").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
-		
-				
-				resultActions
-				.andExpect(status().isOk())
-				.andDo(print())
-				.andExpect(jsonPath("$.result", is("fail")))
-				;	
 	}
 
 }

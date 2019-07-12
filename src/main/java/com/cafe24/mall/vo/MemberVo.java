@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class MemberVo {
 	private Long no;
 	@NotEmpty
-	@Length(max = 10, min = 3)
+	@Length(max = 10, min = 2)
 	private String name;
 	private String address;
 	private String birthDate;
