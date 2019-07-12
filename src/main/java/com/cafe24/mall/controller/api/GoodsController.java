@@ -36,12 +36,12 @@ public class GoodsController {
 		return JSONResult.success("상품 리스트 검색 성공","키워드:"+kw+",키워드 카테고리:"+kwkind);
 	}
 	
-	@ApiOperation(value = "관리자 상품삭제")
+	@ApiOperation(value = "상품 상세정보 조회")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "goodsNo", value = "관리자가 삭제할 상품번호", required = true, dataType = "Long", defaultValue = "") 
+			@ApiImplicitParam(name = "goodDetailNo", value = "상품 상세번호", required = true, dataType = "Long", defaultValue = "") 
 	})
 	@GetMapping("/view")
-	public JSONResult view(Long goodDetailNo) {
+	public JSONResult view(@RequestParam Long goodDetailNo) {
 		return JSONResult.success("상품 상세 조회 성공", "상품상세번호:"+goodDetailNo);
 	}
 }
