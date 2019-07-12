@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.not;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -109,7 +110,6 @@ public class CustomerControllerTest {
 	 * 회원가입을 테스트 하는 메소드
 	 * @throws Exception 예외
 	 */
-	//0@Ignore
 	@Test
 	public void testJoin() throws Exception{
 		MemberVo vo = new MemberVo();
@@ -126,7 +126,7 @@ public class CustomerControllerTest {
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(post("/api/customer/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+				.perform(post("/api/customer/account").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 				
 				resultActions
@@ -134,6 +134,38 @@ public class CustomerControllerTest {
 				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
 				.andExpect(jsonPath("$.data.id", is(vo.getId())))
+				;	
+	}
+	
+	/**
+	 * 회원정보 수정을 테스트 하는 메소드
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifyAccount() throws Exception{
+		MemberVo vo = new MemberVo();
+		vo.setNo(1L);
+		vo.setName("김석현");
+		vo.setAddress("서울시 성동구 성수동");
+		vo.setBirthDate("1993-10-25");
+		vo.setGender("m");
+		vo.setId("skok10251");
+		vo.setPassword("1234");
+		vo.setEmail("skok1025@naver.com");
+		vo.setTel("01068669202");
+		vo.setRegdate("2019-07-11");
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/customer/account").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+				
+				resultActions
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andExpect(jsonPath("$.result", is("success")))
+				.andExpect(jsonPath("$.message", is("회원정보수정 완료")))
+				.andExpect(jsonPath("$.data", is(1)))
 				;	
 	}
 	
@@ -150,7 +182,7 @@ public class CustomerControllerTest {
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(delete("/api/customer/remove").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+				.perform(delete("/api/customer/account").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 				
 				resultActions
@@ -174,7 +206,7 @@ public class CustomerControllerTest {
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(delete("/api/customer/remove").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+				.perform(delete("/api/customer/account").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		
 		resultActions
@@ -185,24 +217,7 @@ public class CustomerControllerTest {
 		;		
 	}
 	
-	/**
-	 * 키워드('바지'), 키워드 카테고리 ('상품명')를 검색 테스트
-	 * @throws Exception 예외
-	 */
-	//@Ignore
-	@Test
-	public void testSearch() throws Exception {
-		ResultActions resultActions =
-		mockMvc
-		.perform(get("/api/customer/search?kw={kw}&kwkind={kwkind}","바지","상품명")).andExpect(status().isOk());
-		
-		resultActions
-		.andExpect(status().isOk())
-		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data", is("키워드:바지,키워드 카테고리:상품명")))
-		;
-	}
+	
 	
 
 }

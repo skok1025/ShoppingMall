@@ -58,4 +58,15 @@ public class CustomerService {
 		}
 		return 0;
 	}
+
+	/**
+	 * 회원정보수정 메소드
+	 * @param memberVo 수정정보를 담은 vo 객체
+	 * @return 수정성공 유무 (1-성공, 0-실패)
+	 */
+	public int modifyAccount(MemberVo memberVo) {
+		return 1;
+	}
+	
+	
 }

@@ -1,14 +1,19 @@
 package com.cafe24.mall.vo;
 
+import java.util.List;
+
 public class GoodsVo {
 
+	public enum status{
+		y,n
+	}
 	
 	private Long no;
 	private String name;
 	private int seillingPrice;
 	private String detail;
-	private String displayStatus;
-	private String seillingStatus;
+	private GoodsVo.status displayStatus;
+	private GoodsVo.status seillingStatus;
 	private String regdate;
 	private String material;
 	private String supplier;
@@ -16,6 +21,25 @@ public class GoodsVo {
 	private String manufacturingDate;
 	private String origin;
 	private Long smallcategoryNo;
+	
+	private List<GoodsImagesVo> goodsImagesList; // 상품의 이미지들
+	private List<GoodsDetailVo> goodsDetailList; // 상품의 옵션에 대한 정보 리스트
+	
+	
+	
+	
+	public List<GoodsDetailVo> getGoodsDetailList() {
+		return goodsDetailList;
+	}
+	public void setGoodsDetailList(List<GoodsDetailVo> goodsDetailList) {
+		this.goodsDetailList = goodsDetailList;
+	}
+	public List<GoodsImagesVo> getGoodsImagesList() {
+		return goodsImagesList;
+	}
+	public void setGoodsImagesList(List<GoodsImagesVo> goodsImagesList) {
+		this.goodsImagesList = goodsImagesList;
+	}
 	public Long getNo() {
 		return no;
 	}
@@ -40,16 +64,16 @@ public class GoodsVo {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	public String getDisplayStatus() {
+	public GoodsVo.status getDisplayStatus() {
 		return displayStatus;
 	}
-	public void setDisplayStatus(String displayStatus) {
+	public void setDisplayStatus(GoodsVo.status displayStatus) {
 		this.displayStatus = displayStatus;
 	}
-	public String getSeillingStatus() {
+	public GoodsVo.status getSeillingStatus() {
 		return seillingStatus;
 	}
-	public void setSeillingStatus(String seillingStatus) {
+	public void setSeillingStatus(GoodsVo.status seillingStatus) {
 		this.seillingStatus = seillingStatus;
 	}
 	public String getRegdate() {
@@ -100,8 +124,10 @@ public class GoodsVo {
 				+ ", displayStatus=" + displayStatus + ", seillingStatus=" + seillingStatus + ", regdate=" + regdate
 				+ ", material=" + material + ", supplier=" + supplier + ", manufacturer=" + manufacturer
 				+ ", manufacturingDate=" + manufacturingDate + ", origin=" + origin + ", smallcategoryNo="
-				+ smallcategoryNo + "]";
+				+ smallcategoryNo + ", goodsImagesList=" + goodsImagesList + ", goodsDetailList=" + goodsDetailList
+				+ "]";
 	}
+	
 	
 	
 	
