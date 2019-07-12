@@ -21,6 +21,8 @@ public class CustomerService {
 				new MemberVo("ewsinger", "1234"),
 				new MemberVo("what", "1234")
 			);
+	
+	
 
 	public MemberVo memberJoin(MemberVo memberVo) {
 		//sampleUserDB.add(memberVo);

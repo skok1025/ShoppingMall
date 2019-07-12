@@ -2,12 +2,22 @@ package com.cafe24.mall.vo;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class MemberVo {
 	private Long no;
+	@NotEmpty
+	@Length(max = 10, min = 3)
 	private String name;
 	private String address;
 	private String birthDate;
 	private String gender;
+	
+	@NotEmpty
+	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$")
 	private String id;
 	private String password;
 	private String email;

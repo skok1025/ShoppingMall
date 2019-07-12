@@ -1,6 +1,13 @@
 package com.cafe24.mall.controller.api;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -76,7 +83,26 @@ public class CustomerController {
 			@ApiImplicitParam(name = "memberVo", value = "회원가입하는 정보 MemberVo", required = true, dataType = "MemberVo", defaultValue = "") 
 	})
 	@PostMapping("/account")
-	public JSONResult join(@RequestBody MemberVo memberVo) {
+	public JSONResult join(
+			@RequestBody @Valid MemberVo memberVo,
+			BindingResult result) {
+		
+		// 아이디 중복 체크
+		if(customerService.getIdCount(memberVo.getId())==1) {
+			return JSONResult.fail("이미 존재하는 아이디입니다.");
+		}
+		
+		// 유효성 검사 실패시
+		if(result.hasErrors()) {
+			List<FieldError> list = result.getFieldErrors();
+			String errMsg = "";
+			for(FieldError err : list) {
+				errMsg += err.getField()+"/";
+			}
+			errMsg += "오류발생";
+			return JSONResult.fail(errMsg);
+		}
+		
 		MemberVo member = customerService.memberJoin(memberVo);
 		return JSONResult.success("회원가입 완료",member);
 	}
