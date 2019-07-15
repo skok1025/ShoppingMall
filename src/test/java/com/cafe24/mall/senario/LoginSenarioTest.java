@@ -51,7 +51,7 @@ private MockMvc mockMvc;
 		vo.setId("skok1025");  // 사용자 입력
 		vo.setPassword("1234");
 		
-		p1_auth(vo);		
+		p1_auth(vo,"success");		
 	}
 	
 	/**
@@ -64,7 +64,7 @@ private MockMvc mockMvc;
 		vo.setId("noid");  // 사용자 입력
 		vo.setPassword("1234");
 		
-		p1_auth(vo);	
+		p1_auth(vo,"fail");	
 	}
 	
 	/**
@@ -77,7 +77,7 @@ private MockMvc mockMvc;
 		vo.setId("skok1025");  // 사용자 입력
 		vo.setPassword("12345");
 		
-		p1_auth(vo);	
+		p1_auth(vo,"fail");	
 	}
 	
 	
@@ -88,7 +88,7 @@ private MockMvc mockMvc;
 	 * @param vo 인증이 필요한 MemberVo
 	 * @throws Exception 예외
 	 */
-	public void p1_auth(MemberVo vo) throws Exception{
+	public void p1_auth(MemberVo vo,String isSuccess) throws Exception{
 		ResultActions resultActions =
 				mockMvc
 				.perform(post("/api/customer/auth").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
@@ -97,8 +97,8 @@ private MockMvc mockMvc;
 				resultActions
 				.andExpect(status().isOk())
 				.andDo(print())
-				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data.id", is(vo.getId())))
+				.andExpect(jsonPath("$.result", is(isSuccess)))
+				//.andExpect(jsonPath("$.data.id", is(vo.getId())))
 				;		
 	}
 

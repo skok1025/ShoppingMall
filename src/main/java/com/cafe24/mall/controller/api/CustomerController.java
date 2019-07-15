@@ -85,9 +85,10 @@ public class CustomerController {
 			@ApiImplicitParam(name = "id", value = "중복체크를 할 아이디", required = true, dataType = "String", defaultValue = "") 
 	})
 	@GetMapping("/checkId")
-	public JSONResult CheckId(String id) {
+	public ResponseEntity<JSONResult> CheckId(String id) {
 		int count = customerService.getIdCount(id);
-		return count==0 ? JSONResult.success("사용가능한 아이디입니다.",count):JSONResult.fail("중복된 아이디입니다."); 
+		return count==0 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("사용가능한 아이디입니다.",count))
+							:ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("중복된 아이디입니다.")); 
 	}
 	
 	/**
@@ -100,13 +101,13 @@ public class CustomerController {
 			@ApiImplicitParam(name = "memberVo", value = "회원가입하는 정보 MemberVo", required = true, dataType = "MemberVo", defaultValue = "") 
 	})
 	@PostMapping("/account")
-	public JSONResult join(
+	public ResponseEntity<JSONResult> join(
 			@RequestBody @Valid MemberVo memberVo,
 			BindingResult result) {
 		
 		// 아이디 중복 체크
 		if(customerService.getIdCount(memberVo.getId())==1) {
-			return JSONResult.fail("이미 존재하는 아이디입니다.");
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("이미 존재하는 아이디입니다."));
 		}
 		
 		// 유효성 검사 실패시
@@ -117,11 +118,11 @@ public class CustomerController {
 				errMsg += err.getField()+"/";
 			}
 			errMsg += "오류발생";
-			return JSONResult.fail(errMsg);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errMsg));
 		}
 		
 		MemberVo member = customerService.memberJoin(memberVo);
-		return JSONResult.success("회원가입 완료",member);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원가입 완료",member));
 	}
 	
 	/**

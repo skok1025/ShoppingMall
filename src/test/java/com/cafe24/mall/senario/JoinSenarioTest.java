@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.result.StatusResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -59,9 +61,9 @@ public class JoinSenarioTest {
 		vo.setRegdate("2019-07-12");
 
 		// 아이디 중복체크
-		p1_checkId(vo.getId());
+		p1_checkId(vo.getId(),0);
 		// 계정 생성
-		p2_joinmember(vo);
+		p2_joinmember(vo,status().isOk());
 	}
 
 	/**
@@ -82,10 +84,10 @@ public class JoinSenarioTest {
 		vo.setTel("010-6866-9202");
 		vo.setRegdate("2019-07-12");
 
-		// 아이디 중복체크
-		p1_checkId(vo.getId());
+		// 아이디 중복체크 (아이디 중복, 아이디 카운트 예측: 1개 )
+		p1_checkId(vo.getId(),1);
 		// 계정 생성
-		p2_joinmember(vo);
+		p2_joinmember(vo,status().isOk());
 	}
 
 	
@@ -107,9 +109,10 @@ public class JoinSenarioTest {
 		vo.setRegdate("2019-07-12");
 
 		// 아이디 중복체크
-		p1_checkId(vo.getId());
-		// 계정 생성
-		p2_joinmember(vo);
+		p1_checkId(vo.getId(),0);
+		
+		// 계정 생성 -> 입력형식 오류 -> 400
+		p2_joinmember(vo,status().isBadRequest());
 	}
 	
 	
@@ -121,25 +124,33 @@ public class JoinSenarioTest {
 	 * @param id 검사할 아이디 
 	 * @throws Exception 예외
 	 */
-	public void p1_checkId(String id) throws Exception {
+	public void p1_checkId(String id,int expectedIdCount) throws Exception {
 		ResultActions resultActions = mockMvc.perform(get("/api/customer/checkId?id={id}", id))
 				.andExpect(status().isOk());
 
-		resultActions.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data", is(0)));
+		resultActions.andDo(print())
+		.andExpect(jsonPath("$.result", expectedIdCount==0 ? is("success"):is("fail")))
+		.andExpect(jsonPath("$.data",expectedIdCount==0 ? is(0) : not(is(0))))
+		;
 	}
 
+	
 	/**
 	 * 회원가입 진행 프로세스2 : 회원정보 등록
 	 * @param vo 회원정보
+	 * @param status 
 	 * @throws Exception 예외
 	 */
-	public void p2_joinmember(MemberVo vo) throws Exception {
+	public void p2_joinmember(MemberVo vo,ResultMatcher status) throws Exception {
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/customer/account").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 
-		resultActions.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data.id", is(vo.getId())));
+		resultActions
+		.andExpect(status)
+		.andDo(print())
+		//.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data.id", is(vo.getId())))
+		;
 	}
 
 }

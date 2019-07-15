@@ -88,7 +88,6 @@ public class CustomerControllerTest {
 		.perform(get("/api/customer/checkId?id={id}","skok1025")).andExpect(status().isOk());
 		
 		resultActions
-		.andExpect(status().isOk())
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.data", not(is(0))));
