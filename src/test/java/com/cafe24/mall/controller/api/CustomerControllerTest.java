@@ -32,6 +32,11 @@ import com.cafe24.mall.vo.MemberVo;
 import com.google.gson.Gson;
 
 
+/**
+ * 
+ * @author BIT
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration

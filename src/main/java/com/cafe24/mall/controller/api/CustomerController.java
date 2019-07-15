@@ -1,10 +1,17 @@
 package com.cafe24.mall.controller.api;
 
+import java.lang.reflect.Member;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -51,10 +58,20 @@ public class CustomerController {
 			@ApiImplicitParam(name = "membervo", value = "로그인 정보를 담은 membervo", required = true, dataType = "MemberVo", defaultValue = "") 
 	})
 	@PostMapping("/auth")
-	public JSONResult checkAuth(@RequestBody MemberVo membervo) {
+	public ResponseEntity<JSONResult> checkAuth(@RequestBody MemberVo membervo) {
 		MemberVo authUser = customerService.getAuthUser(membervo); 
 		
-		return authUser != null ? JSONResult.success("로그인 성공",authUser) : JSONResult.fail("로그인 실패");
+		Validator validator =Validation.buildDefaultValidatorFactory()
+.getValidator();
+		Set<ConstraintViolation<MemberVo>> validatorResults = validator.validateProperty(membervo, "id");
+		
+		if(!validatorResults.isEmpty()) {
+			for(ConstraintViolation<MemberVo> validatorResult : validatorResults) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(validatorResult.getMessage()));
+			}
+		}
+		
+		return authUser != null ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 성공",authUser)) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("로그인 실패"));
 	}
 
 	

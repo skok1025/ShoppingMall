@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.JSONResult;
 import com.cafe24.mall.service.AdminService;
+import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.SmallCategoryVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -82,6 +84,27 @@ public class AdminController {
 		
 		int result = adminService.removeGoodsInfo(goodsNo);
 		return result==1 ? JSONResult.success("관리자 상품삭제 성공", result) : JSONResult.fail("관리자 상품삭제 실패");
+	}
+	
+	@ApiOperation(value = "관리자 1차 카테고리 등록")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "vo", value = "관리자가 등록할 1차카테고리 vo", required = true, dataType = "Long", defaultValue = "") 
+	})
+	@PostMapping("/bigcategory")
+	public JSONResult addBigCategory(@RequestBody BigCategoryVo vo) {
+		int result = adminService.addBigCatergory(vo); 
+		return result==1 ? JSONResult.success("관리자 1차 카테고리 등록 성공", vo) : JSONResult.fail("관리자 1차 카테고리등록 실패");
+	}
+	
+	
+	@ApiOperation(value = "관리자 1차 카테고리 수정")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "vo", value = "관리자가 수정할 1차카테고리 vo", required = true, dataType = "Long", defaultValue = "") 
+	})
+	@PutMapping("/bigcategory")
+	public JSONResult modifyBigCategory(@RequestBody BigCategoryVo vo) {
+		int result = adminService.modifyBigCatergory(vo); 
+		return result==1 ? JSONResult.success("관리자 1차 카테고리 등록 성공", vo) : JSONResult.fail("관리자 1차 카테고리등록 실패");
 	}
 	
 	
