@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -19,14 +20,38 @@ public class MemberVo {
 	@NotEmpty
 	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$")
 	private String id;
+	
+	@NotEmpty
+	//@Pattern(regexp = "(?=.*\\d{1,50})(?=.*[~`!@#$%\\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$", message = "숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력")
 	private String password;
+	
+	@Email
 	private String email;
 	private String tel;
 	private String regdate;
 	
 	private List<MemberTermsVo> termlist; // 약관동의 리스트
 	
+	private String newPw;
+	private String confirmPw;
 	
+	
+	public String getNewPw() {
+		return newPw;
+	}
+
+	public void setNewPw(String newPw) {
+		this.newPw = newPw;
+	}
+
+	public String getConfirmPw() {
+		return confirmPw;
+	}
+
+	public void setConfirmPw(String confirmPw) {
+		this.confirmPw = confirmPw;
+	}
+
 	public MemberVo() {
 		
 	}
@@ -108,7 +133,8 @@ public class MemberVo {
 	public String toString() {
 		return "MemberVo [no=" + no + ", name=" + name + ", address=" + address + ", birthDate=" + birthDate
 				+ ", gender=" + gender + ", id=" + id + ", password=" + password + ", email=" + email + ", tel=" + tel
-				+ ", regdate=" + regdate + ", termlist=" + termlist + "]";
+				+ ", regdate=" + regdate + ", termlist=" + termlist + ", newPw=" + newPw + ", confirmPw=" + confirmPw
+				+ "]";
 	}
 	
 	

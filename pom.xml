@@ -14,7 +14,7 @@
 		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>
 		<logback.version>1.1.1</logback.version>
 	</properties>
-
+	
 	<dependencies>
 		<!-- Spring Core -->
 		<dependency>

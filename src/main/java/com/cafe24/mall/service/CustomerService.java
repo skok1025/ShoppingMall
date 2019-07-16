@@ -24,41 +24,38 @@ public class CustomerService {
 	
 	
 
-	public MemberVo memberJoin(MemberVo memberVo) {
-		//sampleUserDB.add(memberVo);
-		return memberVo;
+	public int memberJoin(MemberVo memberVo) {
+		return customerDao.insertMember(memberVo);
 	}
 
 	public MemberVo getAuthUser(MemberVo membervo) {
-		for(MemberVo vo:sampleUserDB) {
-			if(vo.getId().equals(membervo.getId()) && 
-			   vo.getPassword().equals(membervo.getPassword())) {
-				return vo;
-			}
-		}
+//		for(MemberVo vo:sampleUserDB) {
+//			if(vo.getId().equals(membervo.getId()) && 
+//			   vo.getPassword().equals(membervo.getPassword())) {
+//				return vo;
+//			}
+//		}
 		
-		return null;
+		return customerDao.getAuthUser(membervo);
 	}
 	
 	public int getIdCount(String id) {
-		int count = 0;
+		int count = customerDao.getIdCount(id);
 		
-		for(MemberVo vo:sampleUserDB) {
-			if(vo.getId().equals(id)) {
-				count++;
-			}
-		}
+//		for(MemberVo vo:sampleUserDB) {
+//			if(vo.getId().equals(id)) {
+//				count++;
+//			}
+//		}
+		
+		
 		
 		return count;
 	}
 
 	public int removeAccount(MemberVo memberVo) {
 		
-		// 진짜 비밀번호 1234
-		if("1234".equals(memberVo.getPassword())) {
-			return 1;
-		}
-		return 0;
+		return customerDao.deleteAccount(memberVo);
 	}
 
 	/**
@@ -67,7 +64,14 @@ public class CustomerService {
 	 * @return 수정성공 유무 (1-성공, 0-실패)
 	 */
 	public int modifyAccount(MemberVo memberVo) {
-		return 1;
+		return customerDao.updateAccount(memberVo);
+	}
+
+	public int modifyAccountPw(MemberVo memberVo) {
+		if(!memberVo.getNewPw().equals(memberVo.getConfirmPw())) {
+			return 0;
+		}
+		return customerDao.updateAccountPw(memberVo);
 	}
 	
 	

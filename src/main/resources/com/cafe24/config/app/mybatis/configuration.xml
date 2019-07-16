@@ -3,10 +3,10 @@
 <configuration>
 	<typeAliases>
 		<!-- <typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestBookVo" /> -->
-		
+		<typeAlias type="com.cafe24.mall.vo.MemberVo" alias="membervo"/>
 	</typeAliases>
 	<mappers>
 		<!-- <mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" /> -->
-
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/member.xml"/>
 	</mappers>
 </configuration>

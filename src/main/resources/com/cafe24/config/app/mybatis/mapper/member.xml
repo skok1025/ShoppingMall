@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+	
+	<select id="getIdCount" resultType="integer" parameterType="string">
+		<![CDATA[
+			select count(*) from tblMember where id = #{id}
+		]]>
+	</select>
+	
+	<insert id="insertMember" parameterType="membervo">
+		<![CDATA[
+			insert into 
+			tblMember (no,name,address,birth_date,gender,id,password,email,tel,regdate) 
+			values(null,
+			AES_ENCRYPT(#{name},'CAFE24'),
+			AES_ENCRYPT(#{address},'CAFE24'),
+			AES_ENCRYPT(#{birthDate},'CAFE24'),
+			#{gender},
+			#{id},
+			SHA2(#{password},512),
+			AES_ENCRYPT(#{email},'CAFE24'),
+			AES_ENCRYPT(#{tel},'CAFE24'),
+			now())
+		]]>
+	</insert>
+	
+	<delete id="deleteAllMemberData">
+		<![CDATA[
+			delete from tblMember where no < 100000
+		]]>
+	</delete>
+	
+	<update id="updateAccount">
+		<![CDATA[
+			update tblMember set 
+				name=AES_ENCRYPT(#{name},'CAFE24'), 
+				address=AES_ENCRYPT(#{address},'CAFE24'),
+				birth_date=AES_ENCRYPT(#{birthDate},'CAFE24'),
+				gender=#{gender},
+				email=#{email},
+				tel=#{tel}
+			where no = #{no}
+		]]>
+	</update>
+	
+	<select id="getAuthUser" parameterType="membervo" resultType="membervo">
+		<![CDATA[
+			 select
+      no, id, name,gender,
+      cast(AES_DECRYPT(address, 'CAFE24') as char(200)) as address,
+      cast(AES_DECRYPT(birth_date, 'CAFE24') as char(100)) as birthDate,
+      cast(AES_DECRYPT(email, 'CAFE24') as char(100)) as email,
+      cast(AES_DECRYPT(tel, 'CAFE24') as char(50)) as tel,
+      regdate
+      from tblMember
+      where id = #{id} and password =
+      SHA2(#{password}, 512)
+			
+		]]>
+	</select>
+	
+	<update id="updateAccountPw" parameterType="membervo">
+		<![CDATA[
+			update tblMember set password= SHA2(#{newPw}, 512) where no=#{no} and password=SHA2(#{password},512) 
+		]]>
+	</update>
+	
+	<delete id="deleteAccount" parameterType="membervo">
+		<![CDATA[
+			delete from tblMember where no = #{no} and password =
+      SHA2(#{password}, 512)
+		]]>
+	</delete>
+	
+</mapper>

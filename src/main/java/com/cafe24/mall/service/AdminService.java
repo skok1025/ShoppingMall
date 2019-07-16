@@ -28,5 +28,9 @@ public class AdminService {
 	public int addBigCatergory(BigCategoryVo vo) {
 		return 1;
 	}
+
+	public int modifyBigCatergory(BigCategoryVo vo) {
+		return 1;
+	}
 	
 }
