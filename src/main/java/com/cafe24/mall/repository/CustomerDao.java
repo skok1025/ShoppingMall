@@ -39,4 +39,8 @@ public class CustomerDao {
 	public int deleteAccount(MemberVo memberVo) {
 		return sqlsession.delete("member.deleteAccount", memberVo);
 	}
+
+	public Long getCurrentInsertNo() {
+		return sqlsession.selectOne("member.getCurrentInsertNo");
+	}
 }

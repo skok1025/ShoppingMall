@@ -74,4 +74,10 @@
 		]]>
 	</delete>
 	
+	<select id="getCurrentInsertNo" resultType="long">
+		<![CDATA[
+			select max(no) from tblMember
+		]]>
+	</select>
+	
 </mapper>

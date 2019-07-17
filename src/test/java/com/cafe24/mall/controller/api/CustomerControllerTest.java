@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -48,7 +48,7 @@ import com.google.gson.Gson;
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Transactional
+@Transactional
 public class CustomerControllerTest {
 	private MockMvc mockMvc;
 	
@@ -65,12 +65,9 @@ public class CustomerControllerTest {
 				build();
 	}
 	
-	@AfterClass
-	//@Rollback(true)
-	public static void cleanup() {
-		
-		
-	}
+	@After
+	@Rollback(true)
+	public void cleanup() {}
 	
 	
 	/**
@@ -137,6 +134,7 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void b_testJoinFail_Id() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
 		MemberVo vo = new MemberVo();
 		vo.setName("김석현");
 		vo.setAddress("서울시 성동구");
@@ -168,7 +166,10 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void c_testCheckAuthFailPw() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
+		
 		vo.setId("skok1025");  // 사용자 입력
 		vo.setPassword("123");
 		
@@ -190,6 +191,8 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void c_testCheckAuthFailId() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
 		vo.setId("skok102");  // 사용자 입력
 		vo.setPassword("123");
@@ -212,6 +215,8 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void d_testCheckAuthSuccess() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
 		vo.setId("skok1025");  // 사용자 입력
 		vo.setPassword("1234");
@@ -239,6 +244,8 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void e_testCheckExistingId() throws Exception {
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		ResultActions resultActions =
 		mockMvc
 		.perform(get("/api/customer/checkId?id={id}","skok1025")).andExpect(status().isOk());
@@ -255,6 +262,8 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void f_testCheckNotExistingId() throws Exception {
+		a_testJoinSuccess(); // 선행작업: 회원가입 skok1025
+		
 		ResultActions resultActions =
 		mockMvc
 		.perform(get("/api/customer/checkId?id={id}","test")).andExpect(status().isOk());
@@ -273,8 +282,11 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void g_testModifyAccount_Fail_Name() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
 		// 수정할 회원번호
+		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
 		vo.setNo(1L);
 		// 수정내용
 		vo.setName("김");
@@ -302,8 +314,11 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void h_testModifyAccount_Fail_Email() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
 		// 수정할 회원번호
+		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
 		vo.setNo(1L);
 		// 수정내용
 		vo.setName("김석현");
@@ -331,9 +346,13 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void i_testModifyAccount_Success() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
+		
 		// 수정할 회원번호
-		vo.setNo(1L);
+		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
+		//vo.setNo(1L); // 회원가입한 회원번호를 가져올 필요성 !!!
 		// 수정내용
 		vo.setName("김석현");
 		vo.setAddress("서울시 성동구 성수동 2가");
@@ -363,8 +382,11 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void j_testModifyAccountPw_Fail()  throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
 		// 수정할 회원번호
+		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
 		vo.setNo(1L);
 		
 		vo.setPassword("1233424"); // 비번 : 1234
@@ -392,9 +414,14 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void k_testModifyAccountPw_Success()  throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
+		
+		
 		// 수정할 회원번호
-		vo.setNo(1L);
+		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
+		//vo.setNo(1L);
 		
 		vo.setPassword("1234");
 		vo.setNewPw("12345");
@@ -421,8 +448,11 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void l_testRemoveAccountFail() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
-		vo.setNo(1L);
+		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
+		//vo.setNo(1L);
 		vo.setPassword("124"); // 사용자입력 
 		// 실제 비밀번호 : 1234
 		
@@ -446,10 +476,13 @@ public class CustomerControllerTest {
 	@Test
 	
 	public void m_testRemoveAccountSuccess() throws Exception{
+		a_testJoinSuccess(); // 선행작업: 회원가입
+		
 		MemberVo vo = new MemberVo();
-		vo.setNo(1L);
-		vo.setPassword("12345"); // 사용자입력 
-								// 실제 비밀번호 : 12345
+		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
+		//vo.setNo(1L);
+		vo.setPassword("1234"); // 사용자입력 
+								// 실제 비밀번호 : 1234
 		
 		ResultActions resultActions =
 				mockMvc
