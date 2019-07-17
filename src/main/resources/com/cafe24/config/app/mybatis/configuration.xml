@@ -4,9 +4,12 @@
 	<typeAliases>
 		<!-- <typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestBookVo" /> -->
 		<typeAlias type="com.cafe24.mall.vo.MemberVo" alias="membervo"/>
+		<typeAlias type="com.cafe24.mall.vo.BigCategoryVo" alias="bigcategoryvo"/>
+		
 	</typeAliases>
 	<mappers>
 		<!-- <mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" /> -->
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/member.xml"/>
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/admin.xml"/>
 	</mappers>
 </configuration>

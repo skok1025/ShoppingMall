@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin">
+
+	<insert id="insertBigCategory" parameterType="bigcategoryvo">
+		<![CDATA[
+			insert into tblBigCategory(no,name) values(null,#{name})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+      <![CDATA[
+         select last_insert_id()      
+      ]]>
+		</selectKey>
+
+	</insert>
+	
+	<update id="updateBigCategory" parameterType="bigcategoryvo">
+		<![CDATA[
+			update tblBigCategory set name=#{name} where no = #{no} 
+		]]>
+	</update>
+	
+	<select id="getCurrentInsertBigCategoryNo" resultType="long">
+		<![CDATA[
+			select max(no) from tblBigCategory
+		]]>
+	</select>
+	
+	<update id="updateGoodsSmallCategoryNullByBigCategoryNo" parameterType="long">
+		<![CDATA[
+			 update tblGoods set smallcategory_no=null where smallcategory_no in (select no from tblSmallCategory where bigcategory_no=#{no}) 
+	  	]]>
+	</update>
+	
+	<delete id="deleteSmallCategoryByBigCategoryNo" parameterType="long">
+	  	<![CDATA[
+	  		delete from tblSmallCategory where bigcategory_no=#{no}     
+	  	]]>
+	</delete>
+	
+	<delete id="deleteBigCategory" parameterType="bigcategoryvo" statementType="CALLABLE" >
+		
+
+	  	<![CDATA[		
+		{ call proc_deleteBigCategory
+			(
+				#{no,jdbcType=INTEGER}
+				,#{presult,mode=OUT,jdbcType=INTEGER,javaType=Integer}
+			)
+		}
+		]]>
+		
+	</delete>
+	
+	
+
+</mapper>

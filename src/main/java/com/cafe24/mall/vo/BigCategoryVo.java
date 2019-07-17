@@ -4,6 +4,16 @@ public class BigCategoryVo {
 	
 	private Long no;
 	private String name;
+	
+	private int presult;
+	
+	
+	public int getPresult() {
+		return presult;
+	}
+	public void setPresult(int presult) {
+		this.presult = presult;
+	}
 	public Long getNo() {
 		return no;
 	}

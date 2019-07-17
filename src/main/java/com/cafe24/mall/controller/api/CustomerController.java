@@ -226,4 +226,10 @@ public class CustomerController {
 		return result != 0 ? JSONResult.success("회원탈퇴 성공", result) : JSONResult.fail("회원탈퇴 실패");
 	}
 
+	
+
+
+	
+	
+
 }

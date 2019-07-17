@@ -106,6 +106,7 @@ public class CustomerControllerTest {
 	public void a_testJoinSuccess() throws Exception{
 		MemberVo vo = new MemberVo();
 		vo.setName("김석현");
+		
 		vo.setAddress("서울시 성동구");
 		vo.setBirthDate("1993-10-25");
 		vo.setGender("m");

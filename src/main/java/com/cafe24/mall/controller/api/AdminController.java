@@ -104,9 +104,19 @@ public class AdminController {
 	@PutMapping("/bigcategory")
 	public JSONResult modifyBigCategory(@RequestBody BigCategoryVo vo) {
 		int result = adminService.modifyBigCatergory(vo); 
-		return result==1 ? JSONResult.success("관리자 1차 카테고리 등록 성공", vo) : JSONResult.fail("관리자 1차 카테고리등록 실패");
+		return result==1 ? JSONResult.success("관리자 1차 카테고리 수정 성공", vo) : JSONResult.fail("관리자 1차 카테고리수정 실패");
 	}
 	
+
+	@ApiOperation(value = "관리자 1차 카테고리 삭제")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "vo", value = "관리자가 삭제할 1차카테고리 vo(번호)", required = true, dataType = "Long", defaultValue = "") 
+	})
+	@DeleteMapping("/bigcategory")
+	public JSONResult removeBigCategory(@RequestBody BigCategoryVo vo) {
+		int result = adminService.removeBigCatergory(vo); 
+		return result==1 ? JSONResult.success("관리자 1차 카테고리 삭제 성공", result) : JSONResult.fail("관리자 1차 카테고리 삭제 실패");
+	}
 	
 	
 	
