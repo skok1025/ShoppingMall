@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cafe24.mall.repository.AdminDao;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.SmallCategoryVo;
 
 @Service
 public class AdminService {
@@ -47,6 +48,14 @@ public class AdminService {
 		int result =  adminDao.deleteBigCategory(vo);
 		return result;
 		//return result1*result2*result3;
+	}
+
+	public int addSmallCatergory(SmallCategoryVo vo) {
+		return adminDao.insertSmallCategory(vo);
+	}
+
+	public int modifySmallCatergory(SmallCategoryVo vo) {
+		return adminDao.updateSmallCategory(vo);
 	}
 	
 }

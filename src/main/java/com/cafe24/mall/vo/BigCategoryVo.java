@@ -1,8 +1,12 @@
 package com.cafe24.mall.vo;
 
+import org.hibernate.validator.constraints.Length;
+
 public class BigCategoryVo {
 	
 	private Long no;
+	
+	@Length(max = 10)
 	private String name;
 	
 	private int presult;

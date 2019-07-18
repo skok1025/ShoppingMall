@@ -5,6 +5,7 @@
 		<!-- <typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestBookVo" /> -->
 		<typeAlias type="com.cafe24.mall.vo.MemberVo" alias="membervo"/>
 		<typeAlias type="com.cafe24.mall.vo.BigCategoryVo" alias="bigcategoryvo"/>
+		<typeAlias type="com.cafe24.mall.vo.SmallCategoryVo" alias="smallcategoryvo"/>
 		
 	</typeAliases>
 	<mappers>

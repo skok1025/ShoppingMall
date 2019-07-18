@@ -38,6 +38,7 @@ import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MemberVo;
+import com.cafe24.mall.vo.SmallCategoryVo;
 import com.google.gson.Gson;
 
 
@@ -88,6 +89,27 @@ public class AdminControllerTest {
 	}
 	
 	/**
+	 * 관리자가 1차 카테고리 (아름다운상의꼼데가르송)를 등록하는 테스트메소드 (실패케이스 - 카테고리명 10자 이상) 
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAddBigCategory_Fail() throws Exception{
+		BigCategoryVo vo = new BigCategoryVo();
+		vo.setName("아름다운상의꼼데가르송");
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/bigcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+	
+	/**
 	 * 관리자가 1차 카테고리 (상의 -> 윗옷) 으로 수정하는 테스트 메소드 (성공케이스)
 	 * @throws Exception
 	 */
@@ -110,13 +132,39 @@ public class AdminControllerTest {
 		//.andExpect(jsonPath("$.data", is(1)))
 		;	
 	}
+
+	/**
+	 * 관리자가 1차 카테고리 (상의 -> 아름다운상의꼼데가르송) 으로 수정하는 테스트 메소드 
+	 * (실패케이스1 - 카테고리명 10자 이상)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifyBigCategory_Fail1() throws Exception{
+		testAddBigCategory_Success(); // 선행작업 : 1차 카테고리 등록 (상의)
+		
+		BigCategoryVo vo = new BigCategoryVo();
+		vo.setNo(adminDao.getCurrentInsertBigCategoryNo());
+		vo.setName("아름다운상의꼼데가르송");
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/admin/bigcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
 	
 	/**
-	 * 관리자가 없는 1차 카테고리 번호를 (x -> 윗옷) 으로 수정하는 테스트 메소드 (실패케이스)
+	 * 관리자가 없는 1차 카테고리 번호를 (x -> 윗옷) 으로 수정하는 테스트 메소드
+	 *  (실패케이스2)
 	 * @throws Exception
 	 */
 	@Test
-	public void testModifyBigCategory_Fail() throws Exception{
+	public void testModifyBigCategory_Fail2() throws Exception{
 		testAddBigCategory_Success(); // 선행작업 : 1차 카테고리 등록 (상의)
 		
 		BigCategoryVo vo = new BigCategoryVo();
@@ -156,6 +204,101 @@ public class AdminControllerTest {
 	}
 	
 	
+	/**
+	 * 관리자가 2차 카테고리 (반팔)를 등록하는 테스트메소드 (성공케이스) 
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAddSmallCategory_Success() throws Exception{
+		testAddBigCategory_Success();
+		
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setName("반팔");
+		vo.setBigcategoryNo(adminDao.getCurrentInsertBigCategoryNo());
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/smallcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+	/**
+	 * 관리자가 2차 카테고리 (아름다운반팔꼼데가르송)를 등록하는 테스트메소드 (실패케이스- 카테고리명 10자 이상) 
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAddSmallCategory_Fail() throws Exception{
+		testAddBigCategory_Success();
+		
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setName("아름다운반팔꼼데가르송");
+		vo.setBigcategoryNo(adminDao.getCurrentInsertBigCategoryNo());
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/smallcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+	
+
+	/**
+	 * 관리자가 2차 카테고리 (반팔 -> 칠부팔) 으로 수정하는 테스트 메소드 (성공케이스)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifySmallCategory_Success() throws Exception{
+		testAddSmallCategory_Success(); // 선행작업 : 2차 카테고리 등록 (상의)
+		
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setNo(adminDao.getCurrentInsertSmallCategoryNo());
+		vo.setName("칠부팔");
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/admin/smallcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+	
+	/**
+	 * 관리자가 2차 카테고리 (반팔 -> 아름다운꼼데가르송칠부팔) 으로 수정하는 테스트 메소드 (실패케이스 - 카테고리명 10자 이상 )
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifySmallCategory_Fail() throws Exception{
+		testAddSmallCategory_Success(); // 선행작업 : 2차 카테고리 등록 (상의)
+		
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setNo(adminDao.getCurrentInsertSmallCategoryNo());
+		vo.setName("아름다운꼼데가르송칠부팔");
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/admin/smallcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
 	
 	
 	
@@ -225,7 +368,7 @@ public class AdminControllerTest {
 	}
 	
 	/**
-	 * 관리자가 상품을 삭제하는 테스트
+	 * 관리자가 상품을 삭제하는 테스트 (성공케이스)
 	 * @throws Exception 예외
 	 */
 	@Test
