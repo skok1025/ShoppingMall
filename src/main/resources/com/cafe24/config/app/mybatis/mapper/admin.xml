@@ -25,7 +25,7 @@
 		</selectKey>
 
 	</insert>
-	
+
 	<update id="updateBigCategory" parameterType="bigcategoryvo">
 		<![CDATA[
 			update tblBigCategory set name=#{name} where no = #{no} 
@@ -36,32 +36,35 @@
 			update tblSmallCategory set name=#{name} where no = #{no} 
 		]]>
 	</update>
-	
+
 	<select id="getCurrentInsertBigCategoryNo" resultType="long">
 		<![CDATA[
 			select max(no) from tblBigCategory
 		]]>
 	</select>
-	
+
 	<select id="getCurrentInsertSmallCategoryNo" resultType="long">
 		<![CDATA[
 			select max(no) from tblSmallCategory
 		]]>
 	</select>
-	
-	<update id="updateGoodsSmallCategoryNullByBigCategoryNo" parameterType="long">
+
+	<update id="updateGoodsSmallCategoryNullByBigCategoryNo"
+		parameterType="long">
 		<![CDATA[
 			 update tblGoods set smallcategory_no=null where smallcategory_no in (select no from tblSmallCategory where bigcategory_no=#{no}) 
 	  	]]>
 	</update>
-	
-	<delete id="deleteSmallCategoryByBigCategoryNo" parameterType="long">
+
+	<delete id="deleteSmallCategoryByBigCategoryNo"
+		parameterType="long">
 	  	<![CDATA[
 	  		delete from tblSmallCategory where bigcategory_no=#{no}     
 	  	]]>
 	</delete>
-	
-	<delete id="deleteBigCategory" parameterType="bigcategoryvo" statementType="CALLABLE" >
+
+	<delete id="deleteBigCategory" parameterType="bigcategoryvo"
+		statementType="CALLABLE">
 		
 
 	  	<![CDATA[		
@@ -72,9 +75,89 @@
 			)
 		}
 		]]>
-		
+
 	</delete>
+
+	<delete id="deleteSmallCategory" parameterType="smallcategoryvo"
+		statementType="CALLABLE">
+		<![CDATA[		
+		{ call proc_deleteSmallCategory
+			(
+				#{no,jdbcType=INTEGER}
+				,#{presult,mode=OUT,jdbcType=INTEGER,javaType=Integer}
+			)
+		}
+		]]>
+	</delete>
+
+	<select id="selectBigCategoryList" resultType="bigcategoryvo">
+		<![CDATA[
+			select no,name from tblBigCategory
+		]]>
+
+	</select>
+
+
+	<select id="selectSmallCategoryList" parameterType="long"
+		resultType="smallcategoryvo">
+		<![CDATA[
+			select no,name,bigcategory_no as bigcategoryNo from tblSmallCategory where bigcategory_no=#{no}
+		]]>
+	</select>
+
+	<insert id="insertGoods" parameterType="goodsvo">
+		<![CDATA[
+			insert into tblGoods(no,
+								name,
+								seilling_price,
+								detail,
+								display_status,
+								seilling_status,
+								regdate,
+								material,
+								supplier,
+								manufacturer,
+								manufacturing_date,
+								origin,
+								smallcategory_no)
+			values(null,#{name},#{seillingPrice},#{detail},
+			#{displayStatus},#{seillingStatus},now(),#{material},#{supplier},#{manufacturer},#{manufacturingDate},#{origin},#{smallcategoryNo})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+	      <![CDATA[
+	         select last_insert_id()      
+	      ]]>
+		</selectKey>
+	</insert>
+
+	<insert id="insertImages" parameterType="goodsimagesvo">
+		<![CDATA[
+			insert into tblGoodsImages(no,goods_no,image,ismain) values(null,#{goodsNo},#{image},#{ismain})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+	      <![CDATA[
+	         select last_insert_id()      
+	      ]]>
+		</selectKey>
+	</insert>
+
+	<select id="getCurrentInsertGoodsNo" resultType="integer">
+		<![CDATA[
+			select ifnull(max(no),0) from tblGoods
+		]]>
+	</select>
 	
-	
+	<insert id="insertGoodsDetail" parameterType="goodsdetailvo">
+		<![CDATA[
+			insert into 
+			tblGoodsDetail(no,goods_no,option_name,inventory_qty,available_qty)
+			values(null,#{goodsNo},#{optionName},#{inventoryQty},#{availableQty})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+	      <![CDATA[
+	         select last_insert_id()      
+	      ]]>
+		</selectKey>
+	</insert>
 
 </mapper>

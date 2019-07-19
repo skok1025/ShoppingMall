@@ -1,25 +1,27 @@
 package com.cafe24.mall.vo;
 
 public class GoodsImagesVo {
-	public enum isMain{
+	public enum status{
 		y,n
 	}
 	
 	private Long no;
 	private Long goodsNo;
 	private String image;
-	private GoodsImagesVo.isMain ismain;
+	private GoodsImagesVo.status ismain;
 	
 	public GoodsImagesVo() {
 		
 	}
 	
-	public GoodsImagesVo(Long no, String image) {
-		this.no = no;
-		
+	
+	public GoodsImagesVo(Long goodsNo, String image, status ismain) {
+		this.goodsNo = goodsNo;
 		this.image = image;
-		
+		this.ismain = ismain;
 	}
+
+
 	public Long getNo() {
 		return no;
 	}
@@ -38,10 +40,10 @@ public class GoodsImagesVo {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public GoodsImagesVo.isMain getIsmain() {
+	public GoodsImagesVo.status getIsmain() {
 		return ismain;
 	}
-	public void setIsmain(GoodsImagesVo.isMain ismain) {
+	public void setIsmain(GoodsImagesVo.status ismain) {
 		this.ismain = ismain;
 	}
 	@Override

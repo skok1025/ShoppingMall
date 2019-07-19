@@ -125,7 +125,7 @@ public class CustomerController {
 		}
 
 		int result = customerService.memberJoin(memberVo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원가입 완료", result));
+		return ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("회원가입 완료", result));
 	}
 
 	/**

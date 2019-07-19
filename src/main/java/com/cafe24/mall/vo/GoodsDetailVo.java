@@ -11,8 +11,8 @@ public class GoodsDetailVo {
 		
 	}
 	
-	public GoodsDetailVo(Long no, Long goodsNo, String optionName, int inventoryQty, int availableQty) {
-		this.no = no;
+	public GoodsDetailVo(Long goodsNo, String optionName, int inventoryQty, int availableQty) {
+
 		this.goodsNo = goodsNo;
 		this.optionName = optionName;
 		this.inventoryQty = inventoryQty;

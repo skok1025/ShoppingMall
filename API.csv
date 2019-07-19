@@ -1,0 +1,67 @@
+﻿시나리오,분류,API,방식,URL,예상일정,예상소요시간,개발일정,개발시간,코드 링크,비고
+사용자 시나리오,"회원계정
+(Customer-Controller)",회원가입 API (완),POST,/api/customer/account,7월 16일,2H,7월 16일,1.5H,[링크](#1-회원가입-API),
+,,회원정보수정 API (완),PUT,/api/customer/account,7월 16일,2H,7월 16일,1H,[링크](#2-회원정보수정-API),
+,,회원비밀번호 수정 API (완),PUT,/api/customer/account/pw,7월 16일,1H,7월 16일,1H,[링크](#3-회원비밀번호-수정-API),
+,,회원탈퇴 API (완),DELETE,/api/customer/account,7월 16일,2H,7월 16일,1H,[링크](#4-회원탈퇴-API) ,
+,,로그인 API -(완),POST,/api/customer/auth,7월 16일,2H,7월 16일,1H,[링크](#5-로그인-API),
+,,아이디 중복확인 API (완),GET,/api/customer/checkid,7월 16일,1H,7월 16일,0.5H,[링크](#6-아이디-중복확인-API),
+,,회원 이용약관 등록 API ,POST,/api/customer/terms,!,2H,,,,
+,,회원 이용약관 조회 API,GET,/api/customer/terms,!,2H,,,,
+,,회원 이용약관 삭제 API,DELETE,/api/customer/terms,!,2H,,,,
+,,,,,,2H,,,,
+,"장바구니
+(Basket-Controller)",장바구니추가 API -,POST,/api/basket/add/,7월 23일,2H,,,,
+,,장바구니조회 API -,GET,/api/basket/list,7월 23일,2H,,,,
+,,장바구니수정 API -,PUT,/api/basket/modify,7월 24일,2H,,,,
+,,장바구니상품삭제 API -,DELETE,/api/basket/remove/{basketNo},7월 24일,2H,,,,
+,"상품
+(Goods-Controller)",상품검색 API -,GET,/api/goods/search,7월 19일,2H,,,,
+,,상품상세조회API -,GET,/api/goods/view,7월 19일,2H,,,,
+,"주문
+(Order-Controller)",주문 API,POST,/api/order/,7월 22일,2H,,,,
+,,주문조회 API,GET,/api/order/,7월 22일,2H,,,,
+,,주문취소 API,DELETE,/api/order/,7월 22일,2H,,,,
+,,주문 교환신청 API,POST,/api/order/change,7월 23일,2H,,,,
+,,주문 교환신청내역조회 API,GET,/api/order/change,7월 23일,2H,,,,
+,,주문 교환신청 취소 API,DELETE,/api/order/change,7월 23일,2H,,,,
+관리자 시나리오,"관리자 상품 관리
+(Admin-Controller)",관리자 상품등록 API -,POST,/api/admin/goods,7월 19일,2H,,,,
+,,관리자 상품조회 API -,GET,/api/admin/goodslist,7월 19일,2H,,,,
+,,관리자 상품수정 API -,PUT,/api/admin/goods,7월 19일,2H,,,,
+,,관리자 상품삭제 API -,DELETE,/api/admin/goods,7월 19일,2H,,,,
+,보류- 상품등록시 함께?,관리자 상품이미지등록 API,POST,/api/admin/goods/image,7월 22일,2H,,,,
+,,관리자 상품이미지수정 API,PUT,/api/admin/goods/image,7월 22일,2H,,,,
+,,관리자 상품이미지삭제 API,DELETE,/api/admin/goods/image,7월 22일,2H,,,,
+,,관리자 상품상세옵션 등록 API,POST,/api/admin/goods/option,7월 22일,2H,,,,
+,,관리자 상품상세옵션 수정 API,PUT,/api/admin/goods/option,7월 22일,2H,,,,
+,,관리자 상품상세옵션 삭제 API,DELETE,/api/admin/goods/option,7월 22일,2H,,,,
+,"관리자 카테고리 관리
+(Admin-Controller)",관리자 1차 카테고리 등록 API (완),POST,/api/admin/bigcategory,7월 17일,1H,7월 17일,1.5H,[링크](#7-관리자-1차-카테고리-등록-API),mapper id duplicate 문제 해결
+,,관리자 1차 카테고리 수정 API (완),PUT,/api/admin/bigcategory,7월 17일,0.5H,7월 17일,0.5H,[링크](#8-관리자-1차-카테고리-수정-API),
+,,관리자 1차 카테고리 삭제 API (완)_,DELETE,/api/admin/bigcategory,7월 17일,1H,7월 17일,2H,[링크](#9-관리자-1차-카테고리-삭제-API) ,2차카테고리 등 외래키 제거에 따른 프로시저 고민 
+,,관리자 2차 카테고리 등록 API (완),POST,/api/admin/smallcategory,7월 17일,0.5H,7월 17일,0.5H,[링크](#10-관리자-2차-카테고리-등록-API)  ,최대 길이 10 Valid
+,,관리자 2차 카테고리 수정 API (완),PUT,/api/admin/smallcategory,7월 17일,0.5H,7월 17일,0.5H,[링크](#11-관리자-2차-카테고리-수정-API) ,
+,,관리자 2차 카테고리 삭제 API (완),DELETE,/api/admin/smallcategory,7월 18일,0.6H,7월 18일,0.5H,[링크](#12-관리자-2차-카테고리-삭제-API) ,
+,,관리자 카테고리 목록 조회 API (완),GET,/api/admin/category/list,7월 18일,2H,7월 18일,1H, [링크](#13-관리자-카테고리-목록-조회-API) ,
+,"관리자 주문 관리
+(Admin-Controller)",관리자 주문 내역조회 API,GET,/api/admin/orderlist,7월 23일,2H,,,,
+,,관리자 주문취소 내역조회 API,GET,/api/admin/ordercancellist,7월 23일,2H,,,,
+,"괸리자 회원 관리
+(Admin-Controller)",관리자 회원 정보 조회 API,GET,/api/admin/member,7월 24일,2H,,,,
+,,관리자 회원 정보 삭제 API,DELETE,/api/admin/member,7월 24일,2H,,,,
+,"관리자 진열 관리
+(Admin-Controller)","관리자 진열 카테고리(기본정보) 
+등록 API",POST,/api/admin/displaycategory,7월 24일,2H,,,,
+,,"관리자 진열 카테고리(기본정보) 
+조회 API",GET,/api/admin/displaycategory,7월 24일,2H,,,,
+,,"관리자 진열 카테고리(기본정보) 
+수정 API",PUT,/api/admin/displaycategory,7월 24일,2H,,,,
+,,"관리자 진열 카테고리(기본정보) 
+삭제 API",DELETE,/api/admin/displaycategory,7월 25일,2H,,,,
+,,관리자 상품 메인진열 등록 API,POST,/api/admin/maindisplay,7월 25일,2H,,,,
+,,관리자 상품 메인진열 조회 API,GET,/api/admin/maindisplay,7월 25일,2H,,,,
+,,관리자 상품 메인진열 삭제 API,DELETE,/api/admin/maindisplay,7월 25일,2H,,,,
+,관리자 이용약관 관리,이용약관 등록 API ,POST,/api/admin/terms,!,2H,,,,
+,,이용약관 조회 API,GET,/api/admin/terms,!,2H,,,,
+,,이용약관 삭제 API,DELETE,/api/admin/terms,!,2H,,,,

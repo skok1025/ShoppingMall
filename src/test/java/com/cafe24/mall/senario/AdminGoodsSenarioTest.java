@@ -61,16 +61,16 @@ public class AdminGoodsSenarioTest {
 		goodsvo.setNo(1L);
 		goodsvo.setName("테스트 상품");
 		goodsvo.setGoodsImagesList(Arrays.asList(
-				new GoodsImagesVo(1L,"메인이미지"),
-				new GoodsImagesVo(2L,"테스트이미지1"),
-				new GoodsImagesVo(3L,"테스트이미지2"),
-				new GoodsImagesVo(4L,"테스트이미지3")
+				new GoodsImagesVo(1L,"메인이미지",GoodsImagesVo.status.y),
+				new GoodsImagesVo(1L,"테스트이미지1",GoodsImagesVo.status.n),
+				new GoodsImagesVo(1L,"테스트이미지2",GoodsImagesVo.status.n),
+				new GoodsImagesVo(1L,"테스트이미지3",GoodsImagesVo.status.n)
 		));
 		
 		goodsvo.setGoodsDetailList(Arrays.asList(
-				new GoodsDetailVo(1L,1L,"black/90",5,5),
-				new GoodsDetailVo(2L,1L,"black/95",5,5),
-				new GoodsDetailVo(3L,1L,"black/100",5,4)				
+				new GoodsDetailVo(1L,"black/90",5,5),
+				new GoodsDetailVo(1L,"black/95",5,5),
+				new GoodsDetailVo(1L,"black/100",5,4)				
 		));
 		
 		p2_testGoodsAdd(goodsvo);

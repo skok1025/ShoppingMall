@@ -2,6 +2,11 @@ package com.cafe24.mall.vo;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class GoodsVo {
 
 	public enum status{
@@ -9,7 +14,10 @@ public class GoodsVo {
 	}
 	
 	private Long no;
+	@NotEmpty
+	@Length(max = 20)
 	private String name;
+	//@Pattern(regexp = "^[0-9]*$",message = "판매가격에 숫자만 입력")
 	private int seillingPrice;
 	private String detail;
 	private GoodsVo.status displayStatus;

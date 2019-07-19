@@ -46,7 +46,7 @@ import com.google.gson.Gson;
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@Transactional
+//@Transactional
 public class AdminControllerTest {
 	private MockMvc mockMvc;
 	
@@ -64,7 +64,7 @@ public class AdminControllerTest {
 	}
 	
 	@After
-	@Rollback(true)
+	//@Rollback(true)
 	public void cleanup() {}
 	
 	/**
@@ -73,15 +73,16 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testAddBigCategory_Success() throws Exception{
+		
 		BigCategoryVo vo = new BigCategoryVo();
-		vo.setName("상의");
+		vo.setName("지금넣은거");
 		
 		ResultActions resultActions =
 				mockMvc
 				.perform(post("/api/admin/bigcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
+		.andExpect(status().isCreated())
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
 		//.andExpect(jsonPath("$.data", is(1)))
@@ -115,7 +116,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testModifyBigCategory_Success() throws Exception{
-		testAddBigCategory_Success(); // 선행작업 : 1차 카테고리 등록 (상의)
+		testAddBigCategory("상의"); // 선행작업 : 1차 카테고리 등록 (상의)
 		
 		BigCategoryVo vo = new BigCategoryVo();
 		vo.setNo(adminDao.getCurrentInsertBigCategoryNo());
@@ -140,7 +141,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testModifyBigCategory_Fail1() throws Exception{
-		testAddBigCategory_Success(); // 선행작업 : 1차 카테고리 등록 (상의)
+		testAddBigCategory("상의"); // 선행작업 : 1차 카테고리 등록 (상의)
 		
 		BigCategoryVo vo = new BigCategoryVo();
 		vo.setNo(adminDao.getCurrentInsertBigCategoryNo());
@@ -161,11 +162,11 @@ public class AdminControllerTest {
 	/**
 	 * 관리자가 없는 1차 카테고리 번호를 (x -> 윗옷) 으로 수정하는 테스트 메소드
 	 *  (실패케이스2)
-	 * @throws Exception
+	 * @throws Exception 예외
 	 */
 	@Test
 	public void testModifyBigCategory_Fail2() throws Exception{
-		testAddBigCategory_Success(); // 선행작업 : 1차 카테고리 등록 (상의)
+		testAddBigCategory("상의"); // 선행작업 : 1차 카테고리 등록 (상의)
 		
 		BigCategoryVo vo = new BigCategoryVo();
 		vo.setNo(1000L);// 1000번의 상품번호는 없음
@@ -184,9 +185,13 @@ public class AdminControllerTest {
 	}
 	
 	
+	/**
+	 * 관리자가 1차 카테고리를 삭제하는 테스트 메소드
+	 * @throws Exception 예외
+	 */
 	@Test
 	public void testRemoveBigCategory() throws Exception{
-		testAddBigCategory_Success(); // 선행작업 : 1차 카테고리 등록 (상의)
+		testAddBigCategory("상의"); // 선행작업 : 1차 카테고리 등록 (상의)
 		
 		BigCategoryVo vo = new BigCategoryVo();
 		vo.setNo(adminDao.getCurrentInsertBigCategoryNo());
@@ -210,7 +215,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testAddSmallCategory_Success() throws Exception{
-		testAddBigCategory_Success();
+		testAddBigCategory("상의");
 		
 		SmallCategoryVo vo = new SmallCategoryVo();
 		vo.setName("반팔");
@@ -221,7 +226,7 @@ public class AdminControllerTest {
 				.perform(post("/api/admin/smallcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
+		.andExpect(status().isCreated())
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
 		//.andExpect(jsonPath("$.data", is(1)))
@@ -233,7 +238,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testAddSmallCategory_Fail() throws Exception{
-		testAddBigCategory_Success();
+		testAddBigCategory("상의");
 		
 		SmallCategoryVo vo = new SmallCategoryVo();
 		vo.setName("아름다운반팔꼼데가르송");
@@ -258,7 +263,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testModifySmallCategory_Success() throws Exception{
-		testAddSmallCategory_Success(); // 선행작업 : 2차 카테고리 등록 (상의)
+		testAddSmallCategory("상의",Arrays.asList("반팔")); // 선행작업 : 2차 카테고리 등록 (반팔)
 		
 		SmallCategoryVo vo = new SmallCategoryVo();
 		vo.setNo(adminDao.getCurrentInsertSmallCategoryNo());
@@ -282,7 +287,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testModifySmallCategory_Fail() throws Exception{
-		testAddSmallCategory_Success(); // 선행작업 : 2차 카테고리 등록 (상의)
+		testAddSmallCategory("상의",Arrays.asList("반팔")); // 선행작업 : 2차 카테고리 등록 (반팔)
 		
 		SmallCategoryVo vo = new SmallCategoryVo();
 		vo.setNo(adminDao.getCurrentInsertSmallCategoryNo());
@@ -297,6 +302,46 @@ public class AdminControllerTest {
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+	/**
+	 * 관리자가 2차 카테고리를  삭제하는 테스트 메소드 
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testRemoveSmallCategory() throws Exception{
+		testAddSmallCategory("상의",Arrays.asList("반팔","카라티")); // 선행작업 : 2차 카테고리 등록 
+		
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setNo(adminDao.getCurrentInsertSmallCategoryNo());
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/admin/smallcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+
+	/**
+	 * 관리자 카테고리 리스트를 반환하는 테스트 메소드
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetCategorylist() throws Exception{
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/category/list").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
 		;	
 	}
 	
@@ -314,23 +359,32 @@ public class AdminControllerTest {
 	 * @throws Exception 예외
 	 */
 	@Test
-	public void testGoodsAdd() throws Exception{
+	public void testGoodsAdd_Success() throws Exception{
 		
 		GoodsVo goodsvo = new GoodsVo();
 		
-		goodsvo.setNo(1L);
-		goodsvo.setName("테스트 상품");
+		goodsvo.setName("테스트 상품3");
+		goodsvo.setSeillingPrice(15000);
+		goodsvo.setDetail("많은 설명");
+		goodsvo.setDisplayStatus(GoodsVo.status.y);
+		goodsvo.setSeillingStatus(GoodsVo.status.y);
+		goodsvo.setManufacturer("제조업자명");
+		goodsvo.setSupplier("공급업자명");
+		goodsvo.setManufacturingDate("2019-07-19");
+		goodsvo.setOrigin("원산지명");
+		goodsvo.setSmallcategoryNo(1L);
+		
 		goodsvo.setGoodsImagesList(Arrays.asList(
-				new GoodsImagesVo(1L,"메인이미지"),
-				new GoodsImagesVo(2L,"테스트이미지1"),
-				new GoodsImagesVo(3L,"테스트이미지2"),
-				new GoodsImagesVo(4L,"테스트이미지3")
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"메인이미지",GoodsImagesVo.status.y),
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지1",GoodsImagesVo.status.n),
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지2",GoodsImagesVo.status.n),
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지3",GoodsImagesVo.status.n)
 		));
 		
 		goodsvo.setGoodsDetailList(Arrays.asList(
-				new GoodsDetailVo(1L,1L,"black/90",5,5),
-				new GoodsDetailVo(2L,1L,"black/95",5,5),
-				new GoodsDetailVo(3L,1L,"black/100",5,4)				
+				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/90",5,5),
+				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/95",5,5),
+				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/100",5,4)				
 		));
 		
 		
@@ -340,10 +394,56 @@ public class AdminControllerTest {
 				.perform(post("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(goodsvo)));
 		
 				resultActions
-				.andExpect(status().isOk())
+				.andExpect(status().isCreated())
 				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
 				;	
+	}
+	
+	/**
+	 * 관리자가 상품을 등록하는 테스트 하는 메소드 (실패 케이스 - 상품명 20자 이상)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testGoodsAdd_Fail() throws Exception{
+		
+		GoodsVo goodsvo = new GoodsVo();
+		
+		goodsvo.setName("테스트 상품3테스트 상품3테스트 상품3테스트 상품3");
+		goodsvo.setSeillingPrice(15000);
+		goodsvo.setDetail("많은 설명");
+		goodsvo.setDisplayStatus(GoodsVo.status.y);
+		goodsvo.setSeillingStatus(GoodsVo.status.y);
+		goodsvo.setManufacturer("제조업자명");
+		goodsvo.setSupplier("공급업자명");
+		goodsvo.setManufacturingDate("2019-07-19");
+		goodsvo.setOrigin("원산지명");
+		goodsvo.setSmallcategoryNo(1L);
+		
+		goodsvo.setGoodsImagesList(Arrays.asList(
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"메인이미지",GoodsImagesVo.status.y),
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지1",GoodsImagesVo.status.n),
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지2",GoodsImagesVo.status.n),
+				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지3",GoodsImagesVo.status.n)
+				));
+		
+		goodsvo.setGoodsDetailList(Arrays.asList(
+				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/90",5,5),
+				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/95",5,5),
+				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/100",5,4)				
+				));
+		
+		
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(goodsvo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;	
 	}
 	
 	
@@ -385,5 +485,44 @@ public class AdminControllerTest {
 	}
 	
 	
+	
+	///
+public void testAddBigCategory(String name) throws Exception{
+		
+		BigCategoryVo vo = new BigCategoryVo();
+		vo.setName(name);
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/bigcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isCreated())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+
+public void testAddSmallCategory(String bigCategoryName, List<String> smallCategoryNames) throws Exception{
+	testAddBigCategory(bigCategoryName);
+	
+	for(String smallCategoryName:smallCategoryNames) {
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setName(smallCategoryName);
+		vo.setBigcategoryNo(adminDao.getCurrentInsertBigCategoryNo());
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/smallcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isCreated())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
+}
 	
 }

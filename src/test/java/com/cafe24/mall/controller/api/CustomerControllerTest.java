@@ -122,7 +122,7 @@ public class CustomerControllerTest {
 		
 				
 				resultActions
-				.andExpect(status().isOk())
+				.andExpect(status().isCreated())
 				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
 				.andExpect(jsonPath("$.data", is(1)))

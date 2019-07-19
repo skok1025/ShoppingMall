@@ -6,6 +6,9 @@
 		<typeAlias type="com.cafe24.mall.vo.MemberVo" alias="membervo"/>
 		<typeAlias type="com.cafe24.mall.vo.BigCategoryVo" alias="bigcategoryvo"/>
 		<typeAlias type="com.cafe24.mall.vo.SmallCategoryVo" alias="smallcategoryvo"/>
+		<typeAlias type="com.cafe24.mall.vo.GoodsVo" alias="goodsvo"/>
+		<typeAlias type="com.cafe24.mall.vo.GoodsDetailVo" alias="goodsdetailvo"/>
+		<typeAlias type="com.cafe24.mall.vo.GoodsImagesVo" alias="goodsimagesvo"/>
 		
 	</typeAliases>
 	<mappers>

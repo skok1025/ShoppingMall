@@ -9,6 +9,16 @@ public class SmallCategoryVo {
 	@Length(max = 10)
 	private String name;
 	private Long bigcategoryNo;
+	
+	private int presult;
+	
+	
+	public int getPresult() {
+		return presult;
+	}
+	public void setPresult(int presult) {
+		this.presult = presult;
+	}
 	public Long getNo() {
 		return no;
 	}
