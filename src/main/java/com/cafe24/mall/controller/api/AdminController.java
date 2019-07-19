@@ -71,9 +71,11 @@ public class AdminController {
 	 * @return 응답
 	 */
 	@ApiOperation(value = "관리자 상품조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "pageNum", value = "상품목록 페이지 번호", required = true, dataType = "long", defaultValue = "") })
 	@GetMapping("/goodslist")
-	public ResponseEntity<JSONResult> goodsList() {
-	
+	public ResponseEntity<JSONResult> goodsList(Long pageNum) {
+		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 상품조회 성공", null));
 	}
 	
