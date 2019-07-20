@@ -46,7 +46,7 @@ import com.google.gson.Gson;
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Transactional
+@Transactional
 public class AdminControllerTest {
 	private MockMvc mockMvc;
 	
@@ -64,7 +64,7 @@ public class AdminControllerTest {
 	}
 	
 	@After
-	//@Rollback(true)
+	@Rollback(true)
 	public void cleanup() {}
 	
 	/**

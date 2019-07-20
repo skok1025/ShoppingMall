@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="goods">
+	
+	<select id="selectGoodsList" parameterType="string" resultType="goodsvo">
+	
+		<![CDATA[
+			select 
+			no,
+			name,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
+			seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g 
+            where 
+            display_status = 'y' and
+            name like concat('%',#{keyword},'%') or
+			smallcategory_no in (select no from tblSmallCategory where name like concat('%',#{keyword},'%'))
+		
+		]]>
+	
+	</select>
+	
+	<select id="selectGoods" parameterType="long" resultType="goodsvo">
+		<![CDATA[
+			select 
+			no,
+			name,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
+			seilling_price as seillingPrice,
+			detail,
+			regdate,
+			material,
+			supplier,
+			manufacturer,
+			manufacturing_date as manufacturingDate,
+			origin
+			from tblGoods g 
+            where no = #{no}
+		]]>
+	
+	
+	</select>
+	
+	<select id="selectSubImageList" parameterType="long" resultType="goodsimagesvo">
+		<![CDATA[
+			select 
+			no,
+			goods_no as goodsNo,
+			image,
+			ismain
+			from tblGoodsImages where ismain= 'n' and goods_no = #{no}
+		]]>
+		
+	</select>
+	
+	<select id="selectMainImage" parameterType="long" resultType="goodsimagesvo">
+		<![CDATA[
+			select 
+			no,
+			goods_no as goodsNo,
+			image,
+			ismain
+			from tblGoodsImages where ismain= 'y' and goods_no = #{no}
+		]]>
+		
+	</select>
+	
+	
+</mapper>

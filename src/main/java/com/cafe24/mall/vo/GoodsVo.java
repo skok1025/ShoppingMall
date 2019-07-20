@@ -34,8 +34,24 @@ public class GoodsVo {
 	private List<GoodsDetailVo> goodsDetailList; // 상품의 옵션에 대한 정보 리스트
 	
 	private String thumbnail;
+	private String bigcategoryName;
+	private String smallcategoryName;
 	
 	
+	
+	
+	public String getBigcategoryName() {
+		return bigcategoryName;
+	}
+	public void setBigcategoryName(String bigcategoryName) {
+		this.bigcategoryName = bigcategoryName;
+	}
+	public String getSmallcategoryName() {
+		return smallcategoryName;
+	}
+	public void setSmallcategoryName(String smallcategoryName) {
+		this.smallcategoryName = smallcategoryName;
+	}
 	public String getThumbnail() {
 		return thumbnail;
 	}

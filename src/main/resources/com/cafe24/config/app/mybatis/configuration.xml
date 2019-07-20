@@ -15,5 +15,6 @@
 		<!-- <mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" /> -->
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/member.xml"/>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/admin.xml"/>
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/goods.xml"/>
 	</mappers>
 </configuration>
