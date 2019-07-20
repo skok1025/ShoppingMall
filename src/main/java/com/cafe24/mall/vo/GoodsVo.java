@@ -33,9 +33,15 @@ public class GoodsVo {
 	private List<GoodsImagesVo> goodsImagesList; // 상품의 이미지들
 	private List<GoodsDetailVo> goodsDetailList; // 상품의 옵션에 대한 정보 리스트
 	
+	private String thumbnail;
 	
 	
-	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 	public List<GoodsDetailVo> getGoodsDetailList() {
 		return goodsDetailList;
 	}
@@ -133,7 +139,7 @@ public class GoodsVo {
 				+ ", material=" + material + ", supplier=" + supplier + ", manufacturer=" + manufacturer
 				+ ", manufacturingDate=" + manufacturingDate + ", origin=" + origin + ", smallcategoryNo="
 				+ smallcategoryNo + ", goodsImagesList=" + goodsImagesList + ", goodsDetailList=" + goodsDetailList
-				+ "]";
+				+ ", thumbnail=" + thumbnail + "]";
 	}
 	
 	

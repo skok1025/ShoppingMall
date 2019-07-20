@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,17 +67,33 @@ public class AdminController {
 	}
 
 	/**
-	 * 관리자 상품조회 메소드
+	 * 관리자 상품리스트조회 메소드
 	 * 
 	 * @return 응답
 	 */
-	@ApiOperation(value = "관리자 상품조회")
+	@ApiOperation(value = "관리자 상품리스트조회")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "pageNum", value = "상품목록 페이지 번호", required = true, dataType = "long", defaultValue = "") })
-	@GetMapping("/goodslist")
-	public ResponseEntity<JSONResult> goodsList(Long pageNum) {
+	@GetMapping("/goodslist/{pageNum}")
+	public ResponseEntity<JSONResult> goodsList(@PathVariable(value="pageNum") Long pageNum) {
+		List<GoodsVo> list = adminService.getGoodsList(pageNum);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 상품조회 성공", list));
+	}
+	
+	/**
+	 * 관리자 상품상세조회 메소드
+	 * 
+	 * @return 응답
+	 */
+	@ApiOperation(value = "관리자 상품상세조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "goodsno", value = "상품 번호", required = true, dataType = "long", defaultValue = "") })
+	@GetMapping("/goods/{goodsno}")
+	public ResponseEntity<JSONResult> goodsInfo(@PathVariable(value="goodsno") Long goodsno) {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 상품조회 성공", null));
+		GoodsVo goods = adminService.getGoods(goodsno);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 상품상세조회 성공", goods));
 	}
 	
 
@@ -84,8 +101,18 @@ public class AdminController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "goodsVo", value = "관리자 상품수정 goodsVo", required = true, dataType = "GoodsVo", defaultValue = "") })
 	@PutMapping("/goods")
-	public ResponseEntity<JSONResult> modifyGoodsInfo(@RequestBody GoodsVo goodsvo) {
+	public ResponseEntity<JSONResult> modifyGoodsInfo(@RequestBody @Valid GoodsVo goodsvo,BindingResult bindresult) {
 
+		// 유효성 검사 실패시
+		if (bindresult.hasErrors()) {
+			List<FieldError> list = bindresult.getFieldErrors();
+			String errMsg = "";
+			for (FieldError err : list) {
+				errMsg += err.getField() +"-"+err.getDefaultMessage()+"/";
+			}
+			errMsg += "오류발생";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errMsg));
+		}
 		int result = adminService.modifyGoodsInfo(goodsvo);
 		return result == 1 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 상품수정 성공", result))
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("관리자 상품수정 실패"));

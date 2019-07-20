@@ -360,6 +360,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testGoodsAdd_Success() throws Exception{
+		testAddSmallCategory_Success();
 		
 		GoodsVo goodsvo = new GoodsVo();
 		
@@ -406,6 +407,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testGoodsAdd_Fail() throws Exception{
+		testAddSmallCategory_Success();
 		
 		GoodsVo goodsvo = new GoodsVo();
 		
@@ -448,23 +450,122 @@ public class AdminControllerTest {
 	
 	
 	/**
-	 * 관리자가 상품을 수정하는 테스트
+	 * 관리자가 상품을 수정하는 테스트 (성공 케이스1- 전체 항목을 수정한 경우)
 	 * @throws Exception 예외
 	 */
 	@Test
-	public void testModifyGoodsInfo() throws Exception {
-		GoodsVo vo = new GoodsVo();
-		vo.setNo(1L);
-		vo.setDetail("수정한 상품디테일입니다.");
+	public void testModifyGoodsInfo_Success1() throws Exception {
+		testGoodsAdd_Success();
+		
+		GoodsVo goodsvo = new GoodsVo();
+		
+		goodsvo.setNo((long)adminDao.getCurrentInsertGoodsNo());
+		goodsvo.setName("테스트 상품3");
+		goodsvo.setSeillingPrice(15000);
+		goodsvo.setDetail("교체된 상품 설명");
+		goodsvo.setDisplayStatus(GoodsVo.status.y);
+		goodsvo.setSeillingStatus(GoodsVo.status.y);
+		goodsvo.setManufacturer("제조업자명");
+		goodsvo.setSupplier("공급업자명");
+		goodsvo.setManufacturingDate("2019-07-19");
+		goodsvo.setOrigin("원산지명");
+		goodsvo.setSmallcategoryNo(1L);
+		
+		goodsvo.setGoodsImagesList(Arrays.asList(
+				new GoodsImagesVo((long)adminDao.getCurrentInsertGoodsNo(),"체인지메인이미지",GoodsImagesVo.status.y),
+				new GoodsImagesVo((long)adminDao.getCurrentInsertGoodsNo(),"체인지테스트이미지1",GoodsImagesVo.status.n),
+				new GoodsImagesVo((long)adminDao.getCurrentInsertGoodsNo(),"체인지테스트이미지2",GoodsImagesVo.status.n),
+				new GoodsImagesVo((long)adminDao.getCurrentInsertGoodsNo(),"체인지테스트이미지3",GoodsImagesVo.status.n)
+		));
+		
+		// Detail 경우는 추가된 항목만 리스트롤 넘어온다
+		goodsvo.setGoodsDetailList(Arrays.asList(
+				new GoodsDetailVo((long)adminDao.getCurrentInsertGoodsNo(),"black/105",5,5)			
+		));
+		
 		ResultActions resultActions =
 				mockMvc
-				.perform(put("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+				.perform(put("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(goodsvo)));
 		
 				resultActions
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
 				;	
+	}
+	/**
+	 * 관리자가 상품을 수정하는 테스트 (성공 케이스2- 이미지는 수정하지 않은 경우)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifyGoodsInfo_Success2() throws Exception {
+		testGoodsAdd_Success();
+		
+		GoodsVo goodsvo = new GoodsVo();
+		
+		goodsvo.setNo((long)adminDao.getCurrentInsertGoodsNo());
+		goodsvo.setName("테스트 상품3");
+		goodsvo.setSeillingPrice(15000);
+		goodsvo.setDetail("교체된 상품 설명");
+		goodsvo.setDisplayStatus(GoodsVo.status.y);
+		goodsvo.setSeillingStatus(GoodsVo.status.y);
+		goodsvo.setManufacturer("제조업자명");
+		goodsvo.setSupplier("공급업자명");
+		goodsvo.setManufacturingDate("2019-07-19");
+		goodsvo.setOrigin("원산지명");
+		goodsvo.setSmallcategoryNo(1L);
+		
+		// Detail 경우는 추가된 항목만 리스트롤 넘어온다
+		goodsvo.setGoodsDetailList(Arrays.asList(
+				new GoodsDetailVo((long)adminDao.getCurrentInsertGoodsNo(),"black/105",5,5)			
+				));
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(goodsvo)));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	/**
+	 * 관리자가 상품을 수정하는 테스트 (실패 케이스- 상품명이 20자 이상인 경우)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifyGoodsInfo_Fail() throws Exception {
+		testGoodsAdd_Success();
+		
+		GoodsVo goodsvo = new GoodsVo();
+		
+		goodsvo.setNo((long)adminDao.getCurrentInsertGoodsNo());
+		goodsvo.setName("테스트 상품이지만 정말 긴 이름을 가지고 있습니다.");
+		goodsvo.setSeillingPrice(15000);
+		goodsvo.setDetail("교체된 상품 설명");
+		goodsvo.setDisplayStatus(GoodsVo.status.y);
+		goodsvo.setSeillingStatus(GoodsVo.status.y);
+		goodsvo.setManufacturer("제조업자명");
+		goodsvo.setSupplier("공급업자명");
+		goodsvo.setManufacturingDate("2019-07-19");
+		goodsvo.setOrigin("원산지명");
+		goodsvo.setSmallcategoryNo(1L);
+		
+		// Detail 경우는 추가된 항목만 리스트롤 넘어온다
+		goodsvo.setGoodsDetailList(Arrays.asList(
+				new GoodsDetailVo((long)adminDao.getCurrentInsertGoodsNo(),"black/105",5,5)			
+				));
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(goodsvo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;	
 	}
 	
 	/**
@@ -473,6 +574,8 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testRemoveGoodsInfo() throws Exception {
+		testGoodsAdd_Success();
+		
 		ResultActions resultActions =
 				mockMvc
 				.perform(delete("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(1L)));
@@ -484,9 +587,49 @@ public class AdminControllerTest {
 		;	
 	}
 	
+	/**
+	 * 관리자가 상품 상세조회하는 테스트 (성공케이스)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testGoodsInfo() throws Exception {
+		//testGoodsAdd_Success();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/goods/1").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	/**
+	 * 관리자가 상품 리스트조회하는 테스트 (성공케이스)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testgoodsList() throws Exception {
+		//testGoodsAdd_Success();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/goodslist/1").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
 	
 	
-	///
+	
+	
+	
+	//// 
 public void testAddBigCategory(String name) throws Exception{
 		
 		BigCategoryVo vo = new BigCategoryVo();

@@ -84,5 +84,33 @@ public class AdminDao {
 		return sqlsession.insert("admin.insertGoodsDetail", detailVo);
 	}
 
+	public int updateGoods(GoodsVo goodsvo) {
+		return sqlsession.update("admin.updateGoods",goodsvo);
+	}
+
+	public int deleteImages(Long goodsNo) {
+		return sqlsession.delete("admin.deleteImages", goodsNo);
+	}
+
+	public int updateGoodsIsDel(Long goodsNo) {
+		return sqlsession.update("admin.updateGoodsIsDel", goodsNo);
+	}
+
+	public GoodsVo selectGoods(Long goodsno) {
+		return sqlsession.selectOne("admin.selectGoods",goodsno);
+	}
+
+	public List<GoodsImagesVo> selectImages(Long goodsno) {
+		return sqlsession.selectList("admin.selectImages",goodsno);
+	}
+
+	public List<GoodsDetailVo> selectDetail(Long goodsno) {
+		return sqlsession.selectList("admin.selectDetail",goodsno);
+	}
+
+	public List<GoodsVo> selectGoodsList(Long startCol) {
+		return sqlsession.selectList("admin.selectGoodsList",startCol);
+	}
+
 	
 }

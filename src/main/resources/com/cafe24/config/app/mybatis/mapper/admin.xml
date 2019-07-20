@@ -159,5 +159,86 @@
 	      ]]>
 		</selectKey>
 	</insert>
+	
+	<update id="updateGoods" parameterType="goodsvo">
+		<![CDATA[
+			update tblGoods set
+			name=#{name},
+			seilling_price=#{seillingPrice},
+			detail=#{detail},
+			display_status=#{displayStatus},
+			seilling_status=#{seillingStatus},
+			material=#{material},
+			supplier=#{supplier},
+			manufacturer=#{manufacturer},
+			manufacturing_date=#{manufacturingDate},
+			origin=#{origin},
+			smallcategory_no=#{smallcategoryNo}
+			where no = #{no}
+		]]>
+	</update>
 
+	<delete id="deleteImages" parameterType="long">
+		<![CDATA[
+			delete from tblGoodsImages where goods_no=#{no}
+		]]>
+		
+	</delete>
+	
+	<update id="updateGoodsIsDel" parameterType="long">
+		<![CDATA[
+			update tblGoods set isdel='del' where no = #{no}
+		]]>
+	</update>
+	
+	<select id="selectGoods" parameterType="long" resultType="goodsvo">
+		<![CDATA[
+			select no,name,
+			seilling_price as seillingPrice,
+			detail,
+			display_status as displayStatus,
+			seilling_status as seillingStatus,
+			regdate,
+			material,
+			supplier,
+			manufacturer,
+			manufacturing_date as manufacturingDate,
+			origin
+			from tblGoods
+			where no = #{no}
+		]]>
+	
+	
+	</select>
+	
+	<select id="selectImages" parameterType="long" resultType="goodsimagesvo">
+		<![CDATA[
+			select no, goods_no as goodsNo, image, ismain from tblGoodsImages 
+			where goods_no=#{no}
+		]]>
+	</select>
+	
+	<select id="selectDetail" parameterType="long" resultType="goodsdetailvo">
+		<![CDATA[
+			select no, goods_no as goodsNo, option_name as optionName,
+			inventory_qty as inventoryQty,available_qty as availableQty
+			from tblGoodsDetail where goods_no = #{no}
+		]]>
+	
+	</select>
+	
+	<select id="selectGoodsList" parameterType="long" resultType="goodsvo">
+		<![CDATA[
+			select 
+			no,
+			name,
+			seilling_price as seillingPrice,
+			display_status as displayStatus,
+			seilling_status as seillingStatus,
+			regdate,
+			(select image from tblGoodsImages where ismain='y' and goods_no=g.no) as thumbnail
+			from tblGoods g
+			limit 10 offset #{startCol}
+		]]>
+	</select>
 </mapper>
