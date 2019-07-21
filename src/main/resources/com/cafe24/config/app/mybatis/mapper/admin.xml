@@ -203,8 +203,11 @@
 			supplier,
 			manufacturer,
 			manufacturing_date as manufacturingDate,
-			origin
-			from tblGoods
+			origin,
+			smallcategory_no as smallcategoryNo,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName
+			from tblGoods g
 			where no = #{no}
 		]]>
 	
