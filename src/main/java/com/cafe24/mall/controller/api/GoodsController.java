@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.JSONResult;
 import com.cafe24.mall.service.GoodsService;
+import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
 
@@ -34,7 +35,6 @@ public class GoodsController {
 	@ApiOperation(value = "상품 검색")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "kw", value = "검색할 키워드", required = true, dataType = "String", defaultValue = ""),
-		@ApiImplicitParam(name = "kwkind", value = "검색할 키워드의 종류", required = true, dataType = "String", defaultValue = "") 
 	})
 	@GetMapping("/search")
 	public JSONResult search(@RequestParam String kw) {
@@ -76,11 +76,16 @@ public class GoodsController {
 		
 		return JSONResult.success("상품 서브이미지 조회 성공", list);
 	}
-//	@GetMapping("/goodsdetail/{goodsNo}")
-//	public JSONResult getGoodsDetailList(@PathVariable(value="goodsNo") Long goodsNo) {
-//		
-//		GoodsVo vo = goodsService.getGoodsDetailList(goodsNo);
-//		
-//		return JSONResult.success("상품 상세 조회 성공", vo);
-//	}
+	
+	@ApiOperation(value = "상품상세옵션리스트 조회")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "goodsNo", value = "상품 번호", required = true, dataType = "Long", defaultValue = "") 
+	})
+	@GetMapping("/goodsdetail/{goodsNo}")
+	public JSONResult getGoodsDetailList(@PathVariable(value="goodsNo") Long goodsNo) {
+		
+		List<GoodsDetailVo> list = goodsService.getGoodsDetailList(goodsNo);
+		
+		return JSONResult.success("상품상세옵션리스트조회 성공", list);
+	}
 }

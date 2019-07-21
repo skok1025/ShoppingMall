@@ -69,5 +69,17 @@
 		
 	</select>
 	
+	<select id="selectGoodsDetailList" parameterType="long" resultType="goodsdetailvo">
+		
+		<![CDATA[
+			select 
+			no,
+			goods_no as goodsNo,
+			option_name as optionName,
+			inventory_qty as inventoryQty,
+			available_qty as availableQty
+			from tblGoodsDetail where goods_no = #{no}
+		]]>
+	</select>
 	
 </mapper>

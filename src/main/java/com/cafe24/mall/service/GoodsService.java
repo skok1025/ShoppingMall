@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.mall.repository.GoodsDao;
+import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
 
@@ -29,5 +30,9 @@ public class GoodsService {
 
 	public GoodsImagesVo getMainImage(Long goodsNo) {
 		return goodsDao.selectMainImage(goodsNo);
+	}
+
+	public List<GoodsDetailVo> getGoodsDetailList(Long goodsNo) {
+		return goodsDao.selectGoodsDetailList(goodsNo);
 	}
 }

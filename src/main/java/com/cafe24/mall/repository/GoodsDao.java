@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
 
@@ -29,5 +30,9 @@ public class GoodsDao {
 
 	public GoodsImagesVo selectMainImage(Long goodsNo) {
 		return sqlSession.selectOne("goods.selectMainImage", goodsNo);
+	}
+
+	public List<GoodsDetailVo> selectGoodsDetailList(Long goodsNo) {
+		return sqlSession.selectList("goods.selectGoodsDetailList", goodsNo);
 	}
 }

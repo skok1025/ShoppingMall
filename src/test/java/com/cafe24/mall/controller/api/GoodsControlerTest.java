@@ -119,6 +119,30 @@ public class GoodsControlerTest {
 	
 	
 	/**
+	 * 상품번호 2번의 상품상세 리스트를 얻어오는 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testgetGoodsDetailList() throws Exception {
+		//AdminControllerTest admin = new AdminControllerTest();
+		//admin.testGoodsAdd_Success();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/goods/goodsdetail/2"));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is("키워드:1")))
+		;
+	}
+	
+	
+	
+	
+	/**
 	 * 상품상세조회 (상품상세번호 : 1) 테스트
 	 * @throws Exception 예외
 	 */
