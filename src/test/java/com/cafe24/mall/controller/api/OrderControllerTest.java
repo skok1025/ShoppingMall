@@ -96,6 +96,48 @@ public class OrderControllerTest {
 		;	
 	}
 	/**
+	 * 고객이 주문을 등록하는 테스트메소드 (실패케이스 - 없는 memberNo) 
+	 * @throws Exception 예외
+	 */
+//	@Test
+//	public void testAddOrder_Fail() throws Exception{
+//		
+//		OrderVo vo = new OrderVo();
+//		
+//		vo.setCode("20190722-00004");
+//		vo.setMemberNo(11L);
+//		vo.setOrderName("김석현");
+//		vo.setOrderTel("01068669202");
+//		vo.setPassword("1234");
+//		vo.setPaymentStatus(paymentStatus.y);
+//		vo.setOrderStatus(orderStatus.배송대기);
+//		vo.setPaymentWay("카드");
+//		vo.setReceiverName("김은완");
+//		vo.setReceiverTel1("01068669202");
+//		vo.setReceiverTel2("01068669202");
+//		vo.setReceiverPostcode("152-123");
+//		vo.setReceiverAddress("서울시 성동구 성수이로 137 110동 1502호");
+//		vo.setMessage("배송중 메세지");
+//		
+//		vo.setOrderGoodsList(Arrays.asList(
+//				new OrderGoodsVo(1L, 1, status.배송대기, 15000),
+//				new OrderGoodsVo(2L, 3, status.배송대기, 45000)
+//				));
+//		
+//		
+//		
+//		ResultActions resultActions =
+//				mockMvc
+//				.perform(post("/api/order/").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+//		
+//		resultActions
+//		.andExpect(status().is(500))
+//		.andDo(print())
+//		.andExpect(jsonPath("$.result", is("success")))
+//		//.andExpect(jsonPath("$.data", is(1)))
+//		;	
+//	}
+	/**
 	 * 주문코드(20190722-00002)에 따른 주문상품리스트를 얻어오는 테스트메소드 (성공케이스) 
 	 * @throws Exception 예외
 	 */

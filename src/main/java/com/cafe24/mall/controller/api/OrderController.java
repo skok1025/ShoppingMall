@@ -65,7 +65,7 @@ public class OrderController {
 		List<OrderGoodsDTO> orderList = orderService.getOrderGoodsList(orderCode);
 		// int result = 1;
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문상세조회  성공", orderList));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문코드에 따른 상품상세조회 성공", orderList));
 	}
 	
 	@ApiOperation(value = "주문코드에 따른 주문자정보 및 배송지정보 조회 API")
