@@ -82,14 +82,14 @@ public class AdminService {
 		return adminDao.updateBigCategory(vo);
 	}
 
-	//@Transactional
+	@Transactional
 	public int removeBigCatergory(BigCategoryVo vo) {
 		
-		//adminDao.updateGoodsSmallCategoryNullByBigCategoryNo(vo.getNo());
-		//adminDao.deleteSmallCategoryByBigCategoryNo(vo.getNo());
-		int result =  adminDao.deleteBigCategory(vo);
+		adminDao.updateGoodsSmallCategoryNullByBigCategoryNo(vo.getNo());
+		adminDao.deleteSmallCategoryByBigCategoryNo(vo.getNo());
+		int result = adminDao.deleteBigCategory(vo);
+		
 		return result;
-		//return result1*result2*result3;
 	}
 
 	public int addSmallCatergory(SmallCategoryVo vo) {

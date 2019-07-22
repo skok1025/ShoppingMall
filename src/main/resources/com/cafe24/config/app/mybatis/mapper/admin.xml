@@ -63,17 +63,21 @@
 	  	]]>
 	</delete>
 
-	<delete id="deleteBigCategory" parameterType="bigcategoryvo"
+	<!-- <delete id="deleteBigCategory" parameterType="bigcategoryvo"
 		statementType="CALLABLE">
-		
-
-	  	<![CDATA[		
+	
 		{ call proc_deleteBigCategory
 			(
 				#{no,jdbcType=INTEGER}
 				,#{presult,mode=OUT,jdbcType=INTEGER,javaType=Integer}
 			)
 		}
+		
+	</delete> -->
+	
+	<delete id="deleteBigCategory" parameterType="bigcategoryvo">
+	  	<![CDATA[		
+			delete from tblBigCategory where no =#{no}
 		]]>
 
 	</delete>

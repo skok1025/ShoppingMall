@@ -191,8 +191,9 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testRemoveBigCategory() throws Exception{
-		testAddBigCategory("상의"); // 선행작업 : 1차 카테고리 등록 (상의)
+		//testAddBigCategory("상의"); // 선행작업 : 1차 카테고리 등록 (상의)
 		
+		testAddSmallCategory("상의", Arrays.asList("카라티","민소매티셔츠","기본반팔"));
 		BigCategoryVo vo = new BigCategoryVo();
 		vo.setNo(adminDao.getCurrentInsertBigCategoryNo());
 		

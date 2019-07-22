@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="order">
+	
+	<insert id="insertOrder" parameterType="ordervo">
+		<![CDATA[
+			insert into 
+			tblOrder(
+			no,code,member_no,order_name,order_tel,password,payment_status,order_status
+			,payment_way,receiver_name,receiver_tel1,receiver_tel2,receiver_postcode,
+			receiver_address,message,invoice_code)
+			values(null,#{code},#{memberNo},AES_ENCRYPT(#{orderName},'CAFE24'),AES_ENCRYPT(#{orderTel},'CAFE24'),SHA2(#{password},512),#{paymentStatus},
+			#{orderStatus},#{paymentWay},AES_ENCRYPT(#{receiverName},'CAFE24'),AES_ENCRYPT(#{receiverTel1},'CAFE24'),AES_ENCRYPT(#{receiverTel2},'CAFE24'),AES_ENCRYPT(#{receiverPostcode},'CAFE24'),
+			AES_ENCRYPT(#{receiverAddress},'CAFE24'),#{message},AES_ENCRYPT(#{invoiceCode},'CAFE24'))
+		
+		]]>
+	
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+	      <![CDATA[
+	         select last_insert_id()      
+	      ]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertOrderGoods" parameterType="ordergoodsvo">
+		<![CDATA[
+			insert into tblOrderGoods(order_no,goods_detail_no,cnt,status,sailing_price)
+			values(#{orderNo},#{goodsDetailNo},#{cnt},#{status},#{sailingPrice})
+		]]>
+	
+	</insert>
+	
+	<select id="selectOrderGoodsList" parameterType="string" resultType="ordergoodsdto">
+		<![CDATA[
+		select 
+			name as goodsName, 
+			option_name as optionName, 
+			cnt as orderCnt,
+			code as orderCode, 
+			status as orderStatus, 
+			sailing_price as sailingPrice,
+			invoice_code as invoiceCode 
+		from tblOrder o 
+		inner join tblOrderGoods og 
+		on o.no = og.order_no inner join tblGoodsDetail gd
+		on gd.no = og.goods_detail_no inner join tblGoods g
+		on g.no = gd.goods_no
+		where code = #{code}
+		]]>
+	
+	</select>
+	
+	<select id="selectOrderInfo" parameterType="string" resultType="ordervo">
+	
+		<![CDATA[
+			select 
+				no,
+				code,
+				cast(AES_DECRYPT(order_name, 'CAFE24') as char(200)) as orderName,
+				cast(AES_DECRYPT(order_tel, 'CAFE24') as char(200)) as orderTel,
+				payment_status as paymentStatus,
+				order_status as orderStatus,
+				payment_way as paymentWay,
+				cast(AES_DECRYPT(receiver_name, 'CAFE24') as char(200)) as receiverName,
+				cast(AES_DECRYPT(receiver_tel1, 'CAFE24') as char(200)) as receiverTel1,
+				cast(AES_DECRYPT(receiver_tel2, 'CAFE24') as char(200)) as receiverTel2,			
+				cast(AES_DECRYPT(receiver_postcode, 'CAFE24') as char(200)) as receiverPostcode,
+				cast(AES_DECRYPT(receiver_address, 'CAFE24') as char(200)) as receiverAddress,
+				message,
+				cast(AES_DECRYPT(invoice_code, 'CAFE24') as char(200)) as invoiceCode
+			from tblOrder
+			where code = #{code}
+			
+			
+		]]>
+		
+	</select>
+	
+	<insert id="insertCancelApply" parameterType="cancelapplyvo">
+		<![CDATA[
+			insert into 
+			tblCancelApply(no,order_no,goods_detail_no,cancel_cnt,cancel_reason,refund_account,status)
+			 values(null,#{orderNo},#{goodsDetailNo},#{cancelCnt},#{cancelReason},#{refundAccount},#{status})
+		]]>
+	</insert>
+	
+	<select id="getCurrentInsertOrderNo" resultType="long">
+		<![CDATA[
+			select max(no) from tblOrder
+		]]>
+	</select>
+	
+</mapper>

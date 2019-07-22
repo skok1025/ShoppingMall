@@ -9,6 +9,10 @@
 		<typeAlias type="com.cafe24.mall.vo.GoodsVo" alias="goodsvo"/>
 		<typeAlias type="com.cafe24.mall.vo.GoodsDetailVo" alias="goodsdetailvo"/>
 		<typeAlias type="com.cafe24.mall.vo.GoodsImagesVo" alias="goodsimagesvo"/>
+		<typeAlias type="com.cafe24.mall.vo.OrderVo" alias="ordervo"/>
+		<typeAlias type="com.cafe24.mall.vo.OrderGoodsVo" alias="ordergoodsvo"/>
+		<typeAlias type="com.cafe24.mall.vo.CancelApplyVo" alias="cancelapplyvo"/>
+		<typeAlias type="com.cafe24.mall.dto.OrderGoodsDTO" alias="ordergoodsdto"/>
 		
 	</typeAliases>
 	<mappers>
@@ -16,5 +20,6 @@
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/member.xml"/>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/admin.xml"/>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/goods.xml"/>
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/order.xml"/>
 	</mappers>
 </configuration>
