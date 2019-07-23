@@ -11,6 +11,13 @@ public class GoodsDetailVo {
 		
 	}
 	
+	public GoodsDetailVo(String optionName, int inventoryQty, int availableQty) {
+
+		this.optionName = optionName;
+		this.inventoryQty = inventoryQty;
+		this.availableQty = availableQty;
+	}
+
 	public GoodsDetailVo(Long goodsNo, String optionName, int inventoryQty, int availableQty) {
 
 		this.goodsNo = goodsNo;

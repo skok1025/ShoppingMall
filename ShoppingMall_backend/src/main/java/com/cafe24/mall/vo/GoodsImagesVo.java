@@ -15,6 +15,10 @@ public class GoodsImagesVo {
 	}
 	
 	
+	public GoodsImagesVo(String image, status ismain) {
+		this.image = image;
+		this.ismain = ismain;
+	}
 	public GoodsImagesVo(Long goodsNo, String image, status ismain) {
 		this.goodsNo = goodsNo;
 		this.image = image;
