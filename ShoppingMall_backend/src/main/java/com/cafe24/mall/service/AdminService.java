@@ -23,9 +23,6 @@ public class AdminService {
 	@Transactional
 	public int addGoods(GoodsVo goodsvo) {
 		
-		//int result1 = insertGoods(goodsvo);
-		//int result2 = insertImages(goodsvo.getGoodsImagesList())
-		
 		List<GoodsImagesVo> imagesList = goodsvo.getGoodsImagesList();
 		List<GoodsDetailVo> detailList = goodsvo.getGoodsDetailList();
 		
@@ -33,11 +30,13 @@ public class AdminService {
 		
 		if(imagesList != null) {
 			for(GoodsImagesVo imagesVo:imagesList) {
+				imagesVo.setGoodsNo(goodsvo.getNo());
 				result *= adminDao.insertImages(imagesVo);
 			}
 		}
 		if(detailList != null) {
 			for(GoodsDetailVo detailVo:detailList) {
+				detailVo.setGoodsNo(goodsvo.getNo());
 				result *= adminDao.insertGoodsDetail(detailVo);
 			}
 		}

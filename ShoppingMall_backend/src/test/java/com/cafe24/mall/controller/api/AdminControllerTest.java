@@ -58,8 +58,7 @@ public class AdminControllerTest {
 	
 	@Autowired
 	private AdminDao adminDao;
-	private static Long n = 13L;  // 테스트마다 6씩 증가시켜야함
-	private static Long currentInsertGoodsNo = n;
+	private static Long n = 7L;  // 테스트마다 6씩 증가시켜야함
 	
 	@Before
 	public void setUp() {
@@ -379,19 +378,17 @@ public class AdminControllerTest {
 		goodsvo.setSmallcategoryNo(adminDao.getCurrentInsertSmallCategoryNo());
 		
 		goodsvo.setGoodsImagesList(Arrays.asList(
-				new GoodsImagesVo(currentInsertGoodsNo,"메인이미지",GoodsImagesVo.status.y),
-				new GoodsImagesVo(currentInsertGoodsNo,"테스트이미지1",GoodsImagesVo.status.n),
-				new GoodsImagesVo(currentInsertGoodsNo,"테스트이미지2",GoodsImagesVo.status.n),
-				new GoodsImagesVo(currentInsertGoodsNo,"테스트이미지3",GoodsImagesVo.status.n)
+				new GoodsImagesVo("메인이미지",GoodsImagesVo.status.y),
+				new GoodsImagesVo("테스트이미지1",GoodsImagesVo.status.n),
+				new GoodsImagesVo("테스트이미지2",GoodsImagesVo.status.n),
+				new GoodsImagesVo("테스트이미지3",GoodsImagesVo.status.n)
 		));
 		
 		goodsvo.setGoodsDetailList(Arrays.asList(
-				new GoodsDetailVo(currentInsertGoodsNo,"black/90",5,5),
-				new GoodsDetailVo(currentInsertGoodsNo,"black/95",5,5),
-				new GoodsDetailVo(currentInsertGoodsNo,"black/100",5,4)				
+				new GoodsDetailVo("black/90",5,5),
+				new GoodsDetailVo("black/95",5,5),
+				new GoodsDetailVo("black/100",5,4)				
 		));
-		
-		currentInsertGoodsNo ++;
 		
 		ResultActions resultActions =
 				mockMvc
@@ -426,16 +423,16 @@ public class AdminControllerTest {
 		goodsvo.setSmallcategoryNo(1L);
 		
 		goodsvo.setGoodsImagesList(Arrays.asList(
-				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"메인이미지",GoodsImagesVo.status.y),
-				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지1",GoodsImagesVo.status.n),
-				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지2",GoodsImagesVo.status.n),
-				new GoodsImagesVo(adminDao.getCurrentInsertGoodsNo()+1L,"테스트이미지3",GoodsImagesVo.status.n)
+				new GoodsImagesVo("메인이미지",GoodsImagesVo.status.y),
+				new GoodsImagesVo("테스트이미지1",GoodsImagesVo.status.n),
+				new GoodsImagesVo("테스트이미지2",GoodsImagesVo.status.n),
+				new GoodsImagesVo("테스트이미지3",GoodsImagesVo.status.n)
 				));
 		
 		goodsvo.setGoodsDetailList(Arrays.asList(
-				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/90",5,5),
-				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/95",5,5),
-				new GoodsDetailVo(adminDao.getCurrentInsertGoodsNo()+1L,"black/100",5,4)				
+				new GoodsDetailVo("black/90",5,5),
+				new GoodsDetailVo("black/95",5,5),
+				new GoodsDetailVo("black/100",5,4)				
 				));
 		
 		
