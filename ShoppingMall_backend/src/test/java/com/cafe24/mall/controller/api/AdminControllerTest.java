@@ -58,7 +58,7 @@ public class AdminControllerTest {
 	
 	@Autowired
 	private AdminDao adminDao;
-	private static Long n = 7L;  // 테스트마다 6씩 증가시켜야함
+	//private static Long n = 7L;  // 테스트마다 6씩 증가시켜야함
 	
 	@Before
 	public void setUp() {
@@ -597,7 +597,7 @@ public class AdminControllerTest {
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/admin/goods/"+(n+1)).contentType(MediaType.APPLICATION_JSON));
+				.perform(get("/api/admin/goods/"+adminDao.getCurrentInsertGoodsNo()).contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andExpect(status().isOk())
