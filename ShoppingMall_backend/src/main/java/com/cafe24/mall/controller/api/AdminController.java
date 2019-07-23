@@ -243,7 +243,7 @@ public class AdminController {
 	@DeleteMapping("/smallcategory")
 	public JSONResult removeSmallCategory(@RequestBody SmallCategoryVo vo) {
 		int result = adminService.removeSmallCatergory(vo);
-		return result == 1 ? JSONResult.success("c", vo) : JSONResult.fail("관리자 2차 카테고리 삭제 실패");
+		return result == 1 ? JSONResult.success("관리자 2차 카테고리 삭제 성공", result) : JSONResult.fail("관리자 2차 카테고리 삭제 실패");
 	}
 
 }
