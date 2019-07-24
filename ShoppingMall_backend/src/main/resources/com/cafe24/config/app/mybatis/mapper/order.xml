@@ -3,7 +3,14 @@
 
 <mapper namespace="order">
 	
+	<select id="getGenerateOrderCode" resultType="string">
+		<![CDATA[
+			 select concat(DATE_FORMAT(curdate(), '%Y%m%d'),'-',lpad((select ifnull(max(no),0)+1 from tblOrder o where DATE_FORMAT(o.regdate, '%Y-%m-%d')=DATE_FORMAT(curdate(), '%Y-%m-%d')),5,'0'))
+		]]>
+	</select>
+	
 	<insert id="insertOrder" parameterType="ordervo">
+		
 		<![CDATA[
 			insert into 
 			tblOrder(
@@ -22,6 +29,7 @@
 	      ]]>
 		</selectKey>
 	</insert>
+	
 	
 	<insert id="insertOrderGoods" parameterType="ordergoodsvo">
 		<![CDATA[
@@ -71,8 +79,6 @@
 				cast(AES_DECRYPT(invoice_code, 'CAFE24') as char(200)) as invoiceCode
 			from tblOrder
 			where code = #{code}
-			
-			
 		]]>
 		
 	</select>
@@ -91,4 +97,63 @@
 		]]>
 	</select>
 	
+	<insert id="insertChangeApply" parameterType="changeapplyvo">
+		<![CDATA[
+			insert into tblChangeApply(no,order_no,goods_detail_no,change_goods_detail_no,change_cnt,status)
+			 values(null,#{orderNo},#{goodsDetailNo},#{changeGoodsDetailNo},#{changeCnt},#{status})
+		]]>
+	</insert>
+	
+	<select id="getCurrentInsertGoodsDetailNo" resultType="long">
+		<![CDATA[
+			select max(no) from tblGoodsDetail
+		]]>
+	</select>
+	
+	<select id="selectChangeApplyList" parameterType="string" resultType="changeapplydto">
+		<![CDATA[
+			select 
+			no,
+			(select code from tblOrder where no = c.order_no) as orderCode,
+			(select image from tblGoodsImages where goods_no=(select goods_no from tblGoodsDetail where no=c.goods_detail_no and ismain='y')) as thumbnail,
+			(select name from tblGoods where no = (select goods_no from tblGoodsDetail where no=c.goods_detail_no)) as goodsName,
+			(select option_name from tblGoodsDetail where no=c.goods_detail_no) as optionName,
+			(select option_name from tblGoodsDetail where no=c.change_goods_detail_no) as changeOptionName,
+			change_cnt as changeCnt,
+			status
+			from tblChangeApply c where order_no = (select no from tblOrder where code = #{orderCode});
+		]]>
+	</select>
+	
+	<delete id="deleteChangeApply" parameterType="long">
+		<![CDATA[
+			delete from tblChangeApply where no = #{no}
+		]]>
+	
+	</delete>
+	
+	<select id="getCurrentInsertChangeApplyNo" resultType="long">
+		<![CDATA[
+			select max(no) from tblChangeApply
+		]]>
+	
+	</select>
+	
+	<select id="getSeillingPrice" parameterType="long" resultType="integer">
+		<![CDATA[
+			select seilling_price from tblGoods where no = (select goods_no from tblGoodsDetail where no = #{goodsDetailNo})
+		]]>
+	
+	</select>
+	
+	<select id="selectOrderList" parameterType="long" resultType="orderdto">
+		<![CDATA[
+			select code,
+				regdate,
+			   (select name from tblGoods where no = (select goods_no from tblGoodsDetail where no =  (select min(goods_detail_no) from tblOrderGoods where order_no=o.no))) as titleGoodsName,
+			   (select count(*) from tblOrderGoods where order_no = o.no) as orderGoodsCnt,
+			   (select sum(sailing_price) from tblOrderGoods where order_no=o.no) as total
+			from tblOrder o where member_no = #{memberNo}
+		]]>
+	</select>
 </mapper>

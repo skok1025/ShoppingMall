@@ -15,12 +15,11 @@ public class OrderGoodsVo {
 	public OrderGoodsVo() {
 	}
 	
-	public OrderGoodsVo(Long goodsDetailNo, int cnt, com.cafe24.mall.vo.OrderGoodsVo.status status, int sailingPrice) {
+	public OrderGoodsVo(Long goodsDetailNo, int cnt, com.cafe24.mall.vo.OrderGoodsVo.status status) {
 		
 		this.goodsDetailNo = goodsDetailNo;
 		this.cnt = cnt;
 		this.status = status;
-		this.sailingPrice = sailingPrice;
 	}
 	public Long getOrderNo() {
 		return orderNo;

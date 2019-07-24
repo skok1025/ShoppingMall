@@ -5,19 +5,27 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cafe24.mall.dto.ChangeApplyDTO;
 import com.cafe24.mall.dto.JSONResult;
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.dto.OrderGoodsDTO;
 import com.cafe24.mall.service.OrderService;
 import com.cafe24.mall.vo.CancelApplyVo;
+import com.cafe24.mall.vo.ChangeApplyVo;
 import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.OrderGoodsVo;
 import com.cafe24.mall.vo.OrderVo;
@@ -32,6 +40,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	
+	
+	
 	
 	@ApiOperation(value = "주문")
 	@ApiImplicitParams({
@@ -56,10 +67,32 @@ public class OrderController {
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("고객 주문등록 실패"));
 	}
 	
+	/**
+	 * 주문내역조회
+	 * @param memberNo 주문내역을 확인할 회원번호
+	 * @return 응답
+	 */
+	@ApiOperation(value = "회원 주문내역조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "memberNo", value = "주문내역을 확인할 회원번호", required = true, dataType = "Long", defaultValue = "") })
+	@PostMapping("/list")
+	//@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<JSONResult> getOrderList(@RequestBody Long memberNo) {
+		
+		
+		List<OrderDTO> result = orderService.getOrderList(memberNo);
+		// int result = 1;
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("고객 주문내역조회 성공", result));
+				
+	}
+	
+	
+	
 	@ApiOperation(value = "주문코드에 따른상품상세조회")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "orderCode", value = "조회할 주문코드", required = true, dataType = "String", defaultValue = "") })
-	@PostMapping("/list")
+	@PostMapping("/goodslist")
 	public ResponseEntity<JSONResult> viewOrderGoodsList(@RequestBody String orderCode) {
 		
 		List<OrderGoodsDTO> orderList = orderService.getOrderGoodsList(orderCode);
@@ -92,6 +125,46 @@ public class OrderController {
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("주문취소신청 실패"));
 	
 	}
+	
+	@ApiOperation(value = "주문 교환신청 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "ChangeApplyVo", value = "주문취소할 냬용 vo", required = true, dataType = "CancelApplyVo", defaultValue = "") })
+	@PostMapping("/change")
+	public ResponseEntity<JSONResult> addChangeApply(@RequestBody ChangeApplyVo vo) {
+		
+		int result = orderService.addChangeApply(vo);
+		
+		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("주문 교환신청 성공", result))
+				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("주문 교환신청 실패"));
+		
+	}
+	
+	@ApiOperation(value = "주문 교환신청내역 조회 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "orderCode", value = "주문 교환신청내역을 조회할 주문코드", required = true, dataType = "CancelApplyVo", defaultValue = "") })
+	@GetMapping("/change/{orderCode}")
+	public ResponseEntity<JSONResult> ChangeApplyList(@PathVariable(value = "orderCode") String orderCode) {
+		
+		List<ChangeApplyDTO> result = orderService.getChangeApplyList(orderCode);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 교환신청내역 조회 성공", result));
+		
+	}
+	
+	@ApiOperation(value = "주문 교환신청 취소 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "changeApplyNo", value = "주문 교환신청을 취소할 주문 교환신청번호", required = true, dataType = "CancelApplyVo", defaultValue = "") })
+	@DeleteMapping("/change")
+	public ResponseEntity<JSONResult> CancelChangeApply(@RequestBody Long changeApplyNo) {
+		
+		int result = orderService.cancelChangeApply(changeApplyNo);
+		
+		return result == 1 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 교환신청취소 성공", result))
+				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("쭈문 꾜환씬청 씰퍠"));
+		
+	}
+	
+	
 	
 	
 	

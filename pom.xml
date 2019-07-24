@@ -101,5 +101,6 @@
 
 	<modules>
 		<module>ShoppingMall_backend</module>
+		<module>ShoppingMall_frontend</module>
 	</modules>
 </project>

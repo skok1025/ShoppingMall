@@ -335,7 +335,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testGetCategorylist() throws Exception{
-		
+		testAddSmallCategory("하의", Arrays.asList("바지","치마"));
 		ResultActions resultActions =
 				mockMvc
 				.perform(get("/api/admin/category/list").contentType(MediaType.APPLICATION_JSON));

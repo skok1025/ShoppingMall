@@ -6,8 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.mall.dto.ChangeApplyDTO;
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.dto.OrderGoodsDTO;
 import com.cafe24.mall.vo.CancelApplyVo;
+import com.cafe24.mall.vo.ChangeApplyVo;
 import com.cafe24.mall.vo.OrderGoodsVo;
 import com.cafe24.mall.vo.OrderVo;
 
@@ -41,4 +44,36 @@ public class OrderDao {
 	public Long getCurrentInsertOrderNo() {
 		return sqlsession.selectOne("order.getCurrentInsertOrderNo");
 	}
+
+	public int insertChangeApply(ChangeApplyVo vo) {
+		return sqlsession.insert("order.insertChangeApply", vo);
+	}
+
+	public long getCurrentInsertGoodsDetailNo() {
+		return sqlsession.selectOne("order.getCurrentInsertGoodsDetailNo");
+	}
+
+	public List<ChangeApplyDTO> selectChangeApplyList(String orderCode) {
+		return sqlsession.selectList("order.selectChangeApplyList", orderCode);
+	}
+
+	public String getGenerateOrderCode() {
+		return sqlsession.selectOne("order.getGenerateOrderCode");
+	}
+
+	public int deleteChangeApply(Long changeApplyNo) {
+		return sqlsession.delete("order.deleteChangeApply", changeApplyNo);
+	}
+
+	public Long getCurrentInsertChangeApplyNo() {
+		return sqlsession.selectOne("getCurrentInsertChangeApplyNo");
+	}
+
+	public int getSeillingPrice(Long currentInsertGoodsDetailNo) {
+		return sqlsession.selectOne("order.getSeillingPrice", currentInsertGoodsDetailNo);
+	}
+	public List<OrderDTO> selectOrderList(Long memberNo) {
+		return sqlsession.selectList("order.selectOrderList",memberNo);
+	}
+
 }
