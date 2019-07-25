@@ -14,4 +14,52 @@
 		]]>
 	</update>
 	
+	<insert id="insertMemberBasket" parameterType="map">
+		<![CDATA[
+			insert into tblBasket values(null,#{memberNo},#{goodsDetailNo},#{cnt})
+		]]>
+	</insert>
+	
+	<select id="getCodeCnt" parameterType="string" resultType="integer">
+		<![CDATA[
+			select count(*) from tblCustomerBasketCode where code = #{basketCode}
+		]]>
+		
+	
+	</select>
+	
+	<insert id="insertNonMemberCustomerBasketCode" parameterType="string">
+		<![CDATA[
+			insert into tblCustomerBasketCode(code,member_no) 
+			values(#{basketCode},null)
+		]]>
+	</insert>
+	
+	<insert id="insertNonMemberBasket" parameterType="map">
+		<![CDATA[
+			insert into tblBasket(no,basket_code,goods_detail_no,cnt)
+			values(null,#{basketCode},#{goodsDetailNo},#{cnt})
+		]]>
+	</insert>
+	
+	<select id="getBasketList" parameterType="string" resultType="basketdto">
+	
+		<![CDATA[
+		
+		select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				b.cnt as cnt,
+				g.seilling_price * b.cnt as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code = #{basketCode}
+		
+		]]>
+	</select>
+	
 </mapper>

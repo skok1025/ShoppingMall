@@ -46,35 +46,61 @@ public class BasketControllerTest {
 				build();
 	}
 	
-	
+	/**
+	 * 회원이 상품을 장바구니에 추가하는 테스트
+	 * @throws Exception 예외
+	 */
 	@Test
 	public void testAddBasket() throws Exception{
 		
-		String basketCode = "a12";
-		Long goodsDetailNo = 1L;
-		
-		
 		ResultActions resultActions =
 				mockMvc
-				.perform(post("/api/basket/add/1").contentType(MediaType.APPLICATION_JSON)
-						.param("basketCode", basketCode)
+				.perform(post("/api/basket/member/add")
+						.param("memberNo", "1")
+						.param("goodsDetailNo", "1")
+						.param("cnt", "1")
+						.contentType(MediaType.APPLICATION_JSON)
 						);
 		
 				
 				resultActions
-				.andExpect(status().isOk())
+				.andExpect(status().isCreated())
 				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
 				;	
 	}
 	
+	/**
+	 * 비회원이 상품을 장바구니에 추가하는 테스트
+	 * @throws Exception 예외
+	 */
 	@Test
-	public void testListBasket() throws Exception{
-		String basketCode = "a12";
+	public void testNonmemberAddBasket() throws Exception{
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/basket/list").contentType(MediaType.APPLICATION_JSON)
+				.perform(post("/api/basket/nonmember/add")
+						.param("basketCode", "c-101")
+						.param("goodsDetailNo", "1")
+						.param("cnt", "1")
+						.contentType(MediaType.APPLICATION_JSON)
+						);
+		
+		
+		resultActions
+		.andExpect(status().isCreated())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	@Test
+	public void testListBasket() throws Exception{
+		String basketCode = "1";
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/basket/nonmember/list").contentType(MediaType.APPLICATION_JSON)
 						.param("basketCode", basketCode)
 						);
 		

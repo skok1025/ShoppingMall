@@ -17,6 +17,7 @@
 		<typeAlias type="com.cafe24.mall.dto.OrderGoodsDTO" alias="ordergoodsdto"/>
 		<typeAlias type="com.cafe24.mall.dto.ChangeApplyDTO" alias="changeapplydto"/>
 		<typeAlias type="com.cafe24.mall.dto.OrderDTO" alias="orderdto"/>
+		<typeAlias type="com.cafe24.mall.dto.BasketDTO" alias="basketdto"/>
 		
 	</typeAliases>
 	<mappers>
