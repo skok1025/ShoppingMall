@@ -25,7 +25,13 @@ public class CustomerService {
 	
 
 	public int memberJoin(MemberVo memberVo) {
-		return customerDao.insertMember(memberVo);
+		// 회원가입이 일어날때 tblCustomerBasketCode 에 
+		// 회원마다 basketCode 할당 (code == member_no)
+		
+		int result =  customerDao.insertMember(memberVo);
+		result *= customerDao.insertJoinBaseCustomerBasketCode(memberVo.getNo());
+		
+		return result;
 	}
 
 	public MemberVo getAuthUser(MemberVo membervo) {

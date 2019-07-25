@@ -25,5 +25,6 @@
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/admin.xml"/>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/goods.xml"/>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/order.xml"/>
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/basket.xml"/>
 	</mappers>
 </configuration>

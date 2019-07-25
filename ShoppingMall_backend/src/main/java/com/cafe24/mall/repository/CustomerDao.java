@@ -43,4 +43,14 @@ public class CustomerDao {
 	public Long getCurrentInsertNo() {
 		return sqlsession.selectOne("member.getCurrentInsertNo");
 	}
+
+	/**
+	 * 회원가입 진행 시, 회원에게 할당된 장바구니 코드를 등록하는 메소드
+	 * 회원번호 (member_no) 와 장바구니 코드(code) 같다.
+	 * @param no 회원번호
+	 * @return 성공유무
+	 */
+	public int insertJoinBaseCustomerBasketCode(Long no) {
+		return sqlsession.insert("basket.insertJoinBaseCustomerBasketCode", no);
+	}
 }

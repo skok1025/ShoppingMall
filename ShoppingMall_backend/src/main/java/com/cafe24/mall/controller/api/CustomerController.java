@@ -64,6 +64,9 @@ public class CustomerController {
 			@ApiImplicitParam(name = "membervo", value = "로그인 정보를 담은 membervo", required = true, dataType = "MemberVo", defaultValue = "") })
 	@PostMapping("/auth")
 	public ResponseEntity<JSONResult> checkAuth(@RequestBody MemberVo membervo) {
+		// 로그인할 때, 장바구니를 담았다면 브라우저 쿠키에 담긴  basketCode으로
+		// tblCustomerBasketCode 의 member_no 를 업데이트?
+		
 		MemberVo authUser = customerService.getAuthUser(membervo);
 
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
