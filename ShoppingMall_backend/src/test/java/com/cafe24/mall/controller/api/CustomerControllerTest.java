@@ -221,6 +221,7 @@ public class CustomerControllerTest {
 		MemberVo vo = new MemberVo();
 		vo.setId("skok1025");  // 사용자 입력
 		vo.setPassword("1234");
+		vo.setBasketCode("c001");
 		
 		ResultActions resultActions =
 				mockMvc

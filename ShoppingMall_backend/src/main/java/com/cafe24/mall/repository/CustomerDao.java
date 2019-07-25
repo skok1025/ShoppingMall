@@ -53,4 +53,8 @@ public class CustomerDao {
 	public int insertJoinBaseCustomerBasketCode(Long no) {
 		return sqlsession.insert("basket.insertJoinBaseCustomerBasketCode", no);
 	}
+
+	public void updateCustomerBasketCodeMemberNo(MemberVo vo) {
+		sqlsession.update("basket.updateCustomerBasketCodeMemberNo", vo);
+	}
 }

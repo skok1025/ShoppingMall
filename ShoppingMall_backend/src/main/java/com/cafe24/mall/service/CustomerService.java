@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.mall.repository.CustomerDao;
 import com.cafe24.mall.vo.MemberVo;
@@ -34,15 +35,27 @@ public class CustomerService {
 		return result;
 	}
 
+	@Transactional
 	public MemberVo getAuthUser(MemberVo membervo) {
-//		for(MemberVo vo:sampleUserDB) {
-//			if(vo.getId().equals(membervo.getId()) && 
-//			   vo.getPassword().equals(membervo.getPassword())) {
-//				return vo;
-//			}
-//		}
+
+		MemberVo vo =  customerDao.getAuthUser(membervo);
+		// 로그인 시, membervo.basketCode 를 이용하여
+		// tblCustomerBasketCode 의 해당컬럼 member_no 를 업데이트
+		// -> 비회원으로 장바구니에 상품을 담은 후, 로그인을 했을 때, 
+		//    상품은 그대로 유지한다.
 		
-		return customerDao.getAuthUser(membervo);
+		if(membervo.getBasketCode() != null) {
+			System.out.println(membervo.getBasketCode());
+			membervo.setNo(vo.getNo());
+			System.out.println(membervo.getNo());
+			// 회원번호, 장바구니코드 넘김
+			// 쿠키에 있던 장바구니코드를 회원번호와 매칭시키는 작업
+			customerDao.updateCustomerBasketCodeMemberNo(membervo); 
+		}
+		
+		
+		
+		return vo;
 	}
 	
 	public int getIdCount(String id) {

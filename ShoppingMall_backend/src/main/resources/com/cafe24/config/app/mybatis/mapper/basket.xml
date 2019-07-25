@@ -8,4 +8,10 @@
 		]]>
 	</insert>
 	
+	<update id="updateCustomerBasketCodeMemberNo" parameterType="membervo">
+		<![CDATA[
+			update tblCustomerBasketCode set member_no = #{no} where code = #{basketCode}
+		]]>
+	</update>
+	
 </mapper>
