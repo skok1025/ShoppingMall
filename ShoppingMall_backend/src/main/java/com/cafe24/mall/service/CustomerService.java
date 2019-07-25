@@ -43,7 +43,10 @@ public class CustomerService {
 		// tblCustomerBasketCode 의 해당컬럼 member_no 를 업데이트
 		// -> 비회원으로 장바구니에 상품을 담은 후, 로그인을 했을 때, 
 		//    상품은 그대로 유지한다.
-		
+		// 여기서 발생하는 문제점은 비회원인 상태에서 장바구니 등록을 하고 로그인을 하면 로그인한 회원의 장바구니에 존재하지만
+		// 같은 브라우저에 쿠키유효기간이 지나지 않아 장바구니코드가 쿠키에 살아있는 상태에서 다른 아이디로 로그인을 한다고 하면
+		// 그 전 회원장바구니에는 존재하지 않는다.
+		// 방법: 회원들에게 비회원 상태에서 장바구니를 등록하면 유실될 가능성을 알린다.
 		if(membervo.getBasketCode() != null) {
 			System.out.println(membervo.getBasketCode());
 			membervo.setNo(vo.getNo());
