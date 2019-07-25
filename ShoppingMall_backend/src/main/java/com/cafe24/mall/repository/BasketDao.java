@@ -32,6 +32,10 @@ public class BasketDao {
 	}
 
 	public List<BasketDTO> getBasketList(String basketCode) {
-		return sqlsession.selectList("basket.getBasketList", basketCode);
+		return sqlsession.selectList("basket.getNonMemberBasketList", basketCode);
+	}
+
+	public List<BasketDTO> getBasketList(Long memberNo) {
+		return sqlsession.selectList("basket.getMemberBasketList", memberNo);
 	}
 }

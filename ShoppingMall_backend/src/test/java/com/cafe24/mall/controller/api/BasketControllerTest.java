@@ -95,13 +95,11 @@ public class BasketControllerTest {
 	}
 	
 	@Test
-	public void testListBasket() throws Exception{
-		String basketCode = "1";
-		
+	public void testMemberBasketList() throws Exception{
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/basket/nonmember/list").contentType(MediaType.APPLICATION_JSON)
-						.param("basketCode", basketCode)
+				.perform(get("/api/basket/member/list").contentType(MediaType.APPLICATION_JSON)
+						.param("memberNo", "1")
 						);
 		
 				
@@ -110,6 +108,23 @@ public class BasketControllerTest {
 				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
 				;
+	}
+	@Test
+	public void testNonMemberBasketList() throws Exception{
+		String basketCode = "1";
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/basket/nonmember/list").contentType(MediaType.APPLICATION_JSON)
+						.param("basketCode", basketCode)
+						);
+		
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
 	}
 	
 	@Test

@@ -61,7 +61,16 @@ public class BasketController {
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("비회원 장바구니 상품등록 실패"));
 	}
 
-	@ApiOperation(value = "장바구니 조회")
+	@ApiOperation(value = "장바구니 조회 (회원)")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "memberNo", value = "회원번호", required = true, dataType = "Long", defaultValue = "") 
+	})
+	@GetMapping("/member/list")
+	public JSONResult Basketlist(@RequestParam Long memberNo) {
+		List<BasketDTO> list = basketService.getBasketList(memberNo);
+		return JSONResult.success("장바구니 조회 (회원) 완료", list);
+	}
+	@ApiOperation(value = "장바구니 조회 (비회원)")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "basketCode", value = "장바구니 코드", required = true, dataType = "String", defaultValue = "") 
 	})

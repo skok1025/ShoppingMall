@@ -42,7 +42,7 @@
 		]]>
 	</insert>
 	
-	<select id="getBasketList" parameterType="string" resultType="basketdto">
+	<select id="getNonMemberBasketList" parameterType="string" resultType="basketdto">
 	
 		<![CDATA[
 		
@@ -58,6 +58,26 @@
 				                            on b.goods_detail_no = gd.no inner join tblGoods g
 				                                on gd.goods_no = g.no
                                 where basket_code = #{basketCode}
+		
+		]]>
+	</select>
+
+	<select id="getMemberBasketList" parameterType="string" resultType="basketdto">
+	
+		<![CDATA[
+		
+		select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				b.cnt as cnt,
+				g.seilling_price * b.cnt as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code in (select code from tblCustomerBasketCode where member_no =#{memberNo})
 		
 		]]>
 	</select>

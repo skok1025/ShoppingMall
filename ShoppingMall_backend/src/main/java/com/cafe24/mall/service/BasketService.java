@@ -81,6 +81,10 @@ public class BasketService {
 		return basketDao.getBasketList(basketCode);
 	}
 
+	public List<BasketDTO> getBasketList(Long memberNo) {
+		return basketDao.getBasketList(memberNo);
+	}
+
 	
 	
 }
