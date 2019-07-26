@@ -645,17 +645,58 @@ public class AdminControllerTest {
 	}
 	
 	/**
-	 * 관리자 회원정보 조회 테스트 메소드
+	 * 관리자 회원정보 조회 테스트 메소드 (성공케이스1 - 검색필터 적용 x)
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetMemberlist() throws Exception{
+	public void testGetMemberlist_success1() throws Exception{
 		ResultActions resultActions =
 				mockMvc
 				.perform(get("/api/admin/member")
 						.param("id", "")
 						.param("orderdateStart", "")
 						.param("orderdateEnd", "")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	/**
+	 * 관리자 회원정보 조회 테스트 메소드 (성공케이스2 - 검색필터 적용 id)
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetMemberlist_success2() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/member")
+						.param("id", "skok1025")
+						.param("orderdateStart", "")
+						.param("orderdateEnd", "")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	/**
+	 * 관리자 회원정보 조회 테스트 메소드 (성공케이스3 - 검색필터 적용 주문날짜)
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetMemberlist_success3() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/member")
+						.param("id", "")
+						.param("orderdateStart", "2019-07-25")
+						.param("orderdateEnd", "2019-07-26")
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions

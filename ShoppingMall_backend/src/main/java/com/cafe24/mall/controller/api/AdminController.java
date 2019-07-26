@@ -259,7 +259,7 @@ public class AdminController {
 
 			List<MemberVo> memberList = adminService.getMemberList(id,orderdateStart, orderdateEnd);
 
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 카테고리 목록 조회 성공", memberList));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 회원정보 조회 성공", memberList));
 
 	}
 
