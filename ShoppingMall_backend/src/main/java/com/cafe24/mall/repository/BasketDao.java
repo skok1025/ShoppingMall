@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.mall.dto.BasketDTO;
+import com.cafe24.mall.vo.BasketVo;
 
 @Repository
 public class BasketDao {
@@ -37,5 +38,21 @@ public class BasketDao {
 
 	public List<BasketDTO> getBasketList(Long memberNo) {
 		return sqlsession.selectList("basket.getMemberBasketList", memberNo);
+	}
+
+	public int updateBasketInfo(BasketVo basketvo) {
+		return sqlsession.update("basket.updateBasketInfo", basketvo);
+	}
+
+	public int deleteBasketGoods(Long basketNo) {
+		return sqlsession.delete("basket.deleteBasketGoods", basketNo);
+	}
+
+	public int allDeleteBasketGoods(Long memberNo) {
+		return sqlsession.delete("basket.allDeleteMemberBasketGoods", memberNo);
+	}
+
+	public int allDeleteBasketGoods(String basketCode) {
+		return sqlsession.delete("basket.allDeleteNonMemberBasketGoods", basketCode);
 	}
 }

@@ -82,4 +82,28 @@
 		]]>
 	</select>
 	
+	<update id="updateBasketInfo" parameterType="basketvo">
+		<![CDATA[
+			update tblBasket set cnt= #{cnt} where no = #{no}
+		]]>
+	
+	</update>
+	
+	<delete id="deleteBasketGoods" parameterType="long">
+		<![CDATA[
+			delete from tblBasket where no = #{no}
+		]]>
+	</delete>
+	
+	<delete id="allDeleteMemberBasketGoods" parameterType="long">
+		delete from tblBasket where basket_code in
+			(select code from tblCustomerBasketCode where member_no=#{memberNo})
+	</delete>
+	
+	<delete id="allDeleteNonMemberBasketGoods" parameterType="string">
+		<![CDATA[
+			delete from tblBasket where basket_code = #{basketCode}
+		]]>
+	</delete>
+	
 </mapper>

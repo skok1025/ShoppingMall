@@ -47,11 +47,11 @@ public class BasketControllerTest {
 	}
 	
 	/**
-	 * 회원이 상품을 장바구니에 추가하는 테스트
+	 * 회원이 상품을 장바구니에 추가하는 테스트 (성공케이스)
 	 * @throws Exception 예외
 	 */
 	@Test
-	public void testAddBasket() throws Exception{
+	public void testAddBasket_success() throws Exception{
 		
 		ResultActions resultActions =
 				mockMvc
@@ -69,13 +69,37 @@ public class BasketControllerTest {
 				.andExpect(jsonPath("$.result", is("success")))
 				;	
 	}
-	
+
 	/**
-	 * 비회원이 상품을 장바구니에 추가하는 테스트
+	 * 회원이 상품을 장바구니에 추가하는 테스트 (실패케이스 - 없는 회원번호)
 	 * @throws Exception 예외
 	 */
 	@Test
-	public void testNonmemberAddBasket() throws Exception{
+	public void testAddBasket_fail() throws Exception{
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/basket/member/add")
+						.param("memberNo", "100")
+						.param("goodsDetailNo", "1")
+						.param("cnt", "1")
+						.contentType(MediaType.APPLICATION_JSON)
+						);
+		
+		
+		resultActions
+		.andExpect(status().is(500))
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;	
+	}
+	
+	/**
+	 * 비회원이 상품을 장바구니에 추가하는 테스트 (성공 케이스 - 기존에 있는 장바구니 코드)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testNonmemberAddBasket_success() throws Exception{
 		
 		ResultActions resultActions =
 				mockMvc
@@ -93,7 +117,59 @@ public class BasketControllerTest {
 		.andExpect(jsonPath("$.result", is("success")))
 		;	
 	}
+
+	/**
+	 * 비회원이 상품을 장바구니에 추가하는 테스트 (성공 케이스 - 기존에 없는 장바구니 코드)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testNonmemberAddBasket_success2() throws Exception{
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/basket/nonmember/add")
+						.param("basketCode", "bk-101")
+						.param("goodsDetailNo", "1")
+						.param("cnt", "1")
+						.contentType(MediaType.APPLICATION_JSON)
+						);
+		
+		
+		resultActions
+		.andExpect(status().isCreated())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+
+	/**
+	 * 비회원이 상품을 장바구니에 추가하는 테스트 (실패 케이스 - 없는 상품번호)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testNonmemberAddBasket_fail() throws Exception{
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/basket/nonmember/add")
+						.param("basketCode", "bk-101")
+						.param("goodsDetailNo", "123")
+						.param("cnt", "1")
+						.contentType(MediaType.APPLICATION_JSON)
+						);
+		
+		
+		resultActions
+		.andExpect(status().is(500))
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;	
+	}
 	
+	/**
+	 * 회원 장바구니 리스트 테스트
+	 * @throws Exception 예외
+	 */
 	@Test
 	public void testMemberBasketList() throws Exception{
 		ResultActions resultActions =
@@ -109,9 +185,14 @@ public class BasketControllerTest {
 				.andExpect(jsonPath("$.result", is("success")))
 				;
 	}
+	
+	/**
+	 * 비회원 장바구니 리스트 테스트
+	 * @throws Exception 예외
+	 */
 	@Test
 	public void testNonMemberBasketList() throws Exception{
-		String basketCode = "1";
+		String basketCode = "c-101";
 		
 		ResultActions resultActions =
 				mockMvc
@@ -127,8 +208,12 @@ public class BasketControllerTest {
 		;
 	}
 	
+	/**
+	 * 장바구니 수량수정 테스트 (성공케이스)
+	 * @throws Exception 예외
+	 */
 	@Test
-	public void testModifyBasketInfo() throws Exception{
+	public void testModifyBasketInfo_success() throws Exception{
 		BasketVo vo = new BasketVo();
 		vo.setNo(1L);
 		vo.setCnt(4);
@@ -143,12 +228,37 @@ public class BasketControllerTest {
 				.andExpect(jsonPath("$.result", is("success")))
 				;
 	}
-	
+
+	/**
+	 * 장바구니 수량수정 테스트 (실패케이스 - 없는 장바구니번호)
+	 * @throws Exception 예외
+	 */
 	@Test
-	public void testRemoveBasketGoods() throws Exception{
+	public void testModifyBasketInfo_fail() throws Exception{
+		BasketVo vo = new BasketVo();
+		vo.setNo(100L);
+		vo.setCnt(4);
+		
 		ResultActions resultActions =
 				mockMvc
-				.perform(delete("/api/basket/remove/2").contentType(MediaType.APPLICATION_JSON));
+				.perform(put("/api/basket/modify").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;
+	}
+	
+	/**
+	 * 장바구니 특정상품 삭제 테스트 (성공 케이스)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testRemoveBasketGoods_success() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/basket/remove").param("basketNo", "2").contentType(MediaType.APPLICATION_JSON));
 		
 				resultActions
 				.andExpect(status().isOk())
@@ -156,4 +266,100 @@ public class BasketControllerTest {
 				.andExpect(jsonPath("$.result", is("success")))
 				;
 	}
+	
+	/**
+	 * 장바구니 특정상품 삭제 테스트(실패 케이스 - 없는 장바구니 번호)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testRemoveBasketGoods_fail() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/basket/remove").param("basketNo", "100").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;
+	}
+
+	/**
+	 * 회원 장바구니 전체 삭제 테스트 (성공 케이스)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAllremoveMemberBasketGoods_success() throws Exception{
+		//testAddBasket();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/basket/member/allremove").param("memberNo", "1").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
+	
+	/**
+	 * 회원 장바구니 전체 삭제 테스트 (실패 케이스 - 없는 멤버번호)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAllremoveMemberBasketGoods_fail() throws Exception{
+		//testAddBasket();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/basket/member/allremove").param("memberNo", "100").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;
+	}
+	
+	
+	/**
+	 * 비회원 장바구니 전체 삭제 테스트 (성공케이스)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAllremoveNonMemberBasketGoods_success() throws Exception{
+		//testAddBasket();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/basket/nonmember/allremove").param("basketCode", "c-101").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
+	
+	/**
+	 * 비회원 장바구니 전체 삭제 테스트 (실패케이스 - 없는 장바구니 코드)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAllremoveNonMemberBasketGoods_fail() throws Exception{
+		//testAddBasket();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/basket/nonmember/allremove").param("basketCode", "bbb-101").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;
+	}
+	
+	
 }

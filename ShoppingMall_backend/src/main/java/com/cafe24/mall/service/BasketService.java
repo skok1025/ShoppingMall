@@ -65,16 +65,16 @@ public class BasketService {
 	
 	
 	/**
-	 * 장바구니 정보를 수정하는 메소드
+	 * 장바구니 수량정보를 수정하는 메소드
 	 * @param basketvo
 	 * @return
 	 */
 	public int modifyBasketInfo(BasketVo basketvo) {
-		return 1;
+		return basketDao.updateBasketInfo(basketvo);
 	}
 
 	public int removeBasketGoods(Long basketNo) {
-		return 1;
+		return basketDao.deleteBasketGoods(basketNo);
 	}
 
 	public List<BasketDTO> getBasketList(String basketCode) {
@@ -83,6 +83,14 @@ public class BasketService {
 
 	public List<BasketDTO> getBasketList(Long memberNo) {
 		return basketDao.getBasketList(memberNo);
+	}
+
+	public int allremoveBasketGoods(Long memberNo) {
+		return basketDao.allDeleteBasketGoods(memberNo);
+	}
+
+	public int allremoveBasketGoods(String basketCode) {
+		return basketDao.allDeleteBasketGoods(basketCode);
 	}
 
 	
