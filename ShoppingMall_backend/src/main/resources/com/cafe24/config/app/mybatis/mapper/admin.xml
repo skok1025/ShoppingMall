@@ -248,4 +248,63 @@
 			limit 10 offset #{startCol}
 		]]>
 	</select>
+	
+	<delete id="deleteMemberOrderInfo" parameterType="long">
+		<![CDATA[
+			delete from tblMemberOrderInfo where no = #{no}
+		]]>
+	</delete>
+	
+	<update id="updateOrderMemberNull" parameterType="long">
+		<![CDATA[
+			update tblOrder set member_no = null where member_no=#{no}
+		]]>
+		
+	</update>
+	
+	<update id="updateCustomerBasketCodeMemberNull" parameterType="long">
+		<![CDATA[
+			update tblCustomerBasketCode set member_no = null where member_no = #{no}
+		]]>
+	</update>
+	
+	<update id="updateMemberTermsMemberNull" parameterType="long">
+		<![CDATA[
+			update tblMemberTerms set member_no = null where member_no = #{no}
+		]]>
+	</update>
+	
+	<delete id="deleteMemberInfo" parameterType="long">
+		<![CDATA[
+			delete from tblMember where no = #{no}
+		]]>
+	</delete>
+	
+	<select id="selectMemberList" parameterType="map" resultType="membervo">
+		<![CDATA[
+			select 
+			m.no, 
+			cast(AES_DECRYPT(m.name, 'CAFE24') as char(100)) as name, 
+			cast(AES_DECRYPT(m.address, 'CAFE24') as char(200)) as address,
+			cast(AES_DECRYPT(m.birth_date, 'CAFE24') as char(100)) as birthDate,
+			m.gender as gender,
+			m.id as id,
+			cast(AES_DECRYPT(m.email, 'CAFE24') as char(100)) as email,
+			cast(AES_DECRYPT(m.tel, 'CAFE24') as char(200)) as tel,
+			m.regdate,
+			max(o.regdate) as currentOrderDate
+			from tblMember m inner join tblOrder o 
+			on m.no = o.member_no
+			where m.id like concat('%',#{id},'%') 
+		]]>
+		
+		<if test="orderdateStart != null and orderdateEnd != null and orderdateStart != '' and orderdateEnd != ''">
+			<![CDATA[
+    			and o.regdate between #{orderdateStart} and date_add(#{orderdateEnd},interval 1 DAY)
+  			]]>
+  		</if>
+  		<![CDATA[
+  			group by m.no
+  		]]>
+	</select>
 </mapper>

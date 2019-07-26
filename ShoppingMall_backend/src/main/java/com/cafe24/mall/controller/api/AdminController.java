@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.JSONResult;
@@ -24,6 +25,7 @@ import com.cafe24.mall.service.AdminService;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -244,6 +246,30 @@ public class AdminController {
 	public JSONResult removeSmallCategory(@RequestBody SmallCategoryVo vo) {
 		int result = adminService.removeSmallCatergory(vo);
 		return result == 1 ? JSONResult.success("관리자 2차 카테고리 삭제 성공", result) : JSONResult.fail("관리자 2차 카테고리 삭제 실패");
+	}
+	
+	
+	@ApiOperation(value = "관리자 회원정보 조회")
+
+	@GetMapping("/member")
+	public ResponseEntity<JSONResult> getMemberList(
+			@RequestParam String id, 
+			@RequestParam String orderdateStart,
+			@RequestParam String orderdateEnd) {
+
+			List<MemberVo> memberList = adminService.getMemberList(id,orderdateStart, orderdateEnd);
+
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 카테고리 목록 조회 성공", memberList));
+
+	}
+
+	@ApiOperation(value = "관리자 회원 정보 삭제")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "memberNo", value = "삭제할 회원번호", required = true, dataType = "Long", defaultValue = "") })
+	@DeleteMapping("/member")
+	public JSONResult removeMemberInfo(@RequestBody Long memberNo) {
+		int result = adminService.removeMemberInfo(memberNo);
+		return result == 1 ? JSONResult.success("관리자 회원 정보 삭제 성공", result) : JSONResult.fail("관리자 회원 정보 삭제 실패");
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.cafe24.mall.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 
 @Repository
@@ -110,6 +112,31 @@ public class AdminDao {
 
 	public List<GoodsVo> selectGoodsList(Long startCol) {
 		return sqlsession.selectList("admin.selectGoodsList",startCol);
+	}
+
+	
+	public void deleteMemberOrderInfo(Long memberNo) {
+		sqlsession.delete("admin.deleteMemberOrderInfo", memberNo);
+	}
+
+	public void updateOrderMemberNull(Long memberNo) {
+		sqlsession.update("admin.updateOrderMemberNull", memberNo);
+	}
+
+	public void updateCustomerBasketCodeMemberNull(Long memberNo) {
+		sqlsession.update("admin.updateCustomerBasketCodeMemberNull", memberNo);
+	}
+
+	public void updateMemberTermsMemberNull(Long memberNo) {
+		sqlsession.update("admin.updateMemberTermsMemberNull", memberNo);
+	}
+
+	public int deleteMemberInfo(Long memberNo) {
+		return sqlsession.delete("admin.deleteMemberInfo", memberNo);
+	}
+
+	public List<MemberVo> selectMemberList(Map<String, String> map) {
+		return sqlsession.selectList("admin.selectMemberList", map);
 	}
 
 	

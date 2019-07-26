@@ -1,7 +1,9 @@
 package com.cafe24.mall.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 
 @Service
@@ -133,6 +136,25 @@ public class AdminService {
 	public List<GoodsVo> getGoodsList(Long pageNum) {
 		Long startCol = pageNum*10-10;
 		return adminDao.selectGoodsList(startCol);
+	}
+
+	public int removeMemberInfo(Long memberNo) {
+		adminDao.deleteMemberOrderInfo(memberNo);
+		adminDao.updateOrderMemberNull(memberNo);
+		adminDao.updateCustomerBasketCodeMemberNull(memberNo);
+		adminDao.updateMemberTermsMemberNull(memberNo);
+		
+		return adminDao.deleteMemberInfo(memberNo);
+	}
+
+	public List<MemberVo> getMemberList(String id, String orderdateStart, String orderdateEnd) {
+		Map<String,String> map = new HashMap<String, String>();
+		
+		map.put("id", id);
+		map.put("orderdateStart", orderdateStart);
+		map.put("orderdateEnd", orderdateEnd);
+		
+		return adminDao.selectMemberList(map);
 	}
 	
 }

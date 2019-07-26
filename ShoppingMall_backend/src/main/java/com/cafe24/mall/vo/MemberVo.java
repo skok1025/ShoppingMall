@@ -38,7 +38,17 @@ public class MemberVo {
 	
 	private String basketCode; // 로그인 시, 쿠키에 있는 장바구니 코드
 	
+	private String currentOrderDate; //최근 주문 날짜
 	
+	
+	public String getCurrentOrderDate() {
+		return currentOrderDate;
+	}
+
+	public void setCurrentOrderDate(String currentOrderDate) {
+		this.currentOrderDate = currentOrderDate;
+	}
+
 	public String getBasketCode() {
 		return basketCode;
 	}
@@ -145,7 +155,7 @@ public class MemberVo {
 		return "MemberVo [no=" + no + ", name=" + name + ", address=" + address + ", birthDate=" + birthDate
 				+ ", gender=" + gender + ", id=" + id + ", password=" + password + ", email=" + email + ", tel=" + tel
 				+ ", regdate=" + regdate + ", termlist=" + termlist + ", newPw=" + newPw + ", confirmPw=" + confirmPw
-				+ ", basketCode=" + basketCode + "]";
+				+ ", basketCode=" + basketCode + ", currentOrderDate=" + currentOrderDate + "]";
 	}
 	
 	

@@ -45,7 +45,7 @@ import com.google.gson.Gson;
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@Transactional
+//@Transactional
 public class AdminControllerTest {
 	@After
 	@Rollback(true)
@@ -625,6 +625,45 @@ public class AdminControllerTest {
 		;	
 	}
 	
+	
+	/**
+	 * 관리자가 회원정보를 삭제하는 테스트 (성공케이스)
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testRemoveMemberInfo() throws Exception {
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/admin/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(4)));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	/**
+	 * 관리자 회원정보 조회 테스트 메소드
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetMemberlist() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/member")
+						.param("id", "")
+						.param("orderdateStart", "")
+						.param("orderdateEnd", "")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
 	
 	
 	
