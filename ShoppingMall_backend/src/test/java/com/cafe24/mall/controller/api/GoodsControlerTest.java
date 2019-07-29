@@ -75,6 +75,46 @@ public class GoodsControlerTest {
 		//.andExpect(jsonPath("$.data", is("키워드:1")))
 		;
 	}
+	/**
+	 * 2차 카테고리 번호(1L)를 탐색 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testSearchByCategory() throws Exception {
+		//AdminControllerTest admin = new AdminControllerTest();
+		//admin.testGoodsAdd_Success();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/goods/category").param("smallcategoryNo", "1"));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is("키워드:1")))
+		;
+	}
+	/**
+	 * 상품 메인질열조회 탐색 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testGetMainDisplayList() throws Exception {
+		//AdminControllerTest admin = new AdminControllerTest();
+		//admin.testGoodsAdd_Success();
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/goods/maindisplay").param("maindisplayNo", "2"));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is("키워드:1")))
+		;
+	}
 	
 	/**
 	 * 상품번호 2번의 메인이미지를 얻어오는 테스트

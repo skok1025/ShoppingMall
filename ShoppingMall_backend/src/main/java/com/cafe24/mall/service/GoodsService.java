@@ -35,4 +35,13 @@ public class GoodsService {
 	public List<GoodsDetailVo> getGoodsDetailList(Long goodsNo) {
 		return goodsDao.selectGoodsDetailList(goodsNo);
 	}
+
+	public List<GoodsVo> getGoodsList(Long smallcategoryNo) {
+		return goodsDao.selectGoodsList(smallcategoryNo);
+		
+	}
+
+	public List<GoodsVo> getMainDisplayList(Long maindisplayNo) {
+		return goodsDao.selectMainDisplayList(maindisplayNo);
+	}
 }

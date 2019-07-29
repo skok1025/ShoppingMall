@@ -35,4 +35,12 @@ public class GoodsDao {
 	public List<GoodsDetailVo> selectGoodsDetailList(Long goodsNo) {
 		return sqlSession.selectList("goods.selectGoodsDetailList", goodsNo);
 	}
+
+	public List<GoodsVo> selectGoodsList(Long smallcategoryNo) {
+		return sqlSession.selectList("goods.selectGoodsListByCategory", smallcategoryNo);
+	}
+
+	public List<GoodsVo> selectMainDisplayList(Long maindisplayNo) {
+		return sqlSession.selectList("goods.selectMainDisplayList",maindisplayNo);
+	}
 }

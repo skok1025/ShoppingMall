@@ -27,6 +27,20 @@ public class GoodsController {
 	private GoodsService goodsService;
 	
 	/**
+	 * 상품카테고리를 통한 상품 리스트 탐색
+	 * @param smallcategoryNo 2차 카테고리 번호
+	 * @return 응답
+	 */
+	@ApiOperation(value = "상품카테고리 상품리스트 탐색")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "smallcategoryNo", value = "검색할 키워드", required = true, dataType = "String", defaultValue = ""),
+	})
+	@GetMapping("/category")
+	public JSONResult search(@RequestParam Long smallcategoryNo) {
+		List<GoodsVo> list = goodsService.getGoodsList(smallcategoryNo);
+		return JSONResult.success("상품카테고리 상품리스트 탐색 성공",list);
+	}
+	/**
 	 * 상품 검색
 	 * @param kw 검색할 키워드
 	 * @param kwkind 검색할 키워드 종류
@@ -88,4 +102,18 @@ public class GoodsController {
 		
 		return JSONResult.success("상품상세옵션리스트조회 성공", list);
 	}
+	
+	@ApiOperation(value = "상품 메인진열 조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "maindisplayNo", value = "메인진열 카테고리 번호", required = true, dataType = "Long", defaultValue = "") 
+})
+	@GetMapping("/maindisplay")
+	public JSONResult getMainDisplayList(Long maindisplayNo) {
+		
+		List<GoodsVo> list = goodsService.getMainDisplayList(maindisplayNo);
+		
+		return JSONResult.success("상품 메인진열 조회 성공", list);
+	}
+	
+	
 }
