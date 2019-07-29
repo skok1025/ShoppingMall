@@ -5,15 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.tribes.tipis.AbstractReplicatedMap.MapOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.repository.AdminDao;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 
@@ -155,6 +158,70 @@ public class AdminService {
 		map.put("orderdateEnd", orderdateEnd);
 		
 		return adminDao.selectMemberList(map);
+	}
+
+	/**
+	 * 관리자가 회원들의 주문리스트를 얻어오논 메소드
+	 * @param orderdateStart 시작주문날짜(검색필터)
+	 * @param orderdateEnd 시작마지막날짜(검색필터)
+	 * @return 회원들의 주문리스트
+	 */
+	public List<OrderDTO> getAdminOrderList(
+			String orderdateStart, 
+			String orderdateEnd) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("orderdateStart", orderdateStart);
+		map.put("orderdateEnd",orderdateEnd);
+		
+		return adminDao.selectAdminOrderList(map);
+	}
+
+	/**
+	 * 관리자가 옵션 상태를 disable 시키는 메소드
+	 * @param goodsNo 상품번호
+	 * @return 성공유무
+	 */
+	public int modifyOptionDisable(Long goodsNo) {
+		return adminDao.updateOptionDisable(goodsNo);
+	}
+
+	public int addMaindisplayCategory(String mainDisplayName) {
+		return adminDao.insertMainDisplayCategory(mainDisplayName);
+	}
+
+	public int modifyMaindisplayCategory(Long maindisplayNo, String mainDisplayName) {
+		
+		Map<String, Object> map  = new HashMap<String, Object>();
+		map.put("mainDisplayNo", maindisplayNo);
+		map.put("mainDisplayName", mainDisplayName);
+		
+		return adminDao.updateMainDisplayCateogry(map);
+	}
+
+	public List<MaindisplayCategoryVo> getMaindisplayCategoryList() {
+		return adminDao.selectMaindisplayCategoryList();
+	}
+
+	public int DeleteMaindisplayCategory(Long no) {
+		return adminDao.deleteMaindisplayCateogry(no);
+	}
+
+	public int addMaindisplay(Long goodsNo, Long maindisplayCategoryNo) {
+
+		Map<String, Object> map =  new HashMap<String, Object>();
+		map.put("goodsNo", goodsNo);
+		map.put("maindisplayCategoryNo", maindisplayCategoryNo);
+		
+		return adminDao.insertMaindisplay(map);
+	}
+
+	public int removeMaindisplay(Long goodsNo, Long maindisplayCategoryNo) {
+		
+		Map<String, Object> map =  new HashMap<String, Object>();
+		map.put("goodsNo", goodsNo);
+		map.put("maindisplayCategoryNo", maindisplayCategoryNo);
+		
+		return adminDao.deleteMaindisplay(map);
 	}
 	
 }

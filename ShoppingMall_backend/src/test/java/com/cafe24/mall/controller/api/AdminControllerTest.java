@@ -37,6 +37,7 @@ import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 import com.google.gson.Gson;
 
@@ -705,6 +706,178 @@ public class AdminControllerTest {
 		.andExpect(jsonPath("$.result", is("success")))
 		;	
 	}
+	
+	/**
+	 * 관리자 주문 내역조회 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAdminOrderList() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/orderlist")
+						.param("orderdateStart", "2019-07-25")
+						.param("orderdateEnd", "2019-07-26")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	/**
+	 * 관리자 기존 상품상세옵션 isable flag 상태 변경 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifyOptionDisable() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/admin/goods/option")
+						.param("goodsNo", "2")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+
+	
+	/**
+	 * 관리자 진열 카테고리(기본정보) 등록 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testAddMaindisplayCategory() throws Exception{
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/displaycategory")
+						.param("mainDisplayName", "신상품")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	/**
+	 * 관리자 진열 카테고리(기본정보) 수정 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testModifyMaindisplayCategory() throws Exception{
+		
+		
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(put("/api/admin/displaycategory")
+						.param("maindisplayNo", "1")
+						.param("mainDisplayName", "new Item")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	/**
+	 * 관리자 진열 카테고리(기본정보) 조회 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testMaindisplayCategoryList() throws Exception{
+		
+		
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/admin/displaycategory")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+
+	/**
+	 * 관리자 진열 카테고리(기본정보) 삭제 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testDeleteMaindisplayCategory() throws Exception{
+		
+		
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/admin/displaycategory")
+						.param("no", "1")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	@Test
+	public void testAddMaindisplay() throws Exception{
+		
+		
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(post("/api/admin/maindisplay")
+						.param("goodsNo", "1")
+						.param("maindisplayCategoryNo", "2")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	@Test
+	public void testRemoveMaindisplay() throws Exception{
+		
+		
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(delete("/api/admin/maindisplay")
+						.param("goodsNo", "1")
+						.param("maindisplayCategoryNo", "2")
+						.contentType(MediaType.APPLICATION_JSON));
+		
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;	
+	}
+	
+	
+	
+	
 	
 	
 	

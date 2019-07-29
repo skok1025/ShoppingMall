@@ -18,10 +18,49 @@
             display_status = 'y' and
             name like concat('%',#{keyword},'%') or
 			smallcategory_no in (select no from tblSmallCategory where name like concat('%',#{keyword},'%'))
-		
+			order by no
 		]]>
 	
 	</select>
+	
+	<select id="selectGoodsListByCategory" parameterType="long" resultType="goodsvo">
+		<![CDATA[
+			select 
+			g.no as no,
+			g.name as name,
+			s.name as smallcategoryName,
+			b.name as bigcategoryName,
+			g.seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g inner join tblSmallCategory s 
+			on  s.no = g.smallcategory_no inner join tblBigCategory b
+			on b.no = s.bigcategory_no
+            where 
+            g.display_status = 'y' and
+            g.smallcategory_no = #{smallcategoryNo}
+            order by no
+		]]>
+	</select>
+	
+	<select id="selectMainDisplayList" parameterType="long" resultType="goodsvo">
+		<![CDATA[
+			select 
+			g.no as no,
+			g.name as name,
+			s.name as smallcategoryName,
+			b.name as bigcategoryName,
+			g.seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g inner join tblSmallCategory s 
+			on  s.no = g.smallcategory_no inner join tblBigCategory b
+			on b.no = s.bigcategory_no
+            where 
+            g.display_status = 'y' and
+            g.no in (select goods_no from tblMaindisplay where maindisplay_no = #{maindisplayNo})
+            order by g.no
+		]]>
+	</select>
+	
 	
 	<select id="selectGoods" parameterType="long" resultType="goodsvo">
 		<![CDATA[
@@ -78,8 +117,10 @@
 			option_name as optionName,
 			inventory_qty as inventoryQty,
 			available_qty as availableQty
-			from tblGoodsDetail where goods_no = #{no}
+			from tblGoodsDetail where goods_no = #{no} and isable='y'
 		]]>
 	</select>
+	
+	
 	
 </mapper>

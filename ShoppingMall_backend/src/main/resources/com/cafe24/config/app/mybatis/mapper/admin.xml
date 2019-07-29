@@ -307,4 +307,66 @@
   			group by m.no
   		]]>
 	</select>
+	
+	<select id="selectAdminOrderList" parameterType="map" resultType="orderdto">
+		<![CDATA[
+			select 
+				code,
+				o.regdate as regdate,
+				m.id as memberId,
+				 cast(AES_DECRYPT(m.name, 'CAFE24') as char(100)) as memberName,
+			    cast(AES_DECRYPT(o.order_name, 'CAFE24') as char(100)) as orderName,
+			    cast(AES_DECRYPT(o.order_tel, 'CAFE24') as char(100)) as orderTel,
+				(select name from tblGoods where no = (select goods_no from tblGoodsDetail where no =  (select min(goods_detail_no) from tblOrderGoods where order_no=o.no))) as titleGoodsName,
+				(select count(*) from tblOrderGoods where order_no = o.no) as orderGoodsCnt,
+				(select sum(sailing_price) from tblOrderGoods where order_no=o.no) as total
+						from tblOrder o inner join tblMember m 
+							on o.member_no = m.no
+		where o.regdate between #{orderdateStart} and date_add(#{orderdateEnd},interval 1 DAY)
+		]]>
+	</select>
+	
+	<update id="updateOptionDisable" parameterType="long">
+		<![CDATA[
+			update tblGoodsDetail set isable = 'n' where goods_no = #{goodsNo}
+		]]>
+	</update>
+	
+	<insert id="insertMainDisplayCategory" parameterType="string">
+		<![CDATA[
+			insert into tblMaindisplay_category(no,name) values(null,#{name})
+		]]>
+	</insert>
+	
+	<update id="updateMainDisplayCateogry" parameterType="map">
+		<![CDATA[
+			update tblMaindisplay_category set name= #{mainDisplayName} where no=#{mainDisplayNo}
+		]]>
+	</update>
+	
+	<select id="selectMaindisplayCategoryList" resultType="maindisplaycategoryvo">
+		<![CDATA[
+			select no , name from tblMaindisplay_category
+		]]>
+	</select>
+	
+	<delete id="deleteMaindisplayCateogry" parameterType="long">
+		<![CDATA[
+			delete from tblMaindisplay_category where no  =#{no}
+		]]>
+	
+	</delete>
+	
+	<insert id="insertMaindisplay" parameterType="map">
+		<![CDATA[
+			insert into tblMaindisplay(maindisplay_no, goods_no) values(#{maindisplayCategoryNo},#{goodsNo})
+		]]>
+	</insert>
+	
+	<delete id="deleteMaindisplay" parameterType="map">
+		<![CDATA[
+			delete from tblMaindisplay where maindisplay_no = #{maindisplayCategoryNo} and goods_no = #{goodsNo}
+		]]>
+	</delete>
+	
 </mapper>

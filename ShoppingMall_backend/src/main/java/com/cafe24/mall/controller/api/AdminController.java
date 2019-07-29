@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.JSONResult;
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.service.AdminService;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 
@@ -250,7 +252,6 @@ public class AdminController {
 	
 	
 	@ApiOperation(value = "관리자 회원정보 조회")
-
 	@GetMapping("/member")
 	public ResponseEntity<JSONResult> getMemberList(
 			@RequestParam String id, 
@@ -271,5 +272,109 @@ public class AdminController {
 		int result = adminService.removeMemberInfo(memberNo);
 		return result == 1 ? JSONResult.success("관리자 회원 정보 삭제 성공", result) : JSONResult.fail("관리자 회원 정보 삭제 실패");
 	}
+	
+	@ApiOperation(value = "관리자 주문 내역조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "orderdateStart", value = "주문 시작날짜", required = true, dataType = "String", defaultValue = ""),
+		@ApiImplicitParam(name = "orderdateEnd", value = "주문 마지막날짜", required = true, dataType = "String", defaultValue = ""),		
+	})
+	@GetMapping("/orderlist")
+	public JSONResult adminOrderList(
+			@RequestParam String orderdateStart,
+			@RequestParam String orderdateEnd
+			) {
+		List<OrderDTO> result = adminService.getAdminOrderList(orderdateStart,orderdateEnd);
+		return result != null ? JSONResult.success("관리자 주문 내역조회 성공", result) 
+				: JSONResult.fail("관리자 주문 내역조회 실패");
+	}
+	
+	@ApiOperation(value = "관리자 기존 상품상세옵션 isable flag 상태 변경")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "goodsNo", value = "옵션값을 없앨 상품번호", required = true, dataType = "Long", defaultValue = "") })
+	@PutMapping("/goods/option")
+	public JSONResult modifyOptionDisable(
+				Long goodsNo
+			) {
+		int result = adminService.modifyOptionDisable(goodsNo);
+		return result >= 1 ? JSONResult.success("관리자 기존 상품상세옵션 isable flag 상태 변경 성공", result) 
+				: JSONResult.fail("관리자 기존 상품상세옵션 isable flag 상태 변경 실패");
+	}
+	
+	
+	@ApiOperation(value = "관리자 진열 카테고리(기본정보) 등록")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "mainDisplayName", value = "추가할 진열 카테고리명", required = true, dataType = "String", defaultValue = "") })
+	@PostMapping("/displaycategory")
+	public JSONResult addMaindisplayCategory(
+			String mainDisplayName
+			) {
+		int result = adminService.addMaindisplayCategory(mainDisplayName);
+		return result >= 1 ? JSONResult.success("관리자 진열 카테고리(기본정보) 등록 성공", result) 
+				: JSONResult.fail("관리자 진열 카테고리(기본정보) 등록 실패");
+	}
+	
+	
+	@ApiOperation(value = "관리자 진열 카테고리(기본정보) 수정")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "maindisplayNo", value = "수정할 진열 카테고리번호", required = true, dataType = "Long", defaultValue = ""),
+		@ApiImplicitParam(name = "mainDisplayName", value = "수정한 진열 카테고리명", required = true, dataType = "String", defaultValue = "") })
+	@PutMapping("/displaycategory")
+	public JSONResult modifyMaindisplayCategory(
+			Long maindisplayNo,
+			String mainDisplayName
+			) {
+		int result = adminService.modifyMaindisplayCategory(maindisplayNo,mainDisplayName);
+		return result >= 1 ? JSONResult.success("관리자 진열 카테고리(기본정보) 수정 성공", result) 
+				: JSONResult.fail("관리자 진열 카테고리(기본정보) 수정 실패");
+	}
+	
+	@ApiOperation(value = "관리자 진열 카테고리(기본정보) 조회")
+	@GetMapping("/displaycategory")
+	public JSONResult maindisplayCategoryList() {
+		List<MaindisplayCategoryVo> result = adminService.getMaindisplayCategoryList();
+		return result != null ? JSONResult.success("관리자 진열 카테고리(기본정보) 조회 성공", result) 
+				: JSONResult.fail("관리자 진열 카테고리(기본정보) 조회 실패");
+	}
+
+	@ApiOperation(value = "관리자 진열 카테고리(기본정보) 삭제")
+	@DeleteMapping("/displaycategory")
+	public JSONResult deleteMaindisplayCategory(Long no) {
+		int result = adminService.DeleteMaindisplayCategory(no);
+		return result == 1 ? JSONResult.success("관리자 진열 카테고리(기본정보) 삭제 성공", result) 
+				: JSONResult.fail("관리자 진열 카테고리(기본정보) 삭제 실패");
+	}
+	
+	@ApiOperation(value = "관리자 상품 메인진열  등록")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "goodsNo", value = "메인 진열 카테고리에 추가할 상품번호", required = true, dataType = "Long", defaultValue = "") ,
+		@ApiImplicitParam(name = "maindisplayCategoryNo", value = "메인 진열 카테고리번호", required = true, dataType = "Long", defaultValue = "") 		
+	})
+	@PostMapping("/maindisplay")
+	public JSONResult addMaindisplay(
+			Long goodsNo,
+			Long maindisplayCategoryNo
+			) {
+		int result = adminService.addMaindisplay(goodsNo,maindisplayCategoryNo);
+		return result >= 1 ? JSONResult.success("관리자 상품 메인진열 등록 성공", result) 
+				: JSONResult.fail("관리자 상품 메인진열 등록 실패");
+	}
+	
+	@ApiOperation(value = "관리자 상품 메인진열  삭제")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "goodsNo", value = "메인 진열 카테고리에 삭제할 상품번호", required = true, dataType = "Long", defaultValue = "") ,
+		@ApiImplicitParam(name = "maindisplayCategoryNo", value = "메인 진열 카테고리번호", required = true, dataType = "Long", defaultValue = "") 		
+	})
+	@DeleteMapping("/maindisplay")
+	public JSONResult removeMaindisplay(
+			Long goodsNo,
+			Long maindisplayCategoryNo
+			) {
+		int result = adminService.removeMaindisplay(goodsNo,maindisplayCategoryNo);
+		return result >= 1 ? JSONResult.success("관리자 상품 메인진열 삭제 성공", result) 
+				: JSONResult.fail("관리자 상품 메인진열 삭제 실패");
+	}
+	
+	
+	
 
 }

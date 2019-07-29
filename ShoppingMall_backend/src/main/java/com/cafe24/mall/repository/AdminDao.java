@@ -7,10 +7,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 
@@ -137,6 +139,38 @@ public class AdminDao {
 
 	public List<MemberVo> selectMemberList(Map<String, String> map) {
 		return sqlsession.selectList("admin.selectMemberList", map);
+	}
+
+	public List<OrderDTO> selectAdminOrderList(Map<String, String> map) {
+		return sqlsession.selectList("admin.selectAdminOrderList",map);
+	}
+
+	public int updateOptionDisable(Long goodsNo) {
+		return sqlsession.update("admin.updateOptionDisable", goodsNo);
+	}
+
+	public int insertMainDisplayCategory(String mainDisplayName) {
+		return sqlsession.insert("admin.insertMainDisplayCategory", mainDisplayName);
+	}
+
+	public int updateMainDisplayCateogry(Map<String, Object> map) {
+		return sqlsession.update("admin.updateMainDisplayCateogry", map);
+	}
+
+	public List<MaindisplayCategoryVo> selectMaindisplayCategoryList() {
+		return sqlsession.selectList("admin.selectMaindisplayCategoryList");
+	}
+
+	public int deleteMaindisplayCateogry(Long no) {
+		return sqlsession.delete("admin.deleteMaindisplayCateogry", no);
+	}
+
+	public int insertMaindisplay(Map<String, Object> map) {
+		return sqlsession.insert("admin.insertMaindisplay", map);
+	}
+
+	public int deleteMaindisplay(Map<String, Object> map) {
+		return sqlsession.delete("admin.deleteMaindisplay", map);
 	}
 
 	
