@@ -12,6 +12,18 @@ public class OrderGoodsVo {
 	private OrderGoodsVo.status status;
 	private int sailingPrice;
 	
+	private String basketCode; // 장바구니 삭제를 위한 코드
+	
+	
+	
+	public String getBasketCode() {
+		return basketCode;
+	}
+
+	public void setBasketCode(String basketCode) {
+		this.basketCode = basketCode;
+	}
+
 	public OrderGoodsVo() {
 	}
 	

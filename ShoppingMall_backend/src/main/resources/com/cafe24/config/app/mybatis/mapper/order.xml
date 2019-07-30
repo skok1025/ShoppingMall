@@ -156,4 +156,10 @@
 			from tblOrder o where member_no = #{memberNo}
 		]]>
 	</select>
+	
+	<delete id="deleteBasketGoodsByBasketCodeAndGoodsDetailNo" parameterType="map">
+		<![CDATA[
+			delete from tblBasket where basket_code = #{basketCode} and goods_detail_no=#{goodsDetailNo}
+		]]>
+	</delete>
 </mapper>

@@ -35,6 +35,10 @@ public class OrderService {
 			ordergoodsvo.setSailingPrice(orderDao.getSeillingPrice(ordergoodsvo.getGoodsDetailNo()) * ordergoodsvo.getCnt());
 			result *= orderDao.insertOrderGoods(ordergoodsvo);
 			
+			// 장바구니에 해당 상품을 삭제해야 함
+			if(ordergoodsvo.getBasketCode() != null) {
+				orderDao.deleteBasketGoodsByBasketCodeAndGoodsDetailNo(ordergoodsvo.getBasketCode(),ordergoodsvo.getGoodsDetailNo());
+			}
 		}
 		
 		

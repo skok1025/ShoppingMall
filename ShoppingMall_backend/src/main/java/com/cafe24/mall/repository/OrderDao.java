@@ -1,6 +1,8 @@
 package com.cafe24.mall.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,13 @@ public class OrderDao {
 	}
 	public List<OrderDTO> selectOrderList(Long memberNo) {
 		return sqlsession.selectList("order.selectOrderList",memberNo);
+	}
+
+	public void deleteBasketGoodsByBasketCodeAndGoodsDetailNo(String basketCode, Long goodsDetailNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("basketCode", basketCode);
+		map.put("goodsDetailNo", goodsDetailNo);
+		sqlsession.delete("order.deleteBasketGoodsByBasketCodeAndGoodsDetailNo", map);
 	}
 
 }
