@@ -290,7 +290,7 @@ public class AdminController {
 	
 	@ApiOperation(value = "관리자 기존 상품상세옵션 isable flag 상태 변경")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "goodsNo", value = "옵션값을 없앨 상품번호", required = true, dataType = "Long", defaultValue = "") })
+		@ApiImplicitParam(name = "goodsNo", value = "옵션값을 초기화할  상품번호", required = true, dataType = "Long", defaultValue = "") })
 	@PutMapping("/goods/option")
 	public JSONResult modifyOptionDisable(
 				Long goodsNo
@@ -332,11 +332,12 @@ public class AdminController {
 	@GetMapping("/displaycategory")
 	public JSONResult maindisplayCategoryList() {
 		List<MaindisplayCategoryVo> result = adminService.getMaindisplayCategoryList();
-		return result != null ? JSONResult.success("관리자 진열 카테고리(기본정보) 조회 성공", result) 
-				: JSONResult.fail("관리자 진열 카테고리(기본정보) 조회 실패");
+		return JSONResult.success("관리자 진열 카테고리(기본정보) 조회 성공", result);
 	}
 
 	@ApiOperation(value = "관리자 진열 카테고리(기본정보) 삭제")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "NO", value = "삭제할 진열 카테고리번호", required = true, dataType = "Long", defaultValue = "") })
 	@DeleteMapping("/displaycategory")
 	public JSONResult deleteMaindisplayCategory(Long no) {
 		int result = adminService.DeleteMaindisplayCategory(no);

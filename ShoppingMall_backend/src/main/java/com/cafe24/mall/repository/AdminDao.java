@@ -173,5 +173,10 @@ public class AdminDao {
 		return sqlsession.delete("admin.deleteMaindisplay", map);
 	}
 
+	public void deleteMaindisplay(Long no) {
+		sqlsession.delete("admin.deleteMaindisplayByMainCategoryNo", no);	
+	}
+	
+
 	
 }

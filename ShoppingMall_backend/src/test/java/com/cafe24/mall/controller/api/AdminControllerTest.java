@@ -824,7 +824,7 @@ public class AdminControllerTest {
 		ResultActions resultActions =
 				mockMvc
 				.perform(delete("/api/admin/displaycategory")
-						.param("no", "1")
+						.param("no", "2")
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		

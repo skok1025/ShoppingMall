@@ -369,4 +369,11 @@
 		]]>
 	</delete>
 	
+	<delete id="deleteMaindisplayByMainCategoryNo" parameterType="long">
+		<![CDATA[
+			delete from tblMaindisplay where maindisplay_no = #{no}
+		]]>
+		
+	</delete>
+	
 </mapper>

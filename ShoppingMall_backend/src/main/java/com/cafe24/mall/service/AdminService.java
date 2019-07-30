@@ -202,7 +202,9 @@ public class AdminService {
 		return adminDao.selectMaindisplayCategoryList();
 	}
 
+	@Transactional
 	public int DeleteMaindisplayCategory(Long no) {
+		adminDao.deleteMaindisplay(no);
 		return adminDao.deleteMaindisplayCateogry(no);
 	}
 
