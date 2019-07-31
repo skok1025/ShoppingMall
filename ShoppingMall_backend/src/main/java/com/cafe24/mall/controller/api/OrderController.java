@@ -36,6 +36,11 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController("OrderAPIController")
 @RequestMapping("/api/order")
+/**
+ * 주문 관련 컨트롤러 클래스
+ * @author 김석현
+ *
+ */
 public class OrderController {
 
 	@Autowired

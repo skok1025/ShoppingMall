@@ -40,8 +40,8 @@ import com.google.gson.Gson;
 
 
 /**
- * 
- * @author BIT
+ * 회원계정 관련 컨트롤러 클래스
+ * @author 김석현
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)

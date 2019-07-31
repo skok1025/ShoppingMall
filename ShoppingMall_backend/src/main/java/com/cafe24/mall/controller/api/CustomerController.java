@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 고객 컨트롤러 클래스
+ * 회원계정 관련 컨트롤러 클래스
  * 
  * @author 김석현
  *

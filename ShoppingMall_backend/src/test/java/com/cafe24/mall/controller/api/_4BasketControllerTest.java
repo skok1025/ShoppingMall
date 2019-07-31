@@ -41,7 +41,11 @@ import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MemberVo;
 import com.google.gson.Gson;
 
-
+/**
+ * 장바구니 관련 컨트롤러 테스트 클래스
+ * @author 김석현
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration

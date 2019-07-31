@@ -57,6 +57,11 @@ import com.cafe24.mall.vo.OrderVo.paymentStatus;
 import com.google.gson.Gson;
 
 
+/**
+ * 관리자 컨트롤러 테스트 클래스
+ * @author 김석현
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration

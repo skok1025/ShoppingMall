@@ -34,8 +34,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
+
 @RestController("AdminAPIController")
 @RequestMapping("/api/admin")
+/**
+ * 관리자 카테고리 관리, 주문 관리, 회원 관리, 진열 관리 담당 컨트롤러 클래스
+ * @author 김석현
+ *
+ */
 public class AdminController {
 
 	@Autowired

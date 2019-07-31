@@ -21,6 +21,11 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController("GoodsAPIController")
 @RequestMapping("/api/goods")
+/**
+ * 상품관련 컨트롤러 클래스
+ * @author 김석현
+ *
+ */
 public class GoodsController {
 
 	@Autowired
