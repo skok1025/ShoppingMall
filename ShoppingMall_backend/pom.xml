@@ -194,7 +194,42 @@
       <scope>test</scope>
     </dependency>
     
-      <!-- spring security oauth -->
+    
+    
+    
+    <!-- spring  -->
+	<!-- <dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-core</artifactId>
+	    <version>4.2.0.RELEASE</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-config</artifactId>
+	    <version>4.2.0.RELEASE</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-taglibs</artifactId>
+	    <version>4.2.0.RELEASE</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-acl</artifactId>
+	    <version>4.2.0.RELEASE</version>
+	</dependency>
+	
+	<dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+        <version>4.2.0.RELEASE</version>
+    </dependency> -->
+     
+    
+    <!-- spring security oauth -->
     <dependency>
 	    <groupId>org.springframework.security.oauth</groupId>
 	    <artifactId>spring-security-oauth2</artifactId>

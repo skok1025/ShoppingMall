@@ -1,5 +1,7 @@
 package com.cafe24.mall.controller.api;
 
+
+//import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.common.util.JacksonJsonParser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -32,6 +35,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.mall.config.AppConfig;
@@ -93,13 +98,13 @@ public class _1AdminControllerTest {
 	@Autowired
 	private OrderService orderService;
 	
-	//private static Long n = 7L;  // 테스트마다 6씩 증가시켜야함
-	
+
 	@Before
 	public void setUp() {
 		mockMvc = MockMvcBuilders.
 				webAppContextSetup(webApplicationContext).
 				build();
+		
 	}
 	
 	@After
@@ -113,13 +118,16 @@ public class _1AdminControllerTest {
 	 */
 	@Test
 	public void testAddBigCategory_Success() throws Exception{
-		
+		//String accessToken = obtainAccessToken("admin", "1234", "ADMIN");
 		BigCategoryVo vo = new BigCategoryVo();
 		vo.setName("남성 의류");
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(post("/api/admin/bigcategory").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+				.perform(
+						post("/api/admin/bigcategory")
+										/* .header("Authorization", "Bearer " + accessToken) */
+						.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
 		.andExpect(status().isCreated())
@@ -1070,5 +1078,32 @@ public void addOrder() {
 	
 	orderService.addOrder(vo);
 }
+
+//액세스 토큰 발급
 	
+//private String obtainAccessToken(String username, String password, String role) throws Exception {
+//		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//		params.add("grant_type", "password");
+//		params.add("client_id", "mall");
+//		params.add("username", username);
+//		params.add("password", password);
+//		params.add("scope", role);
+//		
+//		ResultActions resultActions = 
+//			mockMvc
+//				.perform(post("/oauth/token")
+//				.params(params)
+//				.with(httpBasic("mall", "1234"))
+//				.contentType(MediaType.APPLICATION_JSON))
+//				.andDo(print())
+//				.andExpect(status().isOk());	
+//		
+//		String resultString = resultActions.andReturn().getResponse().getContentAsString();
+//		JacksonJsonParser jsonParser = new JacksonJsonParser();
+//		return jsonParser.parseMap(resultString).get("access_token").toString();
+//	}
+
+
+
 }
+
