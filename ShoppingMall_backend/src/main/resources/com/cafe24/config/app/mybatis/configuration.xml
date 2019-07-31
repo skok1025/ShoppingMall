@@ -15,6 +15,7 @@
 		<typeAlias type="com.cafe24.mall.vo.ChangeApplyVo" alias="changeapplyvo"/>
 		<typeAlias type="com.cafe24.mall.vo.BasketVo" alias="basketvo"/>
 		<typeAlias type="com.cafe24.mall.vo.MaindisplayCategoryVo" alias="maindisplaycategoryvo"/>
+		<typeAlias type="com.cafe24.mall.vo.MaindisplayVo" alias="maindisplayvo"/>
 		
 	
 		<typeAlias type="com.cafe24.mall.dto.OrderGoodsDTO" alias="ordergoodsdto"/>

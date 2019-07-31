@@ -55,4 +55,8 @@ public class BasketDao {
 	public int allDeleteBasketGoods(String basketCode) {
 		return sqlsession.delete("basket.allDeleteNonMemberBasketGoods", basketCode);
 	}
+
+	public Long getCurrentInsertBasketNo() {
+		return sqlsession.selectOne("basket.getCurrentInsertBasketNo");
+	}
 }

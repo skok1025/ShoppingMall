@@ -9,8 +9,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,12 +37,23 @@ import org.springframework.web.context.WebApplicationContext;
 import com.cafe24.mall.config.AppConfig;
 import com.cafe24.mall.config.TestWebConfig;
 import com.cafe24.mall.repository.AdminDao;
+import com.cafe24.mall.repository.CustomerDao;
+import com.cafe24.mall.repository.OrderDao;
+import com.cafe24.mall.service.AdminService;
+import com.cafe24.mall.service.CustomerService;
+import com.cafe24.mall.service.OrderService;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MaindisplayCategoryVo;
+import com.cafe24.mall.vo.MemberVo;
+import com.cafe24.mall.vo.OrderGoodsVo;
+import com.cafe24.mall.vo.OrderVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
+import com.cafe24.mall.vo.OrderGoodsVo.status;
+import com.cafe24.mall.vo.OrderVo.orderStatus;
+import com.cafe24.mall.vo.OrderVo.paymentStatus;
 import com.google.gson.Gson;
 
 
@@ -46,11 +61,9 @@ import com.google.gson.Gson;
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Transactional
-public class AdminControllerTest {
-	@After
-	@Rollback(true)
-	public void cleanup() {}
+@Transactional
+public class _1AdminControllerTest {
+	
 	
 	private MockMvc mockMvc;
 	
@@ -59,6 +72,22 @@ public class AdminControllerTest {
 	
 	@Autowired
 	private AdminDao adminDao;
+	
+	@Autowired
+	private OrderDao orderDao;
+	
+	@Autowired
+	private CustomerDao customerDao;
+	
+	@Autowired
+	private AdminService adminService;
+	
+	@Autowired
+	private CustomerService customerService;
+	
+	@Autowired
+	private OrderService orderService;
+	
 	//private static Long n = 7L;  // 테스트마다 6씩 증가시켜야함
 	
 	@Before
@@ -67,6 +96,10 @@ public class AdminControllerTest {
 				webAppContextSetup(webApplicationContext).
 				build();
 	}
+	
+	@After
+	@Rollback(true)
+	public void cleanup() {}
 	
 	
 	/**
@@ -77,7 +110,7 @@ public class AdminControllerTest {
 	public void testAddBigCategory_Success() throws Exception{
 		
 		BigCategoryVo vo = new BigCategoryVo();
-		vo.setName("지금넣은거");
+		vo.setName("남성 의류");
 		
 		ResultActions resultActions =
 				mockMvc
@@ -352,8 +385,10 @@ public class AdminControllerTest {
 	
 	@Test
 	public void testGoodsList() throws Exception{
+		addGoods();
+		
 		mockMvc
-		.perform(get("/api/admin/goodslist/1")).andExpect(status().isOk());
+		.perform(get("/api/admin/goodslist/"+adminDao.getCurrentInsertGoodsNo())).andExpect(status().isOk());
 	}
 	
 
@@ -613,11 +648,11 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testgoodsList() throws Exception {
-		//testGoodsAdd_Success();
+		testGoodsAdd_Success();
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/admin/goodslist/1").contentType(MediaType.APPLICATION_JSON));
+				.perform(get("/api/admin/goodslist/"+adminDao.getCurrentInsertGoodsNo()).contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -634,9 +669,13 @@ public class AdminControllerTest {
 	@Test
 	public void testRemoveMemberInfo() throws Exception {
 		
+		
+		addMember();// 선 회원가입
+		
 		ResultActions resultActions =
 				mockMvc
-				.perform(delete("/api/admin/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(4)));
+				.perform(delete("/api/admin/member").contentType(MediaType.APPLICATION_JSON)
+						.content(new Gson().toJson(customerDao.getCurrentInsertNo())));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -651,6 +690,10 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testGetMemberlist_success1() throws Exception{
+		addMember();
+		addGoods();
+		addOrder();
+		
 		ResultActions resultActions =
 				mockMvc
 				.perform(get("/api/admin/member")
@@ -672,10 +715,14 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testGetMemberlist_success2() throws Exception{
+		addMember();
+		addGoods();
+		addOrder();
+		
 		ResultActions resultActions =
 				mockMvc
 				.perform(get("/api/admin/member")
-						.param("id", "skok1025")
+						.param("id", "")
 						.param("orderdateStart", "")
 						.param("orderdateEnd", "")
 						.contentType(MediaType.APPLICATION_JSON));
@@ -692,12 +739,16 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testGetMemberlist_success3() throws Exception{
+		addMember();
+		addGoods();
+		addOrder();
+		
 		ResultActions resultActions =
 				mockMvc
 				.perform(get("/api/admin/member")
-						.param("id", "")
+						.param("id", "skok1025")
 						.param("orderdateStart", "2019-07-25")
-						.param("orderdateEnd", "2019-07-26")
+						.param("orderdateEnd", "2019-07-31")
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
@@ -713,11 +764,15 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testAdminOrderList() throws Exception{
+		addMember();
+		addGoods();
+		addOrder();
+		
 		ResultActions resultActions =
 				mockMvc
 				.perform(get("/api/admin/orderlist")
 						.param("orderdateStart", "2019-07-25")
-						.param("orderdateEnd", "2019-07-26")
+						.param("orderdateEnd", new SimpleDateFormat("yyyy-MM_dd", Locale.KOREA).format(new Date()) )
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
@@ -733,10 +788,13 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testModifyOptionDisable() throws Exception{
+		
+		testGoodsAdd_Success();
+		
 		ResultActions resultActions =
 				mockMvc
 				.perform(put("/api/admin/goods/option")
-						.param("goodsNo", "2")
+						.param("goodsNo", adminDao.getCurrentInsertGoodsNo()+"")
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
@@ -773,12 +831,12 @@ public class AdminControllerTest {
 	@Test
 	public void testModifyMaindisplayCategory() throws Exception{
 		
-		
+		testAddMaindisplayCategory();
 		
 		ResultActions resultActions =
 				mockMvc
 				.perform(put("/api/admin/displaycategory")
-						.param("maindisplayNo", "1")
+						.param("maindisplayNo", adminDao.getCurrentInsertMainDisplayCategoryNo())
 						.param("mainDisplayName", "new Item")
 						.contentType(MediaType.APPLICATION_JSON));
 		
@@ -796,7 +854,7 @@ public class AdminControllerTest {
 	 */
 	@Test
 	public void testMaindisplayCategoryList() throws Exception{
-		
+		testAddMaindisplayCategory();
 		
 		
 		ResultActions resultActions =
@@ -819,12 +877,12 @@ public class AdminControllerTest {
 	@Test
 	public void testDeleteMaindisplayCategory() throws Exception{
 		
-		
+		testAddMaindisplayCategory();
 		
 		ResultActions resultActions =
 				mockMvc
 				.perform(delete("/api/admin/displaycategory")
-						.param("no", "2")
+						.param("no", adminDao.getCurrentInsertMainDisplayCategoryNo())
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		
@@ -835,16 +893,20 @@ public class AdminControllerTest {
 		;	
 	}
 	
+	/**
+	 * 메인진열에 상품을 등록하는 테스트 (성공케이스)
+	 * @throws Exception 예외
+	 */
 	@Test
 	public void testAddMaindisplay() throws Exception{
 		
-		
-		
+		testAddMaindisplayCategory();
+		testGoodsAdd_Success();
 		ResultActions resultActions =
 				mockMvc
 				.perform(post("/api/admin/maindisplay")
-						.param("goodsNo", "1")
-						.param("maindisplayCategoryNo", "2")
+						.param("goodsNo", adminDao.getCurrentInsertGoodsNo()+"")
+						.param("maindisplayCategoryNo", adminDao.getCurrentInsertMainDisplayCategoryNo())
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		
@@ -855,16 +917,21 @@ public class AdminControllerTest {
 		;	
 	}
 	
+
+	/**
+	 * 메인진열에 상품을 삭제하는 테스트 (성공케이스)
+	 * @throws Exception 예외
+	 */
 	@Test
 	public void testRemoveMaindisplay() throws Exception{
 		
-		
+		testAddMaindisplay();
 		
 		ResultActions resultActions =
 				mockMvc
 				.perform(delete("/api/admin/maindisplay")
-						.param("goodsNo", "1")
-						.param("maindisplayCategoryNo", "2")
+						.param("goodsNo", adminDao.getCurrentInsertMaindisplayVo().getGoodsNo()+"")
+						.param("maindisplayCategoryNo", adminDao.getCurrentInsertMaindisplayVo().getMaindisplayNo()+"")
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		
@@ -919,6 +986,84 @@ public void testAddSmallCategory(String bigCategoryName, List<String> smallCateg
 		//.andExpect(jsonPath("$.data", is(1)))
 		;	
 	}
+	
+	
+}
+
+
+public void addMember() {
+	MemberVo vo = new MemberVo();
+	vo.setName("김석현");
+	
+	vo.setAddress("서울시 성동구");
+	vo.setBirthDate("1993-10-25");
+	vo.setGender("m");
+	vo.setId("skok1025");
+	vo.setPassword("1234");
+	vo.setEmail("skok1025@naver.com");
+	vo.setTel("01068669202");
+	vo.setRegdate("2019-07-11");
+	
+	customerService.memberJoin(vo);
+}
+
+public void addGoods() {
+	// 선행작업 상품등록
+			GoodsVo goodsvo = new GoodsVo();
+			
+			goodsvo.setName("테스트 상품3");
+			goodsvo.setSeillingPrice(15000);
+			goodsvo.setDetail("많은 설명");
+			goodsvo.setDisplayStatus(GoodsVo.status.y);
+			goodsvo.setSeillingStatus(GoodsVo.status.y);
+			goodsvo.setManufacturer("제조업자명");
+			goodsvo.setSupplier("공급업자명");
+			goodsvo.setManufacturingDate("2019-07-19");
+			goodsvo.setOrigin("원산지명");
+			goodsvo.setSmallcategoryNo(adminDao.getCurrentInsertSmallCategoryNo());
+			
+			goodsvo.setGoodsImagesList(Arrays.asList(
+					new GoodsImagesVo("메인이미지",GoodsImagesVo.status.y),
+					new GoodsImagesVo("테스트이미지1",GoodsImagesVo.status.n),
+					new GoodsImagesVo("테스트이미지2",GoodsImagesVo.status.n),
+					new GoodsImagesVo("테스트이미지3",GoodsImagesVo.status.n)
+			));
+			
+			goodsvo.setGoodsDetailList(Arrays.asList(
+					new GoodsDetailVo("black/90",5,5),
+					new GoodsDetailVo("black/95",5,5),
+					new GoodsDetailVo("black/100",5,4)				
+			));
+			
+			adminService.addGoods(goodsvo);
+			
+}
+
+public void addOrder() {
+	OrderVo vo = new OrderVo();
+	
+	vo.setMemberNo(customerDao.getCurrentInsertNo());
+	vo.setOrderName("김석현");
+	vo.setOrderTel("01068669202");
+	vo.setPassword("1234");
+	vo.setPaymentStatus(paymentStatus.y);
+	vo.setOrderStatus(orderStatus.배송대기);
+	vo.setPaymentWay("카드");
+	vo.setReceiverName("김은완");
+	vo.setReceiverTel1("01068669202");
+	vo.setReceiverTel2("01068669202");
+	vo.setReceiverPostcode("152-123");
+	vo.setReceiverAddress("서울시 성동구 성수이로 137 110동 1502호");
+	vo.setMessage("배송중 메세지");
+	Long currentInsertGoodsDetailNo = orderDao.getCurrentInsertGoodsDetailNo();
+	
+	vo.setOrderGoodsList(Arrays.asList(
+			new OrderGoodsVo(currentInsertGoodsDetailNo-1, 1, status.배송대기),
+			new OrderGoodsVo(currentInsertGoodsDetailNo, 3, status.배송대기)
+			));
+	
+	
+	orderService.addOrder(vo);
 }
 	
 }

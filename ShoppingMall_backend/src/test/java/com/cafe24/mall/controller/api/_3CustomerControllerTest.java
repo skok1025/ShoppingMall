@@ -49,7 +49,7 @@ import com.google.gson.Gson;
 @WebAppConfiguration
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Transactional
-public class CustomerControllerTest {
+public class _3CustomerControllerTest {
 	private MockMvc mockMvc;
 	
 	@Autowired
@@ -476,10 +476,9 @@ public class CustomerControllerTest {
 	 * @throws Exception 예외
 	 */
 	@Test
-	
 	public void m_testRemoveAccountSuccess() throws Exception{
 		a_testJoinSuccess(); // 선행작업: 회원가입
-		
+		System.out.println(customerDao.getCurrentInsertNo());
 		MemberVo vo = new MemberVo();
 		vo.setNo(customerDao.getCurrentInsertNo()); // 회원가입한 회원번호를 가져올 필요성 !!!
 		//vo.setNo(1L);

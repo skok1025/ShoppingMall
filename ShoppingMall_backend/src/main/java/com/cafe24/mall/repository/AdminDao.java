@@ -13,6 +13,7 @@ import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MaindisplayCategoryVo;
+import com.cafe24.mall.vo.MaindisplayVo;
 import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
 
@@ -175,6 +176,19 @@ public class AdminDao {
 
 	public void deleteMaindisplay(Long no) {
 		sqlsession.delete("admin.deleteMaindisplayByMainCategoryNo", no);	
+	}
+
+	public String getCurrentInsertMainDisplayCategoryNo() {
+		return sqlsession.selectOne("admin.getCurrentInsertMainDisplayCategoryNo");
+		
+	}
+
+	public MaindisplayVo getCurrentInsertMaindisplayVo() {
+		return sqlsession.selectOne("admin.getCurrentInsertMaindisplayVo");
+	}
+
+	public Long getCurrentInsertGoodsDetailNo() {
+		return sqlsession.selectOne("admin.getCurrentInsertGoodsDetailNo");
 	}
 	
 

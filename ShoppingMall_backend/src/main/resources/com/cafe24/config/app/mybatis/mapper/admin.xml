@@ -376,4 +376,23 @@
 		
 	</delete>
 	
+	<select id="getCurrentInsertMainDisplayCategoryNo" resultType="string">
+		<![CDATA[
+			select max(no) from tblMaindisplay_category
+		]]>
+	</select>
+	
+	<select id="getCurrentInsertMaindisplayVo" resultType="maindisplayvo">
+		<![CDATA[
+			select 
+			max(maindisplay_no) as maindisplayNo,
+			max(goods_no) as goodsNo 
+			from tblMaindisplay 
+		]]>
+	</select>
+	
+	<select id="getCurrentInsertGoodsDetailNo" resultType="long">
+		select max(no) from tblGoodsDetail
+	</select>
+	
 </mapper>

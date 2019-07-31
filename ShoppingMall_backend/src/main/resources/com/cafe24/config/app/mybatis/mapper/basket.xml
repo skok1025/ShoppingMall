@@ -106,4 +106,7 @@
 		]]>
 	</delete>
 	
+	<select id="getCurrentInsertBasketNo" resultType="long">
+		select max(no) from tblBasket
+	</select>
 </mapper>

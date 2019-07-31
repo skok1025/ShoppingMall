@@ -17,20 +17,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.mall.config.AppConfig;
 import com.cafe24.mall.config.TestWebConfig;
+import com.cafe24.mall.repository.AdminDao;
 import com.cafe24.mall.repository.CustomerDao;
 import com.cafe24.mall.repository.OrderDao;
+import com.cafe24.mall.service.AdminService;
+import com.cafe24.mall.service.CustomerService;
 import com.cafe24.mall.vo.CancelApplyVo;
 import com.cafe24.mall.vo.ChangeApplyVo;
+import com.cafe24.mall.vo.GoodsDetailVo;
+import com.cafe24.mall.vo.GoodsImagesVo;
+import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.OrderGoodsVo;
 import com.cafe24.mall.vo.OrderGoodsVo.status;
 import com.cafe24.mall.vo.OrderVo;
@@ -42,8 +51,8 @@ import com.google.gson.Gson;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
-//@Transactional
-public class OrderControllerTest {
+@Transactional
+public class _5OrderControllerTest {
 	private MockMvc mockMvc;
 	
 	@Autowired
@@ -55,6 +64,14 @@ public class OrderControllerTest {
 	@Autowired
 	private CustomerDao customerdao;
 	
+	@Autowired
+	private CustomerService customerService;
+	
+	@Autowired
+	private AdminService adminService;
+	
+	@Autowired
+	private AdminDao adminDao;
 	
 	@Before
 	public void setUp() {
@@ -72,11 +89,12 @@ public class OrderControllerTest {
 	 * @throws Exception 예외
 	 */
 	@Test
+	@Rollback(false)
 	public void testAddOrder_Success() throws Exception{
 		
 		//선행작업 : 상품등록, 회원가입
-		// CustomerControllerTest.a_testJoinSuccess()
-		// AdminControllerTest.testGoodsAdd_Success()
+		addMember();
+		addGoods();
 		
 		OrderVo vo = new OrderVo();
 		
@@ -121,11 +139,14 @@ public class OrderControllerTest {
 	 */
 	@Test
 	public void testAddOrder_Fail() throws Exception{
-		
+		//선행작업 : 상품등록, 회원가입
+		addMember();
+		addGoods();
+				
 		OrderVo vo = new OrderVo();
 		
 		vo.setCode("20190722-00004");
-		vo.setMemberNo(11L);
+		vo.setMemberNo(11322L);
 		vo.setOrderName("김석현");
 		vo.setOrderTel("01068669202");
 		vo.setPassword("1234");
@@ -319,7 +340,55 @@ public class OrderControllerTest {
 		;	
 	}
 
+	// 선행작업: 회원가입, 상품등록
 	
+		public void addMember() {
+			MemberVo vo = new MemberVo();
+			vo.setName("김석현");
+			
+			vo.setAddress("서울시 성동구");
+			vo.setBirthDate("1993-10-25");
+			vo.setGender("m");
+			vo.setId("skok1025");
+			vo.setPassword("1234");
+			vo.setEmail("skok1025@naver.com");
+			vo.setTel("01068669202");
+			vo.setRegdate("2019-07-11");
+			
+			customerService.memberJoin(vo);
+		}
+		
+		public void addGoods() {
+			// 선행작업 상품등록
+					GoodsVo goodsvo = new GoodsVo();
+					
+					goodsvo.setName("테스트 상품3");
+					goodsvo.setSeillingPrice(15000);
+					goodsvo.setDetail("많은 설명");
+					goodsvo.setDisplayStatus(GoodsVo.status.y);
+					goodsvo.setSeillingStatus(GoodsVo.status.y);
+					goodsvo.setManufacturer("제조업자명");
+					goodsvo.setSupplier("공급업자명");
+					goodsvo.setManufacturingDate("2019-07-19");
+					goodsvo.setOrigin("원산지명");
+					goodsvo.setSmallcategoryNo(adminDao.getCurrentInsertSmallCategoryNo());
+					
+					goodsvo.setGoodsImagesList(Arrays.asList(
+							new GoodsImagesVo("메인이미지",GoodsImagesVo.status.y),
+							new GoodsImagesVo("테스트이미지1",GoodsImagesVo.status.n),
+							new GoodsImagesVo("테스트이미지2",GoodsImagesVo.status.n),
+							new GoodsImagesVo("테스트이미지3",GoodsImagesVo.status.n)
+					));
+					
+					goodsvo.setGoodsDetailList(Arrays.asList(
+							new GoodsDetailVo("black/90",5,5),
+							new GoodsDetailVo("black/95",5,5),
+							new GoodsDetailVo("black/100",5,4)				
+					));
+					
+					adminService.addGoods(goodsvo);
+					
+		}
 	
 	
 }

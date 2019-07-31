@@ -183,7 +183,7 @@ public class CustomerController {
 	 * @param memberVo 회원번호,회원 기존 비밀번호,회원 새로운 비밀번호, 회원 새로운 비밀번호 확인 포함 MemberVo
 	 * @return 응답
 	 */
-	@ApiOperation(value = "회원정보수정 (계정 정보 수정)")
+	@ApiOperation(value = "회원정보수정 (계정 비밀번호 정보 수정)")
 	@ApiImplicitParams({
 	@ApiImplicitParam(name = "memberVo", value = "회원번호,회원 기존 비밀번호,회원 새로운 비밀번호, 회원 새로운 비밀번호 확인 포함 MemberVo", required = true, dataType = "MemberVo", defaultValue = "")})
 	@PutMapping("/account/pw")

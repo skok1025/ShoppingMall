@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.mall.repository.AdminDao;
 import com.cafe24.mall.repository.CustomerDao;
 import com.cafe24.mall.vo.MemberVo;
 
@@ -16,6 +17,9 @@ public class CustomerService {
 
 	@Autowired
 	private CustomerDao customerDao;
+	
+	@Autowired
+	private AdminDao adminDao;
 	
 	public static List<MemberVo> sampleUserDB =Arrays.asList(
 				new MemberVo("skok1025", "1234"),
@@ -76,6 +80,13 @@ public class CustomerService {
 	}
 
 	public int removeAccount(MemberVo memberVo) {
+		
+		Long memberNo = memberVo.getNo();
+		
+		adminDao.deleteMemberOrderInfo(memberNo);
+		adminDao.updateOrderMemberNull(memberNo);
+		adminDao.updateCustomerBasketCodeMemberNull(memberNo);
+		adminDao.updateMemberTermsMemberNull(memberNo);
 		
 		return customerDao.deleteAccount(memberVo);
 	}

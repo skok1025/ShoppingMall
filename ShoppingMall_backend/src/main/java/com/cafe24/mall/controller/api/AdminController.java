@@ -77,7 +77,7 @@ public class AdminController {
 	 */
 	@ApiOperation(value = "관리자 상품리스트조회")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "pageNum", value = "상품목록 페이지 번호", required = true, dataType = "long", defaultValue = "") })
+		@ApiImplicitParam(name = "pageNum", value = "상품목록 페이지 번호", required = true, dataType = "Long", defaultValue = "") })
 	@GetMapping("/goodslist/{pageNum}")
 	public ResponseEntity<JSONResult> goodsList(@PathVariable(value="pageNum") Long pageNum) {
 		List<GoodsVo> list = adminService.getGoodsList(pageNum);
@@ -91,7 +91,7 @@ public class AdminController {
 	 */
 	@ApiOperation(value = "관리자 상품상세조회")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "goodsno", value = "상품 번호", required = true, dataType = "long", defaultValue = "") })
+		@ApiImplicitParam(name = "goodsno", value = "상품 번호", required = true, dataType = "Long", defaultValue = "") })
 	@GetMapping("/goods/{goodsno}")
 	public ResponseEntity<JSONResult> goodsInfo(@PathVariable(value="goodsno") Long goodsno) {
 		

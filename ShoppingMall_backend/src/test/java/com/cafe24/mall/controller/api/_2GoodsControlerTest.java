@@ -11,6 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -30,21 +33,35 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.mall.config.AppConfig;
 import com.cafe24.mall.config.TestWebConfig;
+import com.cafe24.mall.repository.AdminDao;
+import com.cafe24.mall.service.AdminService;
+import com.cafe24.mall.vo.BigCategoryVo;
+import com.cafe24.mall.vo.GoodsDetailVo;
+import com.cafe24.mall.vo.GoodsImagesVo;
+import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MemberVo;
+import com.cafe24.mall.vo.SmallCategoryVo;
 import com.google.gson.Gson;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
-//@Transactional
-public class GoodsControlerTest {
+@Transactional
+public class _2GoodsControlerTest {
 	private MockMvc mockMvc;
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 	
+	@Autowired
+	private AdminDao adminDao;
+	
+	@Autowired
+	private AdminService adminService;
+	
 	@Before
+	@Rollback(true)
 	public void setUp() {
 		mockMvc = MockMvcBuilders.
 				webAppContextSetup(webApplicationContext).
@@ -52,8 +69,9 @@ public class GoodsControlerTest {
 	}
 	
 	@After
-	//@Rollback(true)
+	@Rollback(true)
 	public void cleanup() {}
+	
 	
 	/**
 	 * 키워드('반팔')를 검색 테스트
@@ -61,9 +79,8 @@ public class GoodsControlerTest {
 	 */
 	@Test
 	public void testSearch() throws Exception {
-		//AdminControllerTest admin = new AdminControllerTest();
-		//admin.testGoodsAdd_Success();
-		
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
 		ResultActions resultActions =
 		mockMvc
 		.perform(get("/api/goods/search?kw=반팔"));
@@ -81,12 +98,12 @@ public class GoodsControlerTest {
 	 */
 	@Test
 	public void testSearchByCategory() throws Exception {
-		//AdminControllerTest admin = new AdminControllerTest();
-		//admin.testGoodsAdd_Success();
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/goods/category").param("smallcategoryNo", "1"));
+				.perform(get("/api/goods/category").param("smallcategoryNo", adminDao.getCurrentInsertSmallCategoryNo()+""));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -101,12 +118,12 @@ public class GoodsControlerTest {
 	 */
 	@Test
 	public void testGetMainDisplayList() throws Exception {
-		//AdminControllerTest admin = new AdminControllerTest();
-		//admin.testGoodsAdd_Success();
-		
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
+		addMainDisplay();
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/goods/maindisplay").param("maindisplayNo", "2"));
+				.perform(get("/api/goods/maindisplay").param("maindisplayNo", adminDao.getCurrentInsertMaindisplayVo().getMaindisplayNo()+""));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -122,12 +139,11 @@ public class GoodsControlerTest {
 	 */
 	@Test
 	public void testgetMainImage() throws Exception {
-		//AdminControllerTest admin = new AdminControllerTest();
-		//admin.testGoodsAdd_Success();
-		
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/goods/mainimage/2"));
+				.perform(get("/api/goods/mainimage/"+adminDao.getCurrentInsertGoodsNo()));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -142,12 +158,12 @@ public class GoodsControlerTest {
 	 */
 	@Test
 	public void testgetSubimagelist() throws Exception {
-		//AdminControllerTest admin = new AdminControllerTest();
-		//admin.testGoodsAdd_Success();
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/goods/subimagelist/2"));
+				.perform(get("/api/goods/subimagelist/"+adminDao.getCurrentInsertGoodsNo()));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -164,12 +180,12 @@ public class GoodsControlerTest {
 	 */
 	@Test
 	public void testgetGoodsDetailList() throws Exception {
-		//AdminControllerTest admin = new AdminControllerTest();
-		//admin.testGoodsAdd_Success();
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/goods/goodsdetail/2"));
+				.perform(get("/api/goods/goodsdetail/"+adminDao.getCurrentInsertGoodsNo()));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -188,9 +204,11 @@ public class GoodsControlerTest {
 	 */
 	@Test
 	public void testView() throws Exception {
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/goods/view/{goodDetailNo}",1L)).andExpect(status().isOk());
+				.perform(get("/api/goods/view/{goodDetailNo}",adminDao.getCurrentInsertGoodsNo())).andExpect(status().isOk());
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -201,6 +219,59 @@ public class GoodsControlerTest {
 	}
 	
 	
+	
+	public void addCategory(String bigCategoryName, List<String> smallCategoryNames) {
+		BigCategoryVo bvo = new BigCategoryVo();
+		bvo.setName(bigCategoryName);
+		
+		adminService.addBigCatergory(bvo);
+		
+		for(String smallCategoryName:smallCategoryNames) {
+			SmallCategoryVo vo = new SmallCategoryVo();
+			vo.setName(smallCategoryName);
+			vo.setBigcategoryNo(adminDao.getCurrentInsertBigCategoryNo());
+			
+			adminService.addSmallCatergory(vo);
+		}
+	}
+	
+
+	public void addGoods() {
+		// 선행작업 상품등록
+				GoodsVo goodsvo = new GoodsVo();
+				
+				goodsvo.setName("테스트 상품3");
+				goodsvo.setSeillingPrice(15000);
+				goodsvo.setDetail("많은 설명");
+				goodsvo.setDisplayStatus(GoodsVo.status.y);
+				goodsvo.setSeillingStatus(GoodsVo.status.y);
+				goodsvo.setManufacturer("제조업자명");
+				goodsvo.setSupplier("공급업자명");
+				goodsvo.setManufacturingDate("2019-07-19");
+				goodsvo.setOrigin("원산지명");
+				goodsvo.setSmallcategoryNo(adminDao.getCurrentInsertSmallCategoryNo());
+				
+				goodsvo.setGoodsImagesList(Arrays.asList(
+						new GoodsImagesVo("메인이미지",GoodsImagesVo.status.y),
+						new GoodsImagesVo("테스트이미지1",GoodsImagesVo.status.n),
+						new GoodsImagesVo("테스트이미지2",GoodsImagesVo.status.n),
+						new GoodsImagesVo("테스트이미지3",GoodsImagesVo.status.n)
+				));
+				
+				goodsvo.setGoodsDetailList(Arrays.asList(
+						new GoodsDetailVo("black/90",5,5),
+						new GoodsDetailVo("black/95",5,5),
+						new GoodsDetailVo("black/100",5,4)				
+				));
+				
+				adminService.addGoods(goodsvo);
+				
+	}
+	
+	public void addMainDisplay() {
+		adminService.addMaindisplayCategory("신상품");
+		adminService.addMaindisplay((long)adminDao.getCurrentInsertGoodsNo(), Long.parseLong(adminDao.getCurrentInsertMainDisplayCategoryNo()));
+	}
 	
 	
 	
