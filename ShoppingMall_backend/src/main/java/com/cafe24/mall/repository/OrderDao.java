@@ -68,7 +68,7 @@ public class OrderDao {
 	}
 
 	public Long getCurrentInsertChangeApplyNo() {
-		return sqlsession.selectOne("getCurrentInsertChangeApplyNo");
+		return sqlsession.selectOne("order.getCurrentInsertChangeApplyNo");
 	}
 
 	public int getSeillingPrice(Long currentInsertGoodsDetailNo) {
@@ -83,6 +83,13 @@ public class OrderDao {
 		map.put("basketCode", basketCode);
 		map.put("goodsDetailNo", goodsDetailNo);
 		sqlsession.delete("order.deleteBasketGoodsByBasketCodeAndGoodsDetailNo", map);
+	}
+
+	public void updateInventoryCnt(Long goodsDetailNo, int cnt) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("goodsDetailNo", goodsDetailNo);
+		map.put("cnt", cnt);
+		sqlsession.update("order.updateInventoryCnt", map);
 	}
 
 }
