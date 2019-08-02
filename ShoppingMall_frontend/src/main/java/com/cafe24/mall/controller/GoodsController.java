@@ -5,17 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/template")
-public class TestController {
+@RequestMapping("/goods")
+public class GoodsController {
 
-	@GetMapping("/basic")
-	public String basic() {
-		return "template";
-	}
 	
-	@GetMapping("/login")
-	public String login() {
-		return "customer/login";
-	}
 	
 }

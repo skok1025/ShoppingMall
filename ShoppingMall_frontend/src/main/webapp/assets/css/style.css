@@ -17156,7 +17156,7 @@
     .h3,
     .h4,
     .h5,
-    .h6 {
+    .h6, span {
         font-family: "ubuntu-medium", sans-serif;
         font-family: BMDOHYEON; /* my change */
     }
