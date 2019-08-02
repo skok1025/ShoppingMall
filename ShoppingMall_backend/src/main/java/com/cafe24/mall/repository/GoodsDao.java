@@ -17,9 +17,13 @@ public class GoodsDao {
 	private SqlSession sqlSession;
 
 	public List<GoodsVo> selectGoodsList(String kw) {
-		return sqlSession.selectList("goods.selectGoodsList", kw);
+		return sqlSession.selectList("goods.selectGoodsListByKw", kw);
 	}
 
+	public List<GoodsVo> selectGoodsList(Integer startNo) {
+		return sqlSession.selectList("goods.selectGoodsList",startNo);
+	}
+	
 	public GoodsVo selectGoods(Long goodsNo) {
 		return sqlSession.selectOne("goods.selectGoods", goodsNo);
 	}
@@ -43,4 +47,6 @@ public class GoodsDao {
 	public List<GoodsVo> selectMainDisplayList(Long maindisplayNo) {
 		return sqlSession.selectList("goods.selectMainDisplayList",maindisplayNo);
 	}
+
+	
 }

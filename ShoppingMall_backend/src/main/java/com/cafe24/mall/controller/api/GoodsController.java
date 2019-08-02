@@ -31,6 +31,15 @@ public class GoodsController {
 	@Autowired
 	private GoodsService goodsService;
 	
+	@ApiOperation(value = "전체 상품리스트 조회 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "startNo", value = "시작할 상품번호", required = true, dataType = "Integer", defaultValue = ""),
+	})
+	@GetMapping("/list/{startNo}")
+	public JSONResult list(@PathVariable("startNo") Integer startNo) {
+		List<GoodsVo> list = goodsService.getGoodsList(startNo);
+		return JSONResult.success("전체 상품리스트 조회 성공",list);
+	}
 	/**
 	 * 상품카테고리를 통한 상품 리스트 탐색
 	 * @param smallcategoryNo 2차 카테고리 번호

@@ -79,6 +79,25 @@ public class _2GoodsControlerTest {
 	
 	
 	/**
+	 * 전체 상품 리스트를 조회 테스트
+	 * @throws Exception 예외
+	 */
+	@Test
+	public void testList() throws Exception {
+		addCategory("남성의류", Arrays.asList("카라티","후드티","반팔"));
+		addGoods();
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/goods/list/0"));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is("키워드:1")))
+		;
+	}
+	/**
 	 * 키워드('반팔')를 검색 테스트
 	 * @throws Exception 예외
 	 */

@@ -16,6 +16,11 @@ public class GoodsService {
 	@Autowired
 	private GoodsDao goodsDao;
 
+
+	public List<GoodsVo> getGoodsList(Integer startNo) {
+		return goodsDao.selectGoodsList(startNo);
+	}
+	
 	public List<GoodsVo> getGoodsList(String kw) {
 		return goodsDao.selectGoodsList(kw);
 	}
@@ -44,4 +49,5 @@ public class GoodsService {
 	public List<GoodsVo> getMainDisplayList(Long maindisplayNo) {
 		return goodsDao.selectMainDisplayList(maindisplayNo);
 	}
+
 }
