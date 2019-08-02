@@ -162,4 +162,10 @@
 			delete from tblBasket where basket_code = #{basketCode} and goods_detail_no=#{goodsDetailNo}
 		]]>
 	</delete>
+	
+	<update id="updateInventoryCnt" parameterType="map">
+		<![CDATA[
+			update tblGoodsDetail set inventory_qty = inventory_qty - #{cnt} where no = #{goodsDetailNo} 
+		]]>
+	</update>
 </mapper>
