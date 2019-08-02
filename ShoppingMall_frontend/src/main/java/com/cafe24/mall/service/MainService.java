@@ -15,10 +15,10 @@ public class MainService {
 
 	public String getGoodsList(int startNo) {
 		
-		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		RestTemplate restTemplate = new RestTemplate();
 		
-		//JSONResult<List<GoodsVo>> result = restTemplate.getForObject("https://localhost:8099", JSONResult<List<GoodsVo>>.class);
-		String result = restTemplate.getForObject("https://localhost:8099/ShoppingMall_backend/api/goods/list/"+startNo, String.class);
+		//JSONResult<List<GoodsVo>> result2 = restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/goods/list/"+startNo, JSONResult<List<GoodsVo>>.class);
+		String result = restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/goods/list/"+startNo, String.class);
 		
 		return result;
 	}
