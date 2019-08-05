@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-@PropertySource("classpath:com/cafe24/web/properties/multipart.properties")
+@PropertySource("classpath:com/cafe24/config/web/properties/multipart.properties")
 public class FileuploadConfig  extends WebMvcConfigurerAdapter{
 
 	@Autowired
@@ -27,7 +27,7 @@ public class FileuploadConfig  extends WebMvcConfigurerAdapter{
 	}
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/images/**").addResourceLocations("file:/mysite-uploads/");
+		registry.addResourceHandler("/images/**").addResourceLocations("file:/mall-uploads/");
 	}
 
 	

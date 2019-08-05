@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DBConfig {
 	@Autowired
 	private Environment env;
+	
 	@Bean
 	public DataSource basicDataSource() {
 		
@@ -43,7 +44,7 @@ public class DBConfig {
 	private DatabasePopulator createDatabasePopulator() {
 		ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
         databasePopulator.setContinueOnError(true);
-        databasePopulator.addScripts(new ClassPathResource("oauth-schema.sql"));
+       // databasePopulator.addScripts(new ClassPathResource("oauth-schema.sql"));
         
         return databasePopulator;
 	}

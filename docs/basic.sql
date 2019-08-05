@@ -6,6 +6,7 @@ modify column code varchar(50) unique;
 
 -- Table 결과들
 select * from tblGoods;
+select * from tblGoodsDetail;
 select * from tblMember;
 select * from tblBigCategory;
 select * from tblSmallCategory;
@@ -16,9 +17,19 @@ select * from tblChangeApply;
 select * from tblCustomerBasketCode;
 select * from tblBasket;
 
+select sum(regdate) from tblOrder;
+
+select * from tblMaindisplay_category;
+select * from tblMaindisplay;
+
+insert into tblMaindisplay_category values(null,"SK mall's Choice");
+insert into tblMaindisplay values(1,19);
+
 -- 가장 높은 상품번호 가져오기
 select ifnull(max(no),0) from tblGoods;
 
+delete from tblMember where no = 4 and password =
+      SHA2('1234', 512);
 -- 주문 코드에 따른 주문 취소내역
 select 
 no,
@@ -108,18 +119,78 @@ select
 
 -- 주문 리스트
 select 
-	name as goodsName, 
-	option_name as optionName, 
-	cnt as orderCnt,
-	code as orderCode, 
-	status as orderStatus, 
-	sailing_price as sailingPrice,
-	invoice_code as invoiceCode,
-	o.regdate as regdate 
-	from tblOrder o 
-	inner join tblOrderGoods og 
-	on o.no = og.order_no inner join tblGoodsDetail gd
-	on gd.no = og.goods_detail_no inner join tblGoods g
-	on g.no = gd.goods_no
-where o.regdate between '2019-07-01' and '2019-07-29';
+				code,
+				o.regdate as regdate,
+				m.id as memberId,
+				 cast(AES_DECRYPT(m.name, 'CAFE24') as char(100)) as memberName,
+			    cast(AES_DECRYPT(o.order_name, 'CAFE24') as char(100)) as orderName,
+			    cast(AES_DECRYPT(o.order_tel, 'CAFE24') as char(100)) as orderTel,
+				(select name from tblGoods where no = (select goods_no from tblGoodsDetail where no =  (select min(goods_detail_no) from tblOrderGoods where order_no=o.no))) as titleGoodsName,
+				(select count(*) from tblOrderGoods where order_no = o.no) as orderGoodsCnt,
+				(select sum(sailing_price) from tblOrderGoods where order_no=o.no) as total
+						from tblOrder o inner join tblMember m 
+							on o.member_no = m.no;
+                            
+-- 상품 2차 카테고리 1번
+select 
+			no,
+			name,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
+			seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g 
+            where 
+            display_status = 'y' and
+            g.smallcategory_no = 1;
+            
+ 
+select 
+			no,
+			name,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
+			seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g 
+            where 
+            display_status = 'y' 
+			order by no
+			limit 8 offset 0;
 
+select * from oauth_client_details;       
+
+select 
+			no,
+			name,
+			concat(left(g.detail,5),'...') as detail,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
+			seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g ;     
+            
+select * from tblGoodsImages;
+
+update tblGoodsImages set image='main.jpg';
+
+
+select 
+			g.no as no,
+			g.name as name,
+			s.name as smallcategoryName,
+			b.name as bigcategoryName,
+			concat(left(g.detail,30),'...') as detail,
+			g.seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g inner join tblSmallCategory s 
+			on  s.no = g.smallcategory_no inner join tblBigCategory b
+			on b.no = s.bigcategory_no
+            where 
+            g.display_status = 'y' and
+            g.no in (select goods_no from tblMaindisplay where maindisplay_no = 1)
+            order by g.no;
+            
+select goods_no from tblMaindisplay where maindisplay_no = 1;
+
+select * from tblMaindisplay;

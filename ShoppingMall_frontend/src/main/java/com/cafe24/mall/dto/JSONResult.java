@@ -1,10 +1,10 @@
 package com.cafe24.mall.dto;
 
-public class JSONResult<T> {
-	private String result;
-	private String message;
-	private T data;
+public class JSONResult<T>{
 	
+	private String result;  //success, fail
+	private String message; //if fail, set
+	private T data;    //if success, set
 	public String getResult() {
 		return result;
 	}
@@ -23,8 +23,4 @@ public class JSONResult<T> {
 	public void setData(T data) {
 		this.data = data;
 	}
-
-	
-
-	
 }

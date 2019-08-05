@@ -118,56 +118,16 @@ $(document).ready(function() {
 				<!-- content-wrapper start -->
 				<div class="content-wrapper">
 					<div class="page-header">
-						<h1 class=" h1">Title</h1>
+						<h1 class=" h1">${categoryNames.smallcategoryName }</h1>
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="#">UI Elements</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Buttons</li>
+								<li class="breadcrumb-item"><a href="#">${categoryNames.bigcategoryName }</a></li>
+								<li class="breadcrumb-item active" aria-current="page">${categoryNames.smallcategoryName }</li>
 							</ol>
 						</nav>
 					</div>
 					<!-- 이곳에 내용을 작성  -->
 
-
-
-<div class="container-fluid">
-						<h1 class="text-center mb-3">메인 진열 리스트</h1>
-						<div id="myCarousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner row w-100 mx-auto">
-								 
-								 
-								<c:forEach items="${mainDisplayList }" var="mainDisplayVo" varStatus="status">
-									<div class="carousel-item col-md-3 <c:if test='${status.index==0}'>active</c:if>">
-										<div class="card" onclick="location.href='#'">
-											<img class="card-img-top img-fluid"
-												src="${pageContext.servletContext.contextPath}/images/${mainDisplayVo.thumbnail}"
-												alt="Card image cap">
-											<div class="card-body">
-												<h4 class="card-title">${mainDisplayVo.name} (<fmt:formatNumber value="${mainDisplayVo.seillingPrice}" type="currency"></fmt:formatNumber>)</h4>
-												<p class="card-text detailtext">${mainDisplayVo.detail}</p>
-												<p class="card-text">
-													<small class="text-muted">${mainDisplayVo.bigcategoryName} > ${mainDisplayVo.smallcategoryName}</small>
-												</p>
-											</div>
-										</div>
-									</div>
-									
-								</c:forEach>
-								 
-								
-							</div>
-							<a class="carousel-control-prev" href="#myCarousel" role="button"
-								data-slide="prev"> <span class="carousel-control-prev-icon"
-								aria-hidden="true"></span> <span class="sr-only">Previous</span>
-							</a> <a class="carousel-control-next" href="#myCarousel"
-								role="button" data-slide="next"> <span
-								class="carousel-control-next-icon" aria-hidden="true"></span> <span
-								class="sr-only">Next</span>
-							</a>
-						</div>
-					</div>
-					
-					<h1>상품 리스트</h1>
 						
 					<div id="goods-container" class=" row mx-auto">
 						

@@ -48,5 +48,9 @@ public class GoodsDao {
 		return sqlSession.selectList("goods.selectMainDisplayList",maindisplayNo);
 	}
 
+	public GoodsVo selectCategoryName(Long smallCategoryNo) {
+		return sqlSession.selectOne("goods.selectCategoryName", smallCategoryNo);
+	}
+
 	
 }

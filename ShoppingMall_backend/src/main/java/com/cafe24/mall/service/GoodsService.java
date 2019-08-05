@@ -50,4 +50,8 @@ public class GoodsService {
 		return goodsDao.selectMainDisplayList(maindisplayNo);
 	}
 
+	public GoodsVo getCategoryName(Long smallCategoryNo) {
+		return goodsDao.selectCategoryName(smallCategoryNo);
+	}
+
 }

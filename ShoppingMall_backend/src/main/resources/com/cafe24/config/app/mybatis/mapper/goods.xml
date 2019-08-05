@@ -8,6 +8,7 @@
 			select 
 			no,
 			name,
+			concat(left(g.detail,30),'...') as detail,
 			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
 			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
 			seilling_price as seillingPrice,
@@ -66,6 +67,7 @@
 			g.name as name,
 			s.name as smallcategoryName,
 			b.name as bigcategoryName,
+			concat(left(g.detail,30),'...') as detail,
 			g.seilling_price as seillingPrice,
 			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
 			from tblGoods g inner join tblSmallCategory s 
@@ -135,6 +137,15 @@
 			inventory_qty as inventoryQty,
 			available_qty as availableQty
 			from tblGoodsDetail where goods_no = #{no} and isable='y'
+		]]>
+	</select>
+	
+	<select id="selectCategoryName" parameterType="long" resultType="goodsvo">
+		<![CDATA[
+			select 
+			s.name as smallcategoryName,
+			b.name as bigcategoryName from tblSmallCategory s inner join tblBigCategory b
+			on s.bigcategory_no = b.no where s.no=#{smallCategoryNo};
 		]]>
 	</select>
 	

@@ -77,6 +77,21 @@ public class _2GoodsControlerTest {
 	@Rollback(true)
 	public void cleanup() {}
 	
+	@Test
+	public void testGetCategory() throws Exception {
+		ResultActions resultActions =
+				mockMvc
+				.perform(get("/api/goods/category/getname/11"));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
+	
+		
+	
 	
 	/**
 	 * 전체 상품 리스트를 조회 테스트

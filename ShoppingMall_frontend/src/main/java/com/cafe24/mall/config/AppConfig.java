@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan({"com.cafe24.mall.service","com.cafe24.mall.repository","com.cafe24.mall.aspect"})
+@ComponentScan({"com.cafe24.mall.service","com.cafe24.mall.provider","com.cafe24.mall.aspect"})
 public class AppConfig {	
 }

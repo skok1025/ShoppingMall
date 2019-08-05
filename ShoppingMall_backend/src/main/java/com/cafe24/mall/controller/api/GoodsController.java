@@ -3,6 +3,8 @@ package com.cafe24.mall.controller.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.JSONResult;
+import com.cafe24.mall.service.AdminService;
 import com.cafe24.mall.service.GoodsService;
+import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
@@ -30,6 +34,9 @@ public class GoodsController {
 
 	@Autowired
 	private GoodsService goodsService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@ApiOperation(value = "전체 상품리스트 조회 API")
 	@ApiImplicitParams({
@@ -121,13 +128,35 @@ public class GoodsController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "maindisplayNo", value = "메인진열 카테고리 번호", required = true, dataType = "Long", defaultValue = "") 
 })
-	@GetMapping("/maindisplay")
-	public JSONResult getMainDisplayList(Long maindisplayNo) {
+	@GetMapping("/maindisplay/{maindisplayNo}")
+	public JSONResult getMainDisplayList(@PathVariable("maindisplayNo") Long maindisplayNo) {
 		
 		List<GoodsVo> list = goodsService.getMainDisplayList(maindisplayNo);
 		
 		return JSONResult.success("상품 메인진열 조회 성공", list);
 	}
+	
+	@ApiOperation(value = "카테고리 목록조회")
+
+	@GetMapping("/category/list")
+	public ResponseEntity<JSONResult> getCategorylist() {
+
+		List<BigCategoryVo> categoryList = adminService.getCategoryList();
+
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(" 카테고리 목록 조회 성공", categoryList));
+
+	}
+	
+	@GetMapping("/category/getname/{smallCategoryNo}")
+	public ResponseEntity<JSONResult> getCategoryname(@PathVariable("smallCategoryNo") Long smallCategoryNo) {
+		
+		GoodsVo categoryNames = goodsService.getCategoryName(smallCategoryNo);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(" 카테고리 목록 조회 성공", categoryNames));
+		
+	}
+	
+	
 	
 	
 }

@@ -43,7 +43,8 @@ public class BigCategoryVo {
 	}
 	@Override
 	public String toString() {
-		return "BigCategoryVo [no=" + no + ", name=" + name + "]";
+		return "BigCategoryVo [no=" + no + ", name=" + name + ", presult=" + presult + ", smallCategoryList="
+				+ smallCategoryList + "]";
 	}
 	
 	
