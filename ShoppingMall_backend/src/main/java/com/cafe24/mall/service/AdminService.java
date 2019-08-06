@@ -137,7 +137,7 @@ public class AdminService {
 	}
 
 	public List<GoodsVo> getGoodsList(Long pageNum) {
-		Long startCol = pageNum*10-10;
+		Long startCol = pageNum*8-8;
 		return adminDao.selectGoodsList(startCol);
 	}
 

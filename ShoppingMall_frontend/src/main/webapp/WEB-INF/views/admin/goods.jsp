@@ -14,7 +14,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Admin Main</title>
+<title>Admin Goods</title>
 
 
 <jsp:include page="/includes/asset.jsp"></jsp:include>
@@ -47,34 +47,7 @@
 		color: #686B72 !important;
 	}
 	
-	.form-group > input{
-		border:1px solid gray;
-	}
 	
-	.form-group{
-		width: 300px;
-		/* float: left; */
-	}
-	
-	.form-group > input{
-		margin: 0 10px;
-	}
-	
-	.date-form{
-		width:700px;
-		border: 0px solid red;
-	}
-	
-	.date-form > input{
-		width:300px;
-		float:left;
-		padding: 10px;
-		margin:0px 10px; 
-	}
-	
-	.date-form > input:last-child{
-		float: left; 
-	}
 		
 </style>
 
@@ -97,11 +70,11 @@
 				<!-- content-wrapper start -->
 				<div class="content-wrapper">
 					<div class="page-header">
-						<h1 class=" h1">회원 목록</h1>
+						<h1 class=" h1">상품 목록</h1>
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
-								<li class="breadcrumb-item active" aria-current="page">회원 목록</li>
+								<li class="breadcrumb-item active" aria-current="page">상품 목록</li>
 							</ol>
 						</nav>
 					</div>
@@ -111,69 +84,44 @@
 
 					<div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
+                  
                   <div class="card-body">
-							<form action="${pageContext.servletContext.contextPath }/admin">	
-								<div class="form-group">
-									<label for="id">검색할 아이디: </label>
-									<input id="id" name="id"  placeholder="검색할 아이디"
-										type="text" class="form-control form-control-lg" value="" />
-								</div>
-								<div class="form-group date-form" >
-									<label for="orderdateStart">검색할 주문날짜</label>
-									<div style="clear: both;"></div>
-									<input id="orderdateStart" name="orderdateStart"  placeholder="주문시작 날짜"
-										type="date" class="form-control form-control-lg" value="" /> 
-								<div style="float: left;"><span>~</span></div>
-									<input id="orderdateEnd" name="orderdateEnd"  placeholder="주문끝 날짜"
-										type="date" class="form-control form-control-lg" value="" />
-								</div>
-								<div style="clear: both; margin-bottom: 30px;"></div>			
-								<button class="btn-gradient-dark btn-rounded btn-lg" type="submit">검색</button>
-							</form>
-				</div>
-                  <div class="card-body">
-                    <h4 class="card-title">회원 정보</h4>
+                    <h4 class="card-title">상품 정보</h4>
                     
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th> User-no </th>
-                          <th> User-name (연락처) </th>
-                          <th> Gender </th>
-                          <th> Birth Date </th>
-                          <th> ID </th>
-                          <th> Email </th>
-                          <th> Address </th>
-                          <th> 최근 주문 날짜 </th>
-                          <th> 회원 삭제</th>
+                          <th> Goods-no </th>
+                          <th> 상품 이미지 </th>
+                          <th> 상품명 </th>
+                          <th> 판매가격 </th>
+                          <th> 진열 여부 </th>
+                          <th> 판매 여부 </th>
+                          <th> 등록일 </th>
+                          <th> 상품 삭제</th>
                         </tr>
                       </thead>
                       <tbody>
                         
-                        <c:forEach items="${memberList }" var="memberVo">
+                        <c:forEach items="${goodsList }" var="goodsVo">
                         <tr>
                           <td class="py-1">
-                            ${memberVo.no }
+                            ${goodsVo.no }
                           </td>
-                          <td>${memberVo.name} ( ${memberVo.tel } )  </td>
-                          <td>${memberVo.gender }  </td>
-                          <td>${memberVo.birthDate }  </td>
-                          <td>${memberVo.id }  </td>
-                          <td>${memberVo.email }  </td>
-                          <td>${memberVo.address }  </td>
-                  
                           <td>
-                          <c:if test="${memberVo.currentOrderDate ne null }">	
-                          	${ fn:substring(memberVo.currentOrderDate , 0, 19) }  
-                          </c:if>
-                          <c:if test="${memberVo.currentOrderDate eq null }">	
-                          	<span style="color: tomato !important; ">주문한 기록이 없습니다.</span>  
-                          </c:if>
+                          <img alt="상품 썸네일" 
+                          src="${pageContext.servletContext.contextPath }/images/${goodsVo.thumbnail}">  
                           </td>
-                          
+                          <td>${goodsVo.name }  </td>
+                          <td>${goodsVo.seillingPrice }  </td>
+                          <td>${goodsVo.displayStatus }  </td>
+                          <td>${goodsVo.seillingStatus }  </td>
+                          <td>${fn:substring(goodsVo.regdate,0,19) }  </td>
+                  
+                       
                           <td>
                           	<a class="btn-rounded btn-lg" 
-                          	onclick="if(confirm('${memberVo.name}(${memberVo.no }) 회원을 정말 삭제하시겠습니까?')){ location.href='${pageContext.servletContext.contextPath }/admin/memberdelete/${memberVo.no }'}">
+                          	onclick="if(confirm('${goodsVo.name}(${goodsVo.no }) 상품을 정말 삭제하시겠습니까?')){ location.href='${pageContext.servletContext.contextPath }/admin/goodsdelete/${goodsVo.no }'}">
                           	<i class="mdi mdi-delete" style="color: red;">
                           	</i></a>
                           </td>

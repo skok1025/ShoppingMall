@@ -137,8 +137,8 @@ public class AdminController {
 	@ApiOperation(value = "관리자 상품삭제")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "goodsNo", value = "관리자가 삭제할 상품번호", required = true, dataType = "Long", defaultValue = "") })
-	@DeleteMapping("/goods")
-	public ResponseEntity<JSONResult> removeGoodsInfo(@RequestBody Long goodsNo) {
+	@DeleteMapping("/goods/{goodsNo}")
+	public ResponseEntity<JSONResult> removeGoodsInfo(@PathVariable("goodsNo") Long goodsNo) {
 
 		int result = adminService.removeGoodsInfo(goodsNo);
 		return result == 1 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 상품삭제 성공", result))

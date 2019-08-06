@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mall.dto.JSONResult;
+import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MemberVo;
 
 @Repository
@@ -42,13 +43,25 @@ public class AdminProvider {
 		return 1;
 	}
 	
-	private static class JSONResultMemberList extends JSONResult<List<MemberVo>>{
+public List<GoodsVo> selectGoodsList(Long pageNum) {
 		
+		JSONResultGoodsList jsonresult = 
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/goodslist/"+pageNum, JSONResultGoodsList.class);		
+		
+		return jsonresult.getData();
 	}
 	
-	private static class JSONResultInteger extends JSONResult<Integer>{
+	public int deleteGoods(Long goodsNo) {
 		
+		restTemplate.delete("http://localhost:8099/ShoppingMall_backend/api/admin/goods/"+goodsNo);
+		
+		return 1;
 	}
+
+	private static class JSONResultMemberList extends JSONResult<List<MemberVo>>{	}
+	private static class JSONResultInteger extends JSONResult<Integer>{	}
+	private static class JSONResultGoodsList extends JSONResult<List<GoodsVo>>{}
+	
 
 
 }

@@ -18,7 +18,20 @@
 					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.servletContext.contextPath}/admin/"> <span class="menu-title">Home</span>
 							<i class="mdi mdi-home menu-icon"></i>
-					</a></li>
+					</a>
+					</li>
+					
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.servletContext.contextPath}/admin/goods"> <span class="menu-title">Goods</span>
+							<i class="mdi mdi-weight menu-icon"></i>
+					</a>
+					</li>
+
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.servletContext.contextPath}/admin/basket"> <span class="menu-title">Cart</span>
+							<i class="mdi mdi-cart menu-icon"></i>
+					</a>
+					</li>
 					
 					
 					

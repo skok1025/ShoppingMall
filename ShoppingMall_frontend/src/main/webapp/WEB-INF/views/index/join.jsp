@@ -99,7 +99,7 @@
               modelAttribute="memberVo"
               class="pt-3" 
               method="post" 
-              action="${pageContext.servletContext.contextPath }/join">
+              action="${pageContext.servletContext.contextPath }/customer/join">
                 <div class="form-group">
                   <form:input type="text" class="form-control form-control-lg" id="name" name="name" placeholder="사용자 이름" path="name"/>
                   <form:errors path="name" />

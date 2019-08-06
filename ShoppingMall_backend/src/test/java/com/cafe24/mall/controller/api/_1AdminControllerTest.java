@@ -627,7 +627,7 @@ public class _1AdminControllerTest {
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(delete("/api/admin/goods").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(adminDao.getCurrentInsertGoodsNo())));
+				.perform(delete("/api/admin/goods/"+adminDao.getCurrentInsertGoodsNo()).contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -661,11 +661,11 @@ public class _1AdminControllerTest {
 	 */
 	@Test
 	public void testgoodsList() throws Exception {
-		testGoodsAdd_Success();
+		//testGoodsAdd_Success();
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(get("/api/admin/goodslist/"+adminDao.getCurrentInsertGoodsNo()).contentType(MediaType.APPLICATION_JSON));
+				.perform(get("/api/admin/goodslist/1").contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andExpect(status().isOk())

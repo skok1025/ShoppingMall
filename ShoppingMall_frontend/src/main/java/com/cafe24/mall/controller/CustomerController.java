@@ -43,7 +43,7 @@ public class CustomerController {
 		Integer result = customerService.joinMember(memberVo);
 		
 		if(result == 1) {
-			return "redirect:/customer/login?joinsuccess=yes";
+			return "redirect:/login?joinsuccess=yes";
 		}
 		
 		// 실패한 경우
