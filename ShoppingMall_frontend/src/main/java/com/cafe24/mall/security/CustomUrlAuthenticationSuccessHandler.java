@@ -76,8 +76,15 @@ public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticati
 
 		// 응답요청이 JSON 아닐때, / 로 보낸다.
 		if( accept == null || accept.matches( ".*application/json.*" ) == false ) {
+			
+			System.out.println("security userName: "+securityUser.getId());
             request.getSession(true).setAttribute("loginNow", true);
-              getRedirectStrategy().sendRedirect( request, response, "/" );
+            if(!securityUser.getId().equals("admin")) {
+            	getRedirectStrategy().sendRedirect( request, response, "/" );
+            } else {
+            	getRedirectStrategy().sendRedirect( request, response, "/admin/" );
+            }
+            
 //            getRedirectStrategy().sendRedirect( request, response, "/" );
             return;
          }

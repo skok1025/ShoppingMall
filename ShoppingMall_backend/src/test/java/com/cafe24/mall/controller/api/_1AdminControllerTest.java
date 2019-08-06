@@ -687,8 +687,8 @@ public class _1AdminControllerTest {
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(delete("/api/admin/member").contentType(MediaType.APPLICATION_JSON)
-						.content(new Gson().toJson(customerDao.getCurrentInsertNo())));
+				.perform(delete("/api/admin/member/"+customerDao.getCurrentInsertNo()).contentType(MediaType.APPLICATION_JSON)
+						);
 		
 		resultActions
 		.andExpect(status().isOk())

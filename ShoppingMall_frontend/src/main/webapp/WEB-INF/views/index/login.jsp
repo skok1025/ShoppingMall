@@ -49,7 +49,7 @@
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input">
+                      <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
                       Keep me signed in
                     </label>
                   </div>
@@ -61,7 +61,7 @@
                   </button>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
-                  Don't have an account? <a href="register.html" class="text-primary">Create</a>
+                  Don't have an account? <a href="${pageContext.servletContext.contextPath}/customer/join" class="text-primary">Create</a>
                 </div>
               </form>
             </div>

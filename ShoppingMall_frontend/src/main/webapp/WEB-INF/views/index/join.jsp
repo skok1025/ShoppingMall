@@ -99,7 +99,7 @@
               modelAttribute="memberVo"
               class="pt-3" 
               method="post" 
-              action="${pageContext.servletContext.contextPath }/customer/join">
+              action="${pageContext.servletContext.contextPath }/join">
                 <div class="form-group">
                   <form:input type="text" class="form-control form-control-lg" id="name" name="name" placeholder="사용자 이름" path="name"/>
                   <form:errors path="name" />
@@ -150,7 +150,7 @@
                   <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" id="registerbt" disabled="disabled">SIGN UP</button>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
-                  Already have an account? <a href="${pageContext.servletContext.contextPath}/customer/login" class="text-primary" >Login</a>
+                  Already have an account? <a href="${pageContext.servletContext.contextPath}/login" class="text-primary" >Login</a>
                 </div>
               </form:form>
             </div>

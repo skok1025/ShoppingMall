@@ -273,8 +273,8 @@ public class AdminController {
 	@ApiOperation(value = "관리자 회원 정보 삭제")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "memberNo", value = "삭제할 회원번호", required = true, dataType = "Long", defaultValue = "") })
-	@DeleteMapping("/member")
-	public JSONResult removeMemberInfo(@RequestBody Long memberNo) {
+	@DeleteMapping("/member/{memberNo}")
+	public JSONResult removeMemberInfo(@PathVariable("memberNo") Long memberNo) {
 		int result = adminService.removeMemberInfo(memberNo);
 		return result == 1 ? JSONResult.success("관리자 회원 정보 삭제 성공", result) : JSONResult.fail("관리자 회원 정보 삭제 실패");
 	}

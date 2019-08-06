@@ -50,7 +50,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(role)));	
 				//securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userVo.getRole())));
 			} else if(memberVo.getId().equals("admin")){
+				String role = "ROLE_ADMIN";
 				
+				securityUser.setNo(memberVo.getNo());
+				securityUser.setName(memberVo.getName());         // biz data  
+				securityUser.setBirthDate(memberVo.getBirthDate()); // biz data  				
+				securityUser.setGender(memberVo.getGender()); // biz data  
+				securityUser.setId(memberVo.getId()); // biz data  
+				securityUser.setRegdate(memberVo.getRegdate()); // biz data  
+				
+				//////////////////////////////////////////////////////////
+				
+				securityUser.setUsername(memberVo.getId());    // principal
+				securityUser.setPassword(memberVo.getPassword()); // credential
+			
+				
+				securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(role)));	
 			}
 		}
 		

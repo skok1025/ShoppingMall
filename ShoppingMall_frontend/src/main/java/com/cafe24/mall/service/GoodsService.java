@@ -21,4 +21,8 @@ public class GoodsService {
 	public GoodsVo getCategoryNames(Long smallcategoryNo) {
 		return goodsProvider.selectCategoryNames(smallcategoryNo);
 	}
+
+	public List<GoodsVo> getGoodsList(String keyword) {
+		return goodsProvider.selectGoodsList(keyword);
+	}
 }

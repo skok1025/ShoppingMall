@@ -293,9 +293,9 @@
 			cast(AES_DECRYPT(m.tel, 'CAFE24') as char(200)) as tel,
 			m.regdate,
 			max(o.regdate) as currentOrderDate
-			from tblMember m inner join tblOrder o 
+			from tblMember m left outer join tblOrder o 
 			on m.no = o.member_no
-			where m.id like concat('%',#{id},'%') 
+			where m.id != 'admin' and m.id like concat('%',#{id},'%') 
 		]]>
 		
 		<if test="orderdateStart != null and orderdateEnd != null and orderdateStart != '' and orderdateEnd != ''">
