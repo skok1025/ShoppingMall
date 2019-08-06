@@ -28,9 +28,12 @@
 	
 	#goods-container > .goodsitem{
 		border: 1px solid blue;
+		
+		
 		height:550px;
 		padding: 0 0.75%;
 		cursor: pointer;
+		
 	}
 	
 	#goods-container > .goodsitem > img{

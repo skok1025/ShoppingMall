@@ -59,11 +59,27 @@
       cast(AES_DECRYPT(birth_date, 'CAFE24') as char(100)) as birthDate,
       cast(AES_DECRYPT(email, 'CAFE24') as char(100)) as email,
       cast(AES_DECRYPT(tel, 'CAFE24') as char(50)) as tel,
-      regdate
+      regdate,
+      password
       from tblMember
       where id = #{id} and password =
       SHA2(#{password}, 512)
 			
+		]]>
+	</select>
+
+	<select id="getAuthUser2" parameterType="membervo" resultType="membervo">
+		<![CDATA[
+			 select
+      no, id, name,gender,
+      cast(AES_DECRYPT(address, 'CAFE24') as char(200)) as address,
+      cast(AES_DECRYPT(birth_date, 'CAFE24') as char(100)) as birthDate,
+      cast(AES_DECRYPT(email, 'CAFE24') as char(100)) as email,
+      cast(AES_DECRYPT(tel, 'CAFE24') as char(50)) as tel,
+      regdate,
+      password
+      from tblMember
+      where id = #{id}
 		]]>
 	</select>
 	

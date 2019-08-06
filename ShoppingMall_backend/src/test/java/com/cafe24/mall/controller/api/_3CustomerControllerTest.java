@@ -216,7 +216,7 @@ public class _3CustomerControllerTest {
 	 */
 	@Test
 	public void d_testCheckAuthSuccess() throws Exception{
-		a_testJoinSuccess(); // 선행작업: 회원가입
+		//a_testJoinSuccess(); // 선행작업: 회원가입
 		
 		MemberVo vo = new MemberVo();
 		vo.setId("skok1025");  // 사용자 입력
@@ -246,7 +246,7 @@ public class _3CustomerControllerTest {
 	 */
 	@Test
 	public void e_testCheckExistingId() throws Exception {
-		a_testJoinSuccess(); // 선행작업: 회원가입
+		//a_testJoinSuccess(); // 선행작업: 회원가입
 		
 		ResultActions resultActions =
 		mockMvc

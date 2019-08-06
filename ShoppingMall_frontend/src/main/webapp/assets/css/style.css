@@ -19559,4 +19559,8 @@
     .modal-backdrop.fade.in {
         z-index: 0;
     }
+    
+    .brand-logo > img{
+	height: 50px;
+}
     /*# sourceMappingURL=maps/style.css.map */ */

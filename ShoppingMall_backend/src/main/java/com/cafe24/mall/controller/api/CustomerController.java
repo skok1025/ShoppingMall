@@ -96,7 +96,7 @@ public class CustomerController {
 	public ResponseEntity<JSONResult> CheckId(String id) {
 		int count = customerService.getIdCount(id);
 		return count == 0 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("사용가능한 아이디입니다.", count))
-				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("중복된 아이디입니다."));
+				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("중복된 아이디입니다.",count));
 	}
 
 	/**

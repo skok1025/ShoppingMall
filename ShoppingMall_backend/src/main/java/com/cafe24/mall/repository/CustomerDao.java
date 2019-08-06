@@ -29,7 +29,8 @@ public class CustomerDao {
 	}
 
 	public MemberVo getAuthUser(MemberVo membervo) {
-		return sqlsession.selectOne("member.getAuthUser",membervo);
+		//return sqlsession.selectOne("member.getAuthUser",membervo);
+		return sqlsession.selectOne("member.getAuthUser2",membervo);
 	}
 
 	public int updateAccountPw(MemberVo memberVo) {

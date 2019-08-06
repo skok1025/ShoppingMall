@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 		<nav
@@ -25,27 +27,34 @@
 					</form>
 				</div>
 				<ul class="navbar-nav navbar-nav-right">
-					<li class="nav-item nav-profile dropdown"><a
-						class="nav-link dropdown-toggle" id="profileDropdown" href="#"
-						data-toggle="dropdown" aria-expanded="false">
-							<div class="nav-profile-img">
-								<img src="${pageContext.servletContext.contextPath }/assets/images/faces/face1.jpg" alt="image"> <span
-									class="availability-status online"></span>
+					<sec:authorize access="isAuthenticated()">
+						<li class="nav-item nav-profile dropdown"><a
+							class="nav-link dropdown-toggle" id="profileDropdown" href="#"
+							data-toggle="dropdown" aria-expanded="false">
+								<div class="nav-profile-img">
+									<img src="${pageContext.servletContext.contextPath }/assets/images/faces/face1.jpg" alt="image"> <span
+										class="availability-status online"></span>
+								</div>
+								<div class="nav-profile-text">
+									<p class="mb-1 text-black"> <sec:authentication property="principal.id"/> </p>
+								</div>
+						</a>
+							<div class="dropdown-menu navbar-dropdown"
+								aria-labelledby="profileDropdown">
+								<a class="dropdown-item" href="#"> <i
+									class="mdi mdi-cached mr-2 text-success"></i> Activity Log
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="${pageContext.servletContext.contextPath }/logout"> <i
+									class="mdi mdi-logout mr-2 text-primary"></i> Signout
+								</a>
 							</div>
-							<div class="nav-profile-text">
-								<p class="mb-1 text-black">David Greymaax</p>
-							</div>
-					</a>
-						<div class="dropdown-menu navbar-dropdown"
-							aria-labelledby="profileDropdown">
-							<a class="dropdown-item" href="#"> <i
-								class="mdi mdi-cached mr-2 text-success"></i> Activity Log
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#"> <i
-								class="mdi mdi-logout mr-2 text-primary"></i> Signout
-							</a>
-						</div></li>
+					    </li>
+					</sec:authorize>
+					<sec:authorize access="isAnonymous()">
+						<li class="nav-item nav-profile"><a href="${pageContext.servletContext.contextPath}/login">로그인을 해주세요.</a></li>
+					</sec:authorize>
+					
 					<li class="nav-item d-none d-lg-block full-screen-link"><a
 						class="nav-link"> <i class="mdi mdi-fullscreen"
 							id="fullscreen-button"></i>

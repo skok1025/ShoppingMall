@@ -3,37 +3,48 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<html lang="en">
 
-<jsp:include page="/includes/asset.jsp"></jsp:include>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Purple Admin</title>
+  <jsp:include page="/includes/asset.jsp"></jsp:include>
 <%-- <jsp:include page="/includes/notify_asset.jsp"></jsp:include>   --%>
 <jsp:include page="/includes/plugincss.jsp"></jsp:include>
-</head>
-<body>
 
- <div class="container-scroller">
+<script type="text/javascript">
+
+<c:if test='${param.joinsuccess eq "yes"}'>
+	alert("회원가입에 성공하셨습니다. 해당 아이디로 로그인을 진행해 주세요.");
+</c:if>
+
+</script>
+
+</head>
+
+<body>
+  <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-center auth">
         <div class="row w-100">
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
               <div class="brand-logo">
-                <img src="${pageContext.servletContext.contextPath}/assets/images/cafe24.png" style="height: 50px;">
+                <img src="${pageContext.servletContext.contextPath}/assets/images/cafe24.png">
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3">
+              <form class="pt-3" action="${pageContext.servletContext.contextPath}/auth" method="post">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+                  <input type="text" class="form-control form-control-lg" id="id" name="id" placeholder="Username">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                  <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Password">
                 </div>
                 <div class="mt-3">
-                  <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN IN</a>
+                  <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit">SIGN IN</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
@@ -62,18 +73,13 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-
-
-
-<!-- plugins:js : if you take notification, stop this-->
-	<jsp:include page="/includes/pluginjs.jsp"></jsp:include>
+  <jsp:include page="/includes/pluginjs.jsp"></jsp:include>
 	<!-- endinject -->
 	<!-- Plugin js for this page-->
 	<!-- End plugin js for this page-->
 	<!-- inject:js -->
 	<jsp:include page="/includes/injectjs_asset.jsp"></jsp:include>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<!-- End custom js for this page-->
+  <!-- endinject -->
 </body>
+
 </html>
