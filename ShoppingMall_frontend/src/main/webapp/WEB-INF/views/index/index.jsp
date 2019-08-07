@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,79 +23,85 @@
 
 
 <style type="text/css">
-	#goods-container{
-		border:1px solid black;
-		width: 95%;
-	}
-	
-	#goods-container > .goodsitem{
-		border: 1px solid blue;
-		height:550px;
-		padding: 0 0.75%;
-		cursor: pointer;
-	}
-	
-	#goods-container > .goodsitem > img{
-		height:400px;
-		width:100%;
-		margin: 10px 0px;
-	}
-	
-	#goods-container > .goodsitem > span{
-		font-size: 12px !important;
-		font-family: BMDOHYEON;
-	}
-	
-	#goods-container > .goodsitem > .goodsdetail-box{
-		overflow:hidden;
-		height:50px;
-		margin-top:10px;
-		font-size: 12px !important;
-		color: #999;
-	}
-	
-	
-	#goods-container > .goodsitem > .category-box span{
-		font-style: italic;
-	}
-	
-	.detailtext{
-		height: 50px;
-	}
-	
-	.card{
-		cursor: pointer;
-	}
-	
-	
+#goods-container {
+	border: 0px solid black;
+	width: 95%;
+}
 
+#goods-container>.goodsitem {
+	border: 0px solid blue;
+	height: 550px;
+	padding: 0 0.75%;
+	cursor: pointer;
+}
+
+#goods-container>.goodsitem>img {
+	height: 400px;
+	width: 100%;
+	margin: 10px 0px;
+}
+
+#goods-container>.goodsitem>span {
+	font-size: 12px !important;
+	font-family: BMDOHYEON;
+}
+
+#goods-container>.goodsitem>.goodsdetail-box {
+	overflow: hidden;
+	height: 50px;
+	margin-top: 10px;
+	font-size: 12px !important;
+	color: #999;
+}
+
+#goods-container>.goodsitem>.category-box span {
+	font-style: italic;
+}
+
+.detailtext {
+	height: 50px;
+}
+
+.card {
+	cursor: pointer;
+}
 </style>
 <script type="text/javascript">
-$(document).ready(function() {
-	  $("#myCarousel").on("slide.bs.carousel", function(e) {
-	    var $e = $(e.relatedTarget);
-	    var idx = $e.index();
-	    var itemsPerSlide = 4;
-	    var totalItems = $(".carousel-item").length;
+	$(document)
+			.ready(
+					function() {
+						$("#myCarousel")
+								.on(
+										"slide.bs.carousel",
+										function(e) {
+											var $e = $(e.relatedTarget);
+											var idx = $e.index();
+											var itemsPerSlide = 4;
+											var totalItems = $(".carousel-item").length;
 
-	    if (idx >= totalItems - (itemsPerSlide - 1)) {
-	      var it = itemsPerSlide - (totalItems - idx);
-	      for (var i = 0; i < it; i++) {
-	        // append slides to end
-	        if (e.direction == "left") {
-	          $(".carousel-item")
-	            .eq(i)
-	            .appendTo(".carousel-inner");
-	        } else {
-	          $(".carousel-item")
-	            .eq(0)
-	            .appendTo($(this).find(".carousel-inner"));
-	        }
-	      }
-	    }
-	  });
-	});
-
+											if (idx >= totalItems
+													- (itemsPerSlide - 1)) {
+												var it = itemsPerSlide
+														- (totalItems - idx);
+												for (var i = 0; i < it; i++) {
+													// append slides to end
+													if (e.direction == "left") {
+														$(".carousel-item")
+																.eq(i)
+																.appendTo(
+																		".carousel-inner");
+													} else {
+														$(".carousel-item")
+																.eq(0)
+																.appendTo(
+																		$(this)
+																				.find(
+																						".carousel-inner"));
+													}
+												}
+											}
+										});
+					});
 </script>
 <script type="text/javascript">
 	
@@ -111,7 +118,7 @@ $(document).ready(function() {
 		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
 			<!-- partial:../../partials/_sidebar.html -->
-			<jsp:include page="/WEB-INF/views/includes/sidebar.jsp"></jsp:include> 
+			<jsp:include page="/WEB-INF/views/includes/sidebar.jsp"></jsp:include>
 			<!-- partial -->
 			<div class="main-panel">
 
@@ -131,31 +138,47 @@ $(document).ready(function() {
 
 
 
-<div class="container-fluid">
+					<div class="container-fluid">
 						<h1 class="text-center mb-3">메인 진열 리스트</h1>
 						<div id="myCarousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner row w-100 mx-auto">
-								 
-								 
-								<c:forEach items="${mainDisplayList }" var="mainDisplayVo" varStatus="status">
-									<div class="carousel-item col-md-3 <c:if test='${status.index==0}'>active</c:if>">
-										<div class="card" onclick="location.href='#'">
-											<img class="card-img-top img-fluid"
-												src="${pageContext.servletContext.contextPath}/images/${mainDisplayVo.thumbnail}"
-												alt="Card image cap">
+
+
+								<c:forEach items="${mainDisplayList }" var="mainDisplayVo"
+									varStatus="status">
+									<div
+										class="carousel-item col-md-3 <c:if test='${status.index==0}'>active</c:if>">
+										<div class="card" onclick="location.href='${pageContext.servletContext.contextPath}/goods/view/${mainDisplayVo.no}'">
+											<c:if test="${mainDisplayVo.thumbnail != ''}">
+												<img class="card-img-top img-fluid"
+													src="${pageContext.servletContext.contextPath}/images/${mainDisplayVo.thumbnail}"
+													alt="Card image cap">
+											</c:if>
+
+											<c:if test="${mainDisplayVo.thumbnail eq null }">
+												<img class="card-img-top img-fluid"
+													src="${pageContext.servletContext.contextPath}/assets/images/noimage.jpg"
+													alt="Card image cap">
+											</c:if>
 											<div class="card-body">
-												<h4 class="card-title">${mainDisplayVo.name} (<fmt:formatNumber value="${mainDisplayVo.seillingPrice}" type="currency"></fmt:formatNumber>)</h4>
+												<h4 class="card-title">${mainDisplayVo.name}
+													(
+													<fmt:formatNumber value="${mainDisplayVo.seillingPrice}"
+														type="currency"></fmt:formatNumber>
+													)
+												</h4>
 												<p class="card-text detailtext">${mainDisplayVo.detail}</p>
 												<p class="card-text">
-													<small class="text-muted">${mainDisplayVo.bigcategoryName} > ${mainDisplayVo.smallcategoryName}</small>
+													<small class="text-muted">${mainDisplayVo.bigcategoryName}
+														> ${mainDisplayVo.smallcategoryName}</small>
 												</p>
 											</div>
 										</div>
 									</div>
-									
+
 								</c:forEach>
-								 
-								
+
+
 							</div>
 							<a class="carousel-control-prev" href="#myCarousel" role="button"
 								data-slide="prev"> <span class="carousel-control-prev-icon"
@@ -167,11 +190,11 @@ $(document).ready(function() {
 							</a>
 						</div>
 					</div>
-					
+
 					<h1>상품 리스트</h1>
-						
+
 					<div id="goods-container" class=" row mx-auto">
-						
+
 						<%-- 
 						<div class="goodsitem col-md-3">
 							<img alt="상품 이미지" src="${pageContext.servletContext.contextPath}/assets/images/sample.jpg">
@@ -184,27 +207,40 @@ $(document).ready(function() {
 							</div>
 						</div>
 						 --%>
-						
+
 						<c:forEach items="${goodslist}" var="goods">
-							<div class="goodsitem col-md-3">
-								<img alt="상품 이미지" src="${pageContext.servletContext.contextPath}/images/${goods.thumbnail}">
-								<div style="clear:both;"></div>
+							<div class="goodsitem col-md-3" onclick="location.href='${pageContext.servletContext.contextPath}/goods/view/${goods.no}'">
+								
+								<c:if test="${goods.thumbnail ne null}">
+									<img class="card-img-top img-fluid"
+										src="${pageContext.servletContext.contextPath}/images/${goods.thumbnail}"
+										alt="Card image cap">
+								</c:if>
+
+								<c:if test="${goods.thumbnail eq null }">
+									<img class="card-img-top img-fluid"
+										src="${pageContext.servletContext.contextPath}/assets/images/noimage.jpg"
+										alt="Card image cap">
+								</c:if>
+
+								<div style="clear: both;"></div>
 								<span class="goodsname">${goods.name}</span>
 								<div style="clear: both; margin: 5px 0px;"></div>
-								<span class="price"><fmt:formatNumber value="${goods.seillingPrice}" type="currency"></fmt:formatNumber></span>
+								<span class="price"><fmt:formatNumber
+										value="${goods.seillingPrice}" type="currency"></fmt:formatNumber></span>
 								<div class="goodsdetail-box" style="border: 0px solid red">
-									${goods.detail}
-								</div>
+									${goods.detail}</div>
 								<div class="category-box">
-									
-									<span>${goods.bigcategoryName} > ${goods.smallcategoryName}</span>
-									
+
+									<span>${goods.bigcategoryName} >
+										${goods.smallcategoryName}</span>
+
 								</div>
-								
+
 							</div>
 						</c:forEach>
-						
-					
+
+
 					</div>
 
 
@@ -219,11 +255,12 @@ $(document).ready(function() {
 
 				</div>
 				<!-- content-wrapper ends -->
-				
-				
-				
+
+
+
 				<!-- partial:../../partials/_footer.html -->
-				<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include> -
+				<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
+				-
 				<!-- partial -->
 			</div>
 			<!-- main-panel ends -->

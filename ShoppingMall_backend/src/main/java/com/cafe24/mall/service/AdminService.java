@@ -121,6 +121,20 @@ public class AdminService {
 		
 		return list;
 	}
+	
+
+	public List<BigCategoryVo> getBigCategoryList() {
+		List<BigCategoryVo> list = adminDao.selectBigCategoryList();
+		
+		return list;
+	}
+	
+	public List<SmallCategoryVo> getSmallCategoryList(Long bigCategoryno) {
+		List<SmallCategoryVo> list = adminDao.selectSmallCategoryList(bigCategoryno);
+		
+		return list;
+	}
+
 
 	public GoodsVo getGoods(Long goodsno) {
 		
@@ -225,5 +239,7 @@ public class AdminService {
 		
 		return adminDao.deleteMaindisplay(map);
 	}
+
+
 	
 }

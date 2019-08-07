@@ -8,6 +8,7 @@
 			select 
 			no,
 			name,
+			seilling_price as seillingPrice,
 			concat(left(g.detail,30),'...') as detail,
 			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
 			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
@@ -16,7 +17,7 @@
 			from tblGoods g 
             where 
             display_status = 'y' 
-			order by no
+			order by no desc
 			limit 8 offset #{startNo}
 		]]>
 	</select>

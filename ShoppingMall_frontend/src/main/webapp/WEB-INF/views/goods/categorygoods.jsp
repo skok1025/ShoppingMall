@@ -149,7 +149,18 @@ $(document).ready(function() {
 						
 						<c:forEach items="${goodslist}" var="goods">
 							<div class="goodsitem col-md-3">
-								<img alt="상품 이미지" src="${pageContext.servletContext.contextPath}/images/${goods.thumbnail}">
+								<c:if test="${goods.thumbnail ne null}">
+									<img class="card-img-top img-fluid"
+										src="${pageContext.servletContext.contextPath}/images/${goods.thumbnail}"
+										alt="Card image cap">
+								</c:if>
+
+								<c:if test="${goods.thumbnail eq null }">
+									<img class="card-img-top img-fluid"
+										src="${pageContext.servletContext.contextPath}/assets/images/noimage.jpg"
+										alt="Card image cap">
+								</c:if>
+								
 								<div style="clear:both;"></div>
 								<span class="goodsname">${goods.name}</span>
 								<div style="clear: both; margin: 5px 0px;"></div>

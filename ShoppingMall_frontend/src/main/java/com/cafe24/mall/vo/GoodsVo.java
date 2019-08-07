@@ -6,6 +6,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 public class GoodsVo {
 
@@ -37,9 +38,24 @@ public class GoodsVo {
 	private String bigcategoryName;
 	private String smallcategoryName;
 	
+	private String optionListTxt;
+	
+//	private MultipartFile mainattach;
+//	private MultipartFile subattach1;
+//	private MultipartFile subattach2;
+//	private MultipartFile subattach3;
 	
 	
 	
+	
+	
+	
+	public String getOptionListTxt() {
+		return optionListTxt;
+	}
+	public void setOptionListTxt(String optionListTxt) {
+		this.optionListTxt = optionListTxt;
+	}
 	public String getBigcategoryName() {
 		return bigcategoryName;
 	}
@@ -155,7 +171,8 @@ public class GoodsVo {
 				+ ", material=" + material + ", supplier=" + supplier + ", manufacturer=" + manufacturer
 				+ ", manufacturingDate=" + manufacturingDate + ", origin=" + origin + ", smallcategoryNo="
 				+ smallcategoryNo + ", goodsImagesList=" + goodsImagesList + ", goodsDetailList=" + goodsDetailList
-				+ ", thumbnail=" + thumbnail + "]";
+				+ ", thumbnail=" + thumbnail + ", bigcategoryName=" + bigcategoryName + ", smallcategoryName="
+				+ smallcategoryName + ", optionListTxt=" + optionListTxt + "]";
 	}
 	
 	

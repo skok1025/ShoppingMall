@@ -4,8 +4,11 @@ use mall;
 alter table tblOrder
 modify column code varchar(50) unique;
 
+insert into tblGoods values(null,"테스트 상품 what",12300,"좀 긴 설명입니다. 잘 알아 듣겠죠?",'y','y',now(),null,null,null,null,null,null,11);
+
 -- Table 결과들
 select * from tblGoods;
+select * from tblGoodsImages;
 select * from tblGoodsDetail;
 select * from tblMember;
 select * from tblBigCategory;
@@ -194,3 +197,23 @@ select
 select goods_no from tblMaindisplay where maindisplay_no = 1;
 
 select * from tblMaindisplay;
+
+select 
+			 s.name as smallcategoryName,
+			 b.name as bigcategoryName 
+            from tblSmallCategory s inner join tblBigCategory b
+			on s.bigcategory_no = b.no where s.no=11;
+           
+select 
+			g.isdel,
+			no,
+			name,
+			seilling_price as seillingPrice,
+			display_status as displayStatus,
+			seilling_status as seillingStatus,
+			regdate,
+			(select image from tblGoodsImages where ismain='y' and goods_no=g.no) as thumbnail
+			from tblGoods g 
+            where g.isdel is null
+			limit 10 offset 1;           
+           

@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cafe24.mall.service.GoodsService;
 import com.cafe24.mall.service.MainService;
 import com.cafe24.mall.vo.BigCategoryVo;
+import com.cafe24.mall.vo.GoodsDetailVo;
+import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 @Controller
 @RequestMapping("/goods")
@@ -68,6 +71,41 @@ public class GoodsController {
 		model.addAttribute("keyword",keyword);
 		
 		return "goods/searchgoods";
+	}
+	
+	@GetMapping("/view/{goodsNo}")
+	public String view(
+			@PathVariable("goodsNo") Long goodsNo,
+			Model model) {
+		
+		GoodsVo goodsVo = mainService.getGoodsInfo(goodsNo);
+		// 메인 이미지
+		GoodsImagesVo mainImageVo = mainService.getMainImageVo(goodsNo);
+		
+		// 서브 이미지들
+		List<GoodsImagesVo> subImageList = mainService.getSubImageList(goodsNo);
+		
+		// 해당 상품 상세옵션 리스트
+		List<GoodsDetailVo> goodsDetailList = mainService.getGoodsDetailList(goodsNo);
+		
+		// 사이드 카테고리 리스트
+		List<BigCategoryVo> categoryList = mainService.getCategoryList(); 
+		
+		
+		System.out.println("메인 이미지: "+mainImageVo);
+		System.out.println("서브 이미지 리스트: "+subImageList);
+		
+		System.out.println("상품 옵션 리스트: "+goodsDetailList);
+		
+		System.out.println("상품 정보: "+goodsVo);
+		model.addAttribute("vo",goodsVo);
+		model.addAttribute("categoryList",categoryList);
+		model.addAttribute("mainImage",mainImageVo.getImage());
+		model.addAttribute("subImageList",subImageList);
+		model.addAttribute("goodsDetailList",goodsDetailList);
+		
+		
+		return "goods/view";
 	}
 	
 	

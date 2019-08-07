@@ -47,6 +47,14 @@
 		color: #686B72 !important;
 	}
 	
+	.paging > a{
+		color: cornflowerblue !important;
+	}
+	
+	.addbox{
+		width: 200px;
+		margin: 20px;
+	}
 	
 		
 </style>
@@ -84,7 +92,10 @@
 
 					<div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                  
+                  <div class="addbox">
+                  	<button class="btn-rounded btn-lg btn-gradient-primary" onclick="location.href='${pageContext.servletContext.contextPath}/admin/goods/add';">
+                  	<i class="mdi mdi-playlist-plus"></i> 상품 등록</button>
+                  </div>
                   <div class="card-body">
                     <h4 class="card-title">상품 정보</h4>
                     
@@ -128,8 +139,30 @@
 
                         </tr>
                         </c:forEach>
+                        
+                        
                       </tbody>
                     </table>
+                    
+                    <!-- pager 추가 -->
+            <div class="pager">
+               <ul>
+
+                  <li><a href="/board/list?kwd={{kwd}}&currentpage={{prevpage}}">◀</a></li>
+
+            
+                     <li class="selected"><a>1</a></li>
+                     <li class="paging"><a>2</a></li>
+                     <li class="paging"><a>3</a></li>
+                     <li class="paging"><a>4</a></li>
+                     <li class="paging"><a>5</a></li>
+                     
+
+                  <li><a href="/board/list?kwd={{kwd}}&currentpage={{nextpage}}">▶</a></li>
+                 
+               </ul>
+            </div>
+            <!-- pager 추가 -->
                   </div>
                 </div>
               </div>

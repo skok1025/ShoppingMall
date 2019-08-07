@@ -72,7 +72,7 @@ public class AdminController {
 		int result = adminService.addGoods(goodsvo);
 		// int result = 1;
 
-		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("관리자 상품등록 성공", goodsvo))
+		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("관리자 상품등록 성공", result))
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("관리자 상품등록 실패"));
 	}
 
@@ -145,6 +145,26 @@ public class AdminController {
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("관리자 상품삭제 실패"));
 	}
 
+	@ApiOperation(value = "관리자 1차 카테고리 목록조회")
+	
+	@GetMapping("/category/biglist")
+	public ResponseEntity<JSONResult> getBigCategorylist() {
+		
+		List<BigCategoryVo> bigcategoryList = adminService.getBigCategoryList();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 카테고리 목록 조회 성공", bigcategoryList));
+		
+	}
+	@ApiOperation(value = "관리자 1차 카테고리에 따른 2차 카테고리 목록조회")
+	
+	@GetMapping("/category/smalllist/{bigCategoryno}")
+	public ResponseEntity<JSONResult> getSmallCategorylist(@PathVariable("bigCategoryno") Long bigCategoryno) {
+		
+		List<SmallCategoryVo> smallcategoryList = adminService.getSmallCategoryList(bigCategoryno);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 카테고리 목록 조회 성공", smallcategoryList));
+		
+	}
 	@ApiOperation(value = "관리자 카테고리 목록조회")
 
 	@GetMapping("/category/list")

@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 import com.cafe24.mall.dto.JSONResult;
 import com.cafe24.mall.provider.MainProvider;
 import com.cafe24.mall.vo.BigCategoryVo;
+import com.cafe24.mall.vo.GoodsDetailVo;
+import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
 
 
@@ -38,6 +40,22 @@ public class MainService {
 	public List<BigCategoryVo> getCategoryList() {
 		
 		return mainProvider.selectCategoryList();
+	}
+
+	public GoodsVo getGoodsInfo(Long goodsNo) {
+		return mainProvider.selectGoodsInfo(goodsNo);
+	}
+
+	public GoodsImagesVo getMainImageVo(Long goodsNo) {
+		return mainProvider.selectMainImageVo(goodsNo);
+	}
+
+	public List<GoodsImagesVo> getSubImageList(Long goodsNo) {
+		return mainProvider.selectSubImageList(goodsNo);
+	}
+
+	public List<GoodsDetailVo> getGoodsDetailList(Long goodsNo) {
+		return mainProvider.selectGoodsDetailList(goodsNo);
 	}
 
 
