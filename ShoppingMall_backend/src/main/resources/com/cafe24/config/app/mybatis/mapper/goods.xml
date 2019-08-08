@@ -31,10 +31,11 @@
 			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
 			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
 			seilling_price as seillingPrice,
+			concat(left(g.viewdetail,30),'...') as detail,
 			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
 			from tblGoods g 
             where 
-            display_status = 'y' and
+            display_status = 'y' and g.isdel is null and
             name like concat('%',#{keyword},'%') or
 			smallcategory_no in (select no from tblSmallCategory where name like concat('%',#{keyword},'%'))
 			order by no
@@ -47,6 +48,7 @@
 			select 
 			g.no as no,
 			g.name as name,
+			concat(left(g.viewdetail,30),'...') as detail,
 			s.name as smallcategoryName,
 			b.name as bigcategoryName,
 			g.seilling_price as seillingPrice,
@@ -55,7 +57,7 @@
 			on  s.no = g.smallcategory_no inner join tblBigCategory b
 			on b.no = s.bigcategory_no
             where 
-            g.display_status = 'y' and
+            g.display_status = 'y' and g.isdel is null and
             g.smallcategory_no = #{smallcategoryNo}
             order by no
 		]]>
@@ -75,7 +77,7 @@
 			on  s.no = g.smallcategory_no inner join tblBigCategory b
 			on b.no = s.bigcategory_no
             where 
-            g.display_status = 'y' and
+            g.display_status = 'y' and g.isdel is null and
             g.no in (select goods_no from tblMaindisplay where maindisplay_no = #{maindisplayNo})
             order by g.no
 		]]>

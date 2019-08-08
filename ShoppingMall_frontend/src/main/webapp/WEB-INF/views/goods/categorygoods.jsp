@@ -22,12 +22,12 @@
 
 <style type="text/css">
 	#goods-container{
-		border:1px solid black;
+		border:0px solid black;
 		width: 95%;
 	}
 	
 	#goods-container > .goodsitem{
-		border: 1px solid blue;
+		border: 0px solid blue;
 		
 		
 		height:550px;

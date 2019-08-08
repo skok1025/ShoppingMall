@@ -88,8 +88,8 @@ public class _4BasketControllerTest {
 	 */
 	@Test
 	public void testAddBasket_success() throws Exception{
-		addMember();
-		addGoods();
+		//addMember();
+		//addGoods();
 		
 		ResultActions resultActions =
 				mockMvc

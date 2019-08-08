@@ -218,7 +218,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 <script type="text/javascript">
 	$(function(){
-		
+		<c:if test="${param.addsuccess == 'yes' }">
+		if(confirm("장바구니 등록에 성공하셨습니다. 장바구니로 가시겠습니까?")){
+			location.href = "${pageContext.servletContext.contextPath}/basket/view";	
+		}
+		</c:if>	
 		var index = 0;
 		$("#optionName").change(function(){
 			console.log($(this));
@@ -232,11 +236,13 @@ input[type=number]::-webkit-outer-spin-button {
 		});
 
 	});
-</script>
+
+	</script>
 
 </head>
 
 <body>
+
 	<input type="text" min="0" value="1"/>
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
@@ -325,8 +331,11 @@ input[type=number]::-webkit-outer-spin-button {
 											</div>
 											<div style="clear: both;"></div>
 											
-							<form method="post" action="${pageContext.servletContext.contextPath }/basket/add">
-											
+							<form method="post" action=
+							<sec:authorize access="isAuthenticated()">"${pageContext.servletContext.contextPath }/basket/user/add" </sec:authorize>
+							<sec:authorize access="isAnonymous()">"${pageContext.servletContext.contextPath }/basket/nonuser/add"</sec:authorize>
+							>
+											<input type="hidden" name="goodsNo" value="${vo.no }"></input>
 											<c:if test="${not empty goodsDetailList}">
 											<div class="lineinput option-box">
 												<span class="inputTitle">- 옵션 :</span>

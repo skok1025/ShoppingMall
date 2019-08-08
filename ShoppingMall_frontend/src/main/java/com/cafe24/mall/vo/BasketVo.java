@@ -10,7 +10,15 @@ public class BasketVo {
 	private String basketCode;
 	private Long goodsDetailNo;
 	private int cnt;
+	
+	private Long goodsNo; // 해당 상품 view redirect 를 위한 상품번호 
 
+	public Long getGoodsNo() {
+		return goodsNo;
+	}
+	public void setGoodsNo(Long goodsNo) {
+		this.goodsNo = goodsNo;
+	}
 	List<BasketDTO> goodsBasketList; // 상품 상세보기에서 선택된 상품 상세번호 , 갯수
 	
 	public List<BasketDTO> getGoodsBasketList() {
@@ -46,7 +54,7 @@ public class BasketVo {
 	@Override
 	public String toString() {
 		return "BasketVo [no=" + no + ", basketCode=" + basketCode + ", goodsDetailNo=" + goodsDetailNo + ", cnt=" + cnt
-				+ ", goodsBasketList=" + goodsBasketList + "]";
+				+ ", goodsNo=" + goodsNo + ", goodsBasketList=" + goodsBasketList + "]";
 	}
 	
 	

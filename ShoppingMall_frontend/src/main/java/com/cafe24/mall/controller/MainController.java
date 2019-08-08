@@ -63,19 +63,7 @@ public class MainController {
 		return "index/login";
 	}
 	
-	@ResponseBody
-	@PostMapping("/basket/add")
-	public String basket(
-			@ModelAttribute("basketVo") BasketVo basketVo,
-			@AuthenticationPrincipal SecurityUser user) {
-		
-		System.out.println("----------------------------");
-		System.out.println(basketVo.getGoodsBasketList());
-		
-		System.out.println("등록하려 하는 멤버번호: "+user.getNo());
-		
-		return "test";
-	}
+	
 	
 	
 }

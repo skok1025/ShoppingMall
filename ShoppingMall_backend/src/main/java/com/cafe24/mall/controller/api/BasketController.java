@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.BasketDTO;
+import com.cafe24.mall.dto.BasketProcessDTO;
 import com.cafe24.mall.dto.JSONResult;
 import com.cafe24.mall.service.BasketService;
 import com.cafe24.mall.vo.BasketVo;
@@ -46,8 +47,11 @@ public class BasketController {
 		@ApiImplicitParam(name = "cnt", value = "장바구니에 등록할 상품갯수", required = true, dataType = "Integer", defaultValue = "1") 
 		})
 	@PostMapping("/member/add")
-	public ResponseEntity<JSONResult> addBasket(@RequestParam Long memberNo ,@RequestParam Long goodsDetailNo, @RequestParam Integer cnt) {
-		int result = basketService.addMemberBasket(memberNo,goodsDetailNo,cnt);
+	public ResponseEntity<JSONResult> addBasket
+	//(@RequestParam Long memberNo ,@RequestParam Long goodsDetailNo, @RequestParam Integer cnt)
+	(@RequestBody BasketProcessDTO basketprocessDto)
+	{
+		int result = basketService.addMemberBasket(basketprocessDto.getMemberNo(),basketprocessDto.getGoodsDetailNo(),basketprocessDto.getCnt());
 		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("회원 장바구니 상품등록 완료",result)) 
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("회원 장바구니 상품등록 실패"));
 	}
