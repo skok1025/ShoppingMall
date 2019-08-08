@@ -21,6 +21,14 @@ public class GoodsVo {
 	//@Pattern(regexp = "^[0-9]*$",message = "판매가격에 숫자만 입력")
 	private int seillingPrice;
 	private String detail;
+	private String viewdetail;
+	
+	public String getViewdetail() {
+		return viewdetail;
+	}
+	public void setViewdetail(String viewdetail) {
+		this.viewdetail = viewdetail;
+	}
 	private GoodsVo.status displayStatus;
 	private GoodsVo.status seillingStatus;
 	private String regdate;
@@ -170,12 +178,12 @@ public class GoodsVo {
 	@Override
 	public String toString() {
 		return "GoodsVo [no=" + no + ", name=" + name + ", seillingPrice=" + seillingPrice + ", detail=" + detail
-				+ ", displayStatus=" + displayStatus + ", seillingStatus=" + seillingStatus + ", regdate=" + regdate
-				+ ", material=" + material + ", supplier=" + supplier + ", manufacturer=" + manufacturer
-				+ ", manufacturingDate=" + manufacturingDate + ", origin=" + origin + ", smallcategoryNo="
-				+ smallcategoryNo + ", goodsImagesList=" + goodsImagesList + ", goodsDetailList=" + goodsDetailList
-				+ ", thumbnail=" + thumbnail + ", bigcategoryName=" + bigcategoryName + ", smallcategoryName="
-				+ smallcategoryName + ", optionListTxt=" + optionListTxt + "]";
+				+ ", viewdetail=" + viewdetail + ", displayStatus=" + displayStatus + ", seillingStatus="
+				+ seillingStatus + ", regdate=" + regdate + ", material=" + material + ", supplier=" + supplier
+				+ ", manufacturer=" + manufacturer + ", manufacturingDate=" + manufacturingDate + ", origin=" + origin
+				+ ", smallcategoryNo=" + smallcategoryNo + ", goodsImagesList=" + goodsImagesList + ", goodsDetailList="
+				+ goodsDetailList + ", thumbnail=" + thumbnail + ", bigcategoryName=" + bigcategoryName
+				+ ", smallcategoryName=" + smallcategoryName + ", optionListTxt=" + optionListTxt + "]";
 	}
 	
 	

@@ -622,12 +622,13 @@ public class _1AdminControllerTest {
 	 * @throws Exception 예외
 	 */
 	@Test
+	@Rollback(false)
 	public void testRemoveGoodsInfo() throws Exception {
-		testGoodsAdd_Success();
+		//testGoodsAdd_Success();
 		
 		ResultActions resultActions =
 				mockMvc
-				.perform(delete("/api/admin/goods/"+adminDao.getCurrentInsertGoodsNo()).contentType(MediaType.APPLICATION_JSON));
+				.perform(delete("/api/admin/goods/15").contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andExpect(status().isOk())

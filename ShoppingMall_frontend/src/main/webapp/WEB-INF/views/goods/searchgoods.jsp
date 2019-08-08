@@ -209,7 +209,7 @@ $(document).ready(function() {
 	<!-- Plugin js for this page-->
 	<!-- End plugin js for this page-->
 	<!-- inject:js -->
-	<jsp:include page="/includes/injectjs_asset.jsp"></jsp:include>
+	<%-- <jsp:include page="/includes/injectjs_asset.jsp"></jsp:include> --%>
 	<!-- endinject -->
 	<!-- Custom js for this page-->
 	<!-- End custom js for this page-->

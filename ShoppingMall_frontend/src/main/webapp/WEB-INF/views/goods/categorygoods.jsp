@@ -148,7 +148,7 @@ $(document).ready(function() {
 						 --%>
 						
 						<c:forEach items="${goodslist}" var="goods">
-							<div class="goodsitem col-md-3">
+							<div class="goodsitem col-md-3" onclick="location.href='${pageContext.servletContext.contextPath}/goods/view/${goods.no}'">
 								<c:if test="${goods.thumbnail ne null}">
 									<img class="card-img-top img-fluid"
 										src="${pageContext.servletContext.contextPath}/images/${goods.thumbnail}"
@@ -210,7 +210,7 @@ $(document).ready(function() {
 	<!-- Plugin js for this page-->
 	<!-- End plugin js for this page-->
 	<!-- inject:js -->
-	<jsp:include page="/includes/injectjs_asset.jsp"></jsp:include>
+	<%-- <jsp:include page="/includes/injectjs_asset.jsp"></jsp:include> --%>
 	<!-- endinject -->
 	<!-- Custom js for this page-->
 	<!-- End custom js for this page-->

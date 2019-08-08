@@ -123,9 +123,9 @@
 								manufacturer,
 								manufacturing_date,
 								origin,
-								smallcategory_no)
+								smallcategory_no, viewdetail)
 			values(null,#{name},#{seillingPrice},#{detail},
-			#{displayStatus},#{seillingStatus},now(),#{material},#{supplier},#{manufacturer},#{manufacturingDate},#{origin},#{smallcategoryNo})
+			#{displayStatus},#{seillingStatus},now(),#{material},#{supplier},#{manufacturer},#{manufacturingDate},#{origin},#{smallcategoryNo},#{viewdetail})
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 	      <![CDATA[

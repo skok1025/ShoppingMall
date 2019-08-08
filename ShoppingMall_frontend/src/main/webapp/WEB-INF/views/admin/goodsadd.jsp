@@ -18,11 +18,20 @@
 <title>Admin Goods</title>
 
 
-<jsp:include page="/includes/asset.jsp"></jsp:include>
+<%-- <jsp:include page="/includes/asset.jsp"></jsp:include> --%>
 <%-- <jsp:include page="/includes/notify_asset.jsp"></jsp:include>   --%>
 <jsp:include page="/includes/plugincss.jsp"></jsp:include>
 
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="${pageContext.servletContext.contextPath }/assets/css/bootstrap/bootstrap-3.3.2.min.css"
+	id="bootstrap-css">
+<link rel="stylesheet" href="${pageContext.servletContext.contextPath }/assets/css/style.css"> 
+<script src="${pageContext.servletContext.contextPath }/assets/js/jquery.min.js"></script> 
 
+<link rel="stylesheet"
+	href="${pageContext.servletContext.contextPath }/assets/css/plugin/materialdesignicons.min.css">
+<link rel="shortcut icon" href="${pageContext.servletContext.contextPath }/assets/images/favicon.png" />
 
 <style type="text/css">
 
@@ -35,6 +44,13 @@
 	
 
 </style>
+
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+<script src="${pageContext.servletContext.contextPath }/assets/js/bootstrap.bundle.min.js"></script> 
+
 <script type="text/javascript">
 $(function() {	
 	
@@ -73,6 +89,16 @@ $(function() {
 		$("#optionListTxt").val(optionListTxt+","+$("#optionName").val()+";;"+$("#optionQty").val())
 		$("#option-span").append("<div class='optionitem badge "+randomItem(color)+" badge-pill'><span class='optionspan'> 옵션명: "+$("#optionName").val()+", 재고수량: "+$("#optionQty").val()+"</span></div>");
 	});
+	
+	
+	
+	$('#summernote').summernote({
+        height: 300,                 // set editor height
+        minHeight: null,             // set minimum height of editor
+        maxHeight: null,             // set maximum height of editor
+        focus: true                  // set focus to editable area after initializing summernote
+	});
+	
 	
 });
 
@@ -229,7 +255,7 @@ option{
 }
 #bottombox {
 	width: 1130px;
-	height: 500px;
+	height: 450px;
 	border: 0px solid;
 }
 #mainImg {
@@ -320,6 +346,10 @@ label {
 	margin: 5px;
 	/* background-color: black; */
 	width: 200px;
+}
+
+.popover-content{ /* 일단 안보이게  */
+	display: none;
 }
 
 
@@ -485,15 +515,15 @@ label {
 												<span class="inputTitle">- 상품분류 :</span> <select
 													name="bigcategory" id="bigcategory" class="form-control"
 													style="width: 150px;">
-													
-													<c:forEach items="${blist}" var="dto">
-														<option value="${dto.no}">${dto.name }</option>
+													<option>1차 카테고리 선택</option>
+													<c:forEach items="${blist}" var="dto" varStatus="status">
+														<option value="${dto.no}" >${dto.name }</option>
 													</c:forEach>
 													
 												</select> > <select name="smallcategoryNo" id="smallcategory"
 													class="form-control" style="width: 150px;">
-													<c:forEach items="${smallbasicList}" var="smalldto">
-														<option value="${smalldto.no}">${smalldto.category}</option>
+													<c:forEach items="${smallbasicList}" var="smalldto" varStatus="status2">
+														<option value="${smalldto.no}" >${smalldto.category}</option>
 													</c:forEach>
 												</select>
 
@@ -518,10 +548,22 @@ label {
 										</div>
 									</div>
 									<div style="clear: both;"></div>
+									<div id="bottombox" >
+										<span style="font-size: 3em; padding: 30px;">상품 리스트에 보여줄 상세정보 </span>
+										<textarea style="padding: 20px; font-size: 1.2em;" cols="30"
+											rows="10" class="form-control" id="viewdetail" name="viewdetail"></textarea>
+										
+										
+										 											
+									</div>
+									
 									<div id="bottombox">
 										<span style="font-size: 3em; padding: 30px;">상품의 상세정보 </span>
-										<textarea style="padding: 20px; font-size: 1.2em;" cols="30"
+										<!-- <textarea style="padding: 20px; font-size: 1.2em;" cols="30"
 											rows="10" class="form-control" id="detail" name="detail"></textarea>
+										 -->
+										 <textarea name="detail" id="summernote"></textarea>
+										 											
 									</div>
 
 									<div style="width: 1130px; text-align: center;">
@@ -567,7 +609,7 @@ label {
 	</div>
 	<!-- container-scroller -->
 	<!-- plugins:js : if you take notification, stop this-->
-	<jsp:include page="/includes/pluginjs.jsp"></jsp:include>
+	<%-- <jsp:include page="/includes/pluginjs.jsp"></jsp:include> --%>
 	<!-- endinject -->
 	<!-- Plugin js for this page-->
 	<!-- End plugin js for this page-->

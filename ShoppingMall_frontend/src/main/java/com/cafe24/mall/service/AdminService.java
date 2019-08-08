@@ -61,7 +61,7 @@ public class AdminService {
 		
 		System.out.println("in service 등록하고자 하는 상품의 옵션값들: "+goodsVo.getOptionListTxt());
 		
-		goodsVo.setDetail(goodsVo.getDetail().replace("\r\n", "<br>"));
+		 goodsVo.setViewdetail(goodsVo.getViewdetail().replace("\r\n", "<br>")); 
 		
 //		if(!goodsVo.getOptionListTxt().equals("")) {
 //			

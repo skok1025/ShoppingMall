@@ -1,6 +1,5 @@
 package com.cafe24.mall.vo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.cafe24.mall.dto.BasketDTO;
@@ -12,7 +11,7 @@ public class BasketVo {
 	private Long goodsDetailNo;
 	private int cnt;
 
-	List<BasketDTO> goodsBasketList = new ArrayList<BasketDTO>(); // 상품 상세보기에서 선택된 상품 상세번호 , 갯수
+	List<BasketDTO> goodsBasketList; // 상품 상세보기에서 선택된 상품 상세번호 , 갯수
 	
 	public List<BasketDTO> getGoodsBasketList() {
 		return goodsBasketList;
