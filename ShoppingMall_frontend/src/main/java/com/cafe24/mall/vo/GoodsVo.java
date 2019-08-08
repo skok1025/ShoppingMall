@@ -150,6 +150,9 @@ public class GoodsVo {
 		return manufacturingDate;
 	}
 	public void setManufacturingDate(String manufacturingDate) {
+		if("".equals(manufacturingDate)) {
+			return;
+		}
 		this.manufacturingDate = manufacturingDate;
 	}
 	public String getOrigin() {

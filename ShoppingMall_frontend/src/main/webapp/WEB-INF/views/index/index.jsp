@@ -65,6 +65,9 @@
 .card {
 	cursor: pointer;
 }
+
+
+
 </style>
 <script type="text/javascript">
 	$(document)
@@ -125,6 +128,8 @@
 
 				<!-- content-wrapper start -->
 				<div class="content-wrapper">
+					
+					<!-- 
 					<div class="page-header">
 						<h1 class=" h1">Title</h1>
 						<nav aria-label="breadcrumb">
@@ -134,12 +139,14 @@
 							</ol>
 						</nav>
 					</div>
+					 -->
+					
 					<!-- 이곳에 내용을 작성  -->
 
 
 
 					<div class="container-fluid">
-						<h1 class="text-center mb-3">메인 진열 리스트</h1>
+						<h1 class="text-center mb-3">${maindisplayCategoryVo.name }</h1>
 						<div id="myCarousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner row w-100 mx-auto">
 

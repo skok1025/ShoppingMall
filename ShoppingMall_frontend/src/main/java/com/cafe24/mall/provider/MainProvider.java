@@ -11,6 +11,7 @@ import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 
 @Repository
 public class MainProvider {
@@ -59,6 +60,12 @@ public class MainProvider {
 		
 		return jsonresult.getData();
 	}
+
+	public MaindisplayCategoryVo selectMaindisplayCategoryVo() {
+		JSONResultMaindisplayCategoryVo jsonresult = restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/goods/displaycategory", JSONResultMaindisplayCategoryVo.class);
+		
+		return jsonresult.getData();
+	}
 	
 	private static class JSONResultGoodsList extends JSONResult<List<GoodsVo>>{}
 	private static class JSONResultCategoryList extends JSONResult<List<BigCategoryVo>>{}
@@ -66,6 +73,7 @@ public class MainProvider {
 	private static class JSONResultGoodsImageVo extends JSONResult<GoodsImagesVo>{}
 	private static class JSONResultGoodsImageList extends JSONResult<List<GoodsImagesVo>>{}
 	private static class JSONResultGoodsDetailList extends JSONResult<List<GoodsDetailVo>>{}
+	private static class JSONResultMaindisplayCategoryVo extends JSONResult<MaindisplayCategoryVo>{}
 	
 	
 

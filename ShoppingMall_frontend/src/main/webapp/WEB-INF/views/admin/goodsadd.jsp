@@ -70,7 +70,7 @@ $(function() {
 		
 		var color = new Array("badge-info","badge-primary","badge-success","badge-danger");
 		var optionListTxt = $("#optionListTxt").val();
-		$("#optionListTxt").val(optionListTxt+","+$("#optionName").val()+"++"+$("#optionQty").val())
+		$("#optionListTxt").val(optionListTxt+","+$("#optionName").val()+";;"+$("#optionQty").val())
 		$("#option-span").append("<div class='optionitem badge "+randomItem(color)+" badge-pill'><span class='optionspan'> 옵션명: "+$("#optionName").val()+", 재고수량: "+$("#optionQty").val()+"</span></div>");
 	});
 	
@@ -233,7 +233,7 @@ option{
 	border: 0px solid;
 }
 #mainImg {
-	width: 550px;
+	width: auto;
 	height: 380px;
 }
 .subimg {

@@ -26,7 +26,7 @@
 					
 						<li class="nav-item"><a class="nav-link"
 							data-toggle="collapse" href="#ui-basic${status.index}" aria-expanded="false"
-							aria-controls="ui-basic"> <span class="menu-title">${bigCategory.name}</span> <i class="menu-arrow"></i>
+							aria-controls="ui-basic${status.index}"> <span class="menu-title">${bigCategory.name}</span> <i class="menu-arrow"></i>
 						</a>
 							<div class="collapse" id="ui-basic${status.index}">
 								<ul class="nav flex-column sub-menu">

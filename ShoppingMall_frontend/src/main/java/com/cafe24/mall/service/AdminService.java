@@ -59,28 +59,29 @@ public class AdminService {
 		List<GoodsDetailVo> goodsDetailList = new ArrayList<GoodsDetailVo>();
 		List<GoodsImagesVo> goodsImagesList = new ArrayList<GoodsImagesVo>();
 		
-		if(!goodsVo.getOptionListTxt().equals("")) {
-			
+		System.out.println("in service 등록하고자 하는 상품의 옵션값들: "+goodsVo.getOptionListTxt());
+		
+		goodsVo.setDetail(goodsVo.getDetail().replace("\r\n", "<br>"));
+		
+//		if(!goodsVo.getOptionListTxt().equals("")) {
+//			
 			String[] options = goodsVo.getOptionListTxt().split(",");
 			
-			int i = 0;
-			
 			for(String optionInfo:options) {
-				if(i==0) continue;
 				
-				String[] optionInfos = optionInfo.split("++");
+				String[] optionInfos = optionInfo.split(";;");
 				
-				String optionName = optionInfos[0];
-				Integer optionCnt = Integer.parseInt(optionInfos[1]);
-				
-				goodsDetailList.add(new GoodsDetailVo(optionName, optionCnt, optionCnt));
-				
-				i++;
+				if(optionInfos.length>1) {
+					String optionName = optionInfos[0];
+					Integer optionCnt = Integer.parseInt(optionInfos[1]);
+					
+					goodsDetailList.add(new GoodsDetailVo(optionName, optionCnt, optionCnt));
+				}
 			}
 			
 			goodsVo.setGoodsDetailList(goodsDetailList);
 			// 옵션값들 세팅 완료
-		}
+//		}
 		
 		
 		try {
@@ -142,7 +143,7 @@ public class AdminService {
 			e.printStackTrace();
 		}
 		
-		
+		System.out.println("in service 등록이 되기전 풀 세팅 상품 vo: "+goodsVo);
 		return adminProvider.insertGoods(goodsVo);
 	}
 	

@@ -150,6 +150,12 @@
 		]]>
 	</select>
 	
+	<select id="selectMainDisplayCategoryVo" resultType="maindisplaycategoryvo">
+		<![CDATA[
+			select no,name from tblMaindisplay_category where isshow='y'
+		]]>
+	</select>
+	
 	
 	
 </mapper>

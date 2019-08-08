@@ -18,6 +18,7 @@ import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -153,6 +154,15 @@ public class GoodsController {
 		GoodsVo categoryNames = goodsService.getCategoryName(smallCategoryNo);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(" 카테고리 목록 조회 성공", categoryNames));
+		
+	}
+
+	@GetMapping("/displaycategory")
+	public ResponseEntity<JSONResult> getDisplayCategory() {
+		
+		MaindisplayCategoryVo vo = goodsService.getMainDisplayCategoryVo();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("메인 진열 정보 조회 성공", vo));
 		
 	}
 	

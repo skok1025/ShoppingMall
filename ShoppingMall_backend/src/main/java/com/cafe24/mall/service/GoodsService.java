@@ -9,6 +9,7 @@ import com.cafe24.mall.repository.GoodsDao;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 
 @Service
 public class GoodsService {
@@ -52,6 +53,10 @@ public class GoodsService {
 
 	public GoodsVo getCategoryName(Long smallCategoryNo) {
 		return goodsDao.selectCategoryName(smallCategoryNo);
+	}
+
+	public MaindisplayCategoryVo getMainDisplayCategoryVo() {
+		return goodsDao.selectMainDisplayCategoryVo();
 	}
 
 }

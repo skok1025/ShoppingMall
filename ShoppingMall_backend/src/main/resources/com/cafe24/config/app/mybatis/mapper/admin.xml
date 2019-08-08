@@ -154,8 +154,8 @@
 	<insert id="insertGoodsDetail" parameterType="goodsdetailvo">
 		<![CDATA[
 			insert into 
-			tblGoodsDetail(no,goods_no,option_name,inventory_qty,available_qty)
-			values(null,#{goodsNo},#{optionName},#{inventoryQty},#{availableQty})
+			tblGoodsDetail(no,goods_no,option_name,inventory_qty,available_qty,isable)
+			values(null,#{goodsNo},#{optionName},#{inventoryQty},#{availableQty},'y')
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 	      <![CDATA[

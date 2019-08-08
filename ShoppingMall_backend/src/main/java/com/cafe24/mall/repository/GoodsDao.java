@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 
 @Repository
 public class GoodsDao {
@@ -50,6 +51,10 @@ public class GoodsDao {
 
 	public GoodsVo selectCategoryName(Long smallCategoryNo) {
 		return sqlSession.selectOne("goods.selectCategoryName", smallCategoryNo);
+	}
+
+	public MaindisplayCategoryVo selectMainDisplayCategoryVo() {
+		return sqlSession.selectOne("goods.selectMainDisplayCategoryVo");
 	}
 
 	

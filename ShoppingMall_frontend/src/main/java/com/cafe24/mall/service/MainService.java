@@ -13,6 +13,7 @@ import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
+import com.cafe24.mall.vo.MaindisplayCategoryVo;
 
 
 @Service
@@ -56,6 +57,10 @@ public class MainService {
 
 	public List<GoodsDetailVo> getGoodsDetailList(Long goodsNo) {
 		return mainProvider.selectGoodsDetailList(goodsNo);
+	}
+
+	public MaindisplayCategoryVo getMaindisplayCategoryVo() {
+		return mainProvider.selectMaindisplayCategoryVo();
 	}
 
 

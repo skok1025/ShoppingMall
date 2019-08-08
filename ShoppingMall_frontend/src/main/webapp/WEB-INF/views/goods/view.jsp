@@ -81,8 +81,9 @@ option{
 	border: 0px solid;
 }
 #mainImg {
-	width: 550px;
-	height: 380px;
+	width: auto;
+	height: 500px;
+	margin-left: 18px;
 }
 .subimg {
 	width: 159px;
@@ -120,7 +121,7 @@ option{
 	bottom: 0px;
 }
 #goodssubImgs {
-	margin-top: 400px;
+	margin-top: 500px;
 	height: 145px;
 	width: 550px;
 	border: 0px solid;
@@ -190,14 +191,44 @@ button{
 	margin-left: 10px;
 }
 
+.header-hr{
+	border: .3px solid #333;
+}
+
+.small-number-input{
+	width: 50px;
+	color: black;
+	font-size: 1.2em;
+}
+
+input[type=number]{
+	font-size: 2em;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
+
+}
+
+
+
 </style>
 
 <script type="text/javascript">
 	$(function(){
+		
+		var index = 0;
 		$("#optionName").change(function(){
 			console.log($(this));
 			$("#option-span")
-			.append("<div class='optionitem badge badge-info badge-pill'><span class='optionspan'> 옵션명: "+$(this).find("option[value='" + $(this).val() + "']").text()+"</div><div style='clear:both;'></div>");
+			.append("<input name='goodsBasketList["+index+"].goodsDetailNo' type='hidden' value="+$(this).val()+">"+
+					"</input><div class='optionitem badge badge-info badge-pill' "+">"+
+					"<span class='optionspan'> 옵션명: "+$(this).find("option[value='" + $(this).val() + "']").text()+"</span>"+
+					"<input name='goodsBasketList["+index+"].cnt' class='small-number-input' type='number' min='0' value='1'/></div>"+
+					"<div style='clear:both;'></div><hr>");
+			index++;
 		});
 
 	});
@@ -206,7 +237,7 @@ button{
 </head>
 
 <body>
-
+	<input type="text" min="0" value="1"/>
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
 		<jsp:include page="/WEB-INF/views/includes/header_nav.jsp"></jsp:include>
@@ -294,6 +325,8 @@ button{
 											</div>
 											<div style="clear: both;"></div>
 											
+							<form method="post" action="${pageContext.servletContext.contextPath }/basket/add">
+											
 											<c:if test="${not empty goodsDetailList}">
 											<div class="lineinput option-box">
 												<span class="inputTitle">- 옵션 :</span>
@@ -307,13 +340,14 @@ button{
 														</option>
 													</c:forEach>
 												</select>
+												
 												<div id="option-span" class="lineinput">
+												<hr class="header-hr">
 												</div>
 												<input type="hidden" id="optionListTxt" name="optionListTxt" value="" />	
 											</div>
 											</c:if>
-											<div id="option-span" class="lineinput">
-											</div>
+						
 											
 											<div style="clear: both;"></div>
 											
@@ -321,9 +355,11 @@ button{
 												<button class="btn btn-lg btn-gradient-dark">
 													Buy Now
 												</button>	
-												<button class="btn btn-md btn-outline-info">
+												<button type="submit" class="btn btn-md btn-outline-info">
 												 <i class="mdi mdi-cart-outline"></i>
 												</button>
+												
+						</form>
 											</div>
 											<div style="clear: both;"></div>
 										</div>
@@ -335,7 +371,7 @@ button{
 											${vo.detail }
 										</div>
 									</div>
-
+			
 					
 
 

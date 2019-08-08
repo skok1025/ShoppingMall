@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.mall.service.GoodsService;
 import com.cafe24.mall.service.MainService;
+import com.cafe24.mall.vo.BasketVo;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
@@ -33,20 +34,20 @@ public class GoodsController {
 	public String categoryPage(@PathVariable("smallcategoryNo") Long smallcategoryNo,Model model) {
 		
 		List<GoodsVo> list = goodsService.getGoodsList(smallcategoryNo);
-		List<BigCategoryVo> categoryList = mainService.getCategoryList(); 
+		//List<BigCategoryVo> categoryList = mainService.getCategoryList(); 
 		
 		GoodsVo categoryNames = goodsService.getCategoryNames(smallcategoryNo);
 		
 		
 		System.out.println("해당 카테고리 상품 리스트 : "+list);
 		System.out.println("+++++++++++++++");
-		System.out.println("카테고리 리스트: "+categoryList);
+		//System.out.println("카테고리 리스트: "+categoryList);
 		System.out.println("+++++++++++++++");
 		System.out.println("1차 카테고리 : "+categoryNames.getBigcategoryName()+" 2차 카테고리: "+categoryNames.getSmallcategoryName());
 		
 		
 		model.addAttribute("goodslist", list);
-		model.addAttribute("categoryList",categoryList);
+		//model.addAttribute("categoryList",categoryList);
 		model.addAttribute("categoryNames",categoryNames);
 		
 		return "goods/categorygoods";
