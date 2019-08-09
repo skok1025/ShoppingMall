@@ -4,7 +4,15 @@ use mall;
 alter table tblOrder
 modify column code varchar(50) unique;
 
+alter table tblMaindisplay_category add isshow char(3);
+alter table tblMaindisplay_category modify column isshow char(3) unique;
+
+alter table tblGoods add viewdetail text null;
+update tblGoods set viewdetail = '앞에 보여질 간단한 디테일 내용';
+
 insert into tblGoods values(null,"테스트 상품 what",12300,"좀 긴 설명입니다. 잘 알아 듣겠죠?",'y','y',now(),null,null,null,null,null,null,11);
+
+select count(*) from tblGoods where isdel is null;
 
 -- Table 결과들
 select * from tblGoods;
@@ -19,14 +27,16 @@ SELECT * FROM tblGoodsDetail;
 select * from tblChangeApply;
 select * from tblCustomerBasketCode;
 select * from tblBasket;
+select * from tblCustomerBasketCode;
+
 
 select sum(regdate) from tblOrder;
 
-select * from tblMaindisplay_category;
+select * from tblMaindisplay_category where isshow = 'y';
 select * from tblMaindisplay;
 
 insert into tblMaindisplay_category values(null,"SK mall's Choice");
-insert into tblMaindisplay values(1,19);
+insert into tblMaindisplay values(1,6);
 
 -- 가장 높은 상품번호 가져오기
 select ifnull(max(no),0) from tblGoods;
@@ -215,5 +225,22 @@ select
 			(select image from tblGoodsImages where ismain='y' and goods_no=g.no) as thumbnail
 			from tblGoods g 
             where g.isdel is null
-			limit 10 offset 1;           
+			limit 10 offset 1;        
+            
+            
+select 
+			m.no, 
+			cast(AES_DECRYPT(m.name, 'CAFE24') as char(100)) as name, 
+			cast(AES_DECRYPT(m.address, 'CAFE24') as char(200)) as address,
+			cast(AES_DECRYPT(m.birth_date, 'CAFE24') as char(100)) as birthDate,
+			m.gender as gender,
+			m.id as id,
+			cast(AES_DECRYPT(m.email, 'CAFE24') as char(100)) as email,
+			cast(AES_DECRYPT(m.tel, 'CAFE24') as char(200)) as tel,
+			m.regdate,
+			max(o.regdate) as currentOrderDate
+			from tblMember m left outer join tblOrder o 
+			on m.no = o.member_no
+			where m.id != 'admin' and m.id like concat('%','','%') 
+			limit 10 offset 1
            
