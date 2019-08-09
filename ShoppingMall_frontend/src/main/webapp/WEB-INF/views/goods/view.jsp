@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Template Site</title>
+<title>SK Mall</title>
 
 
 <jsp:include page="/includes/asset.jsp"></jsp:include>
