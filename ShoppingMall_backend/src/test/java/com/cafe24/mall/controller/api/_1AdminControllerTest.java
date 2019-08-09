@@ -729,9 +729,9 @@ public class _1AdminControllerTest {
 	 */
 	@Test
 	public void testGetMemberlist_success2() throws Exception{
-		addMember();
-		addGoods();
-		addOrder();
+		//addMember();
+		//addGoods();
+		//addOrder();
 		
 		ResultActions resultActions =
 				mockMvc
@@ -739,6 +739,7 @@ public class _1AdminControllerTest {
 						.param("id", "")
 						.param("orderdateStart", "")
 						.param("orderdateEnd", "")
+						.param("startCol", "1")
 						.contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions

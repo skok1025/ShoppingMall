@@ -307,6 +307,7 @@
   		<![CDATA[
   			group by m.no
   		]]>
+  		limit 10 offset #{startCol}
 	</select>
 	
 	<select id="selectAdminOrderList" parameterType="map" resultType="orderdto">
@@ -394,6 +395,14 @@
 	
 	<select id="getCurrentInsertGoodsDetailNo" resultType="long">
 		select max(no) from tblGoodsDetail
+	</select>
+	
+	<select id="selectGoodsTotalCount" resultType="integer">
+		select count(*) from tblGoods where isdel is null;
+	</select>
+	
+	<select id="selectMemberTotalCount" resultType="integer">
+		select count(*) from tblMember where id != 'admin'
 	</select>
 	
 </mapper>

@@ -83,10 +83,10 @@ public class AdminController {
 	 */
 	@ApiOperation(value = "관리자 상품리스트조회")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "pageNum", value = "상품목록 페이지 번호", required = true, dataType = "Long", defaultValue = "") })
-	@GetMapping("/goodslist/{pageNum}")
-	public ResponseEntity<JSONResult> goodsList(@PathVariable(value="pageNum") Long pageNum) {
-		List<GoodsVo> list = adminService.getGoodsList(pageNum);
+		@ApiImplicitParam(name = "startCol", value = "시작 인덱스", required = true, dataType = "Long", defaultValue = "") })
+	@GetMapping("/goodslist/{startCol}")
+	public ResponseEntity<JSONResult> goodsList(@PathVariable(value="startCol") Long startCol) {
+		List<GoodsVo> list = adminService.getGoodsList(startCol);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 상품조회 성공", list));
 	}
 	
@@ -282,9 +282,10 @@ public class AdminController {
 	public ResponseEntity<JSONResult> getMemberList(
 			@RequestParam String id, 
 			@RequestParam String orderdateStart,
-			@RequestParam String orderdateEnd) {
+			@RequestParam String orderdateEnd,
+			@RequestParam(defaultValue = "1") Integer startCol) {
 
-			List<MemberVo> memberList = adminService.getMemberList(id,orderdateStart, orderdateEnd);
+			List<MemberVo> memberList = adminService.getMemberList(id,orderdateStart, orderdateEnd,startCol);
 
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 회원정보 조회 성공", memberList));
 
@@ -400,6 +401,23 @@ public class AdminController {
 		return result >= 1 ? JSONResult.success("관리자 상품 메인진열 삭제 성공", result) 
 				: JSONResult.fail("관리자 상품 메인진열 삭제 실패");
 	}
+	
+	@ApiOperation(value = "관리자 상품 갯수 조회")
+	@GetMapping("/goods/totalcount")
+	public JSONResult getGoodsTotalCount() {
+		Integer result = adminService.getGoodsTotalCount();
+		return result != null ? JSONResult.success("관리자 상품 갯수 조회 성공", result) 
+				: JSONResult.fail("관리자 상품 갯수 조회 실패");
+	}
+	
+	@ApiOperation(value = "관리자 회원수 조회")
+	@GetMapping("/member/totalcount")
+	public JSONResult getMemberTotalCount() {
+		Integer result = adminService.getMemberTotalCount();
+		return result != null ? JSONResult.success("관리자 회원 수 조회 성공", result) 
+				: JSONResult.fail("관리자 회원 수 조회 실패");
+	}
+	
 	
 	
 	

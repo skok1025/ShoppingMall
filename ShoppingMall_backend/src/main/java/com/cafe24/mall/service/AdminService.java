@@ -150,8 +150,7 @@ public class AdminService {
 		return result;
 	}
 
-	public List<GoodsVo> getGoodsList(Long pageNum) {
-		Long startCol = pageNum*8-8;
+	public List<GoodsVo> getGoodsList(Long startCol) {
 		return adminDao.selectGoodsList(startCol);
 	}
 
@@ -164,12 +163,14 @@ public class AdminService {
 		return adminDao.deleteMemberInfo(memberNo);
 	}
 
-	public List<MemberVo> getMemberList(String id, String orderdateStart, String orderdateEnd) {
-		Map<String,String> map = new HashMap<String, String>();
+	public List<MemberVo> getMemberList(String id, String orderdateStart, String orderdateEnd, Integer startCol) {
+		Map<String,Object> map = new HashMap<String, Object>();
 		
 		map.put("id", id);
 		map.put("orderdateStart", orderdateStart);
 		map.put("orderdateEnd", orderdateEnd);
+		map.put("startCol", startCol);
+		
 		
 		return adminDao.selectMemberList(map);
 	}
@@ -238,6 +239,14 @@ public class AdminService {
 		map.put("maindisplayCategoryNo", maindisplayCategoryNo);
 		
 		return adminDao.deleteMaindisplay(map);
+	}
+
+	public Integer getGoodsTotalCount() {
+		return adminDao.selectGoodsTotalCount();
+	}
+
+	public Integer getMemberTotalCount() {
+		return adminDao.selectMemberTotalCount();
 	}
 
 

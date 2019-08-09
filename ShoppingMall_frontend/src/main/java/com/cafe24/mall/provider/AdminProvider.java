@@ -20,7 +20,7 @@ public class AdminProvider {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	public List<MemberVo> selectMemberList(String id, String orderDateStart, String orderDateEnd) {
+	public List<MemberVo> selectMemberList(String id, String orderDateStart, String orderDateEnd,Integer startCol) {
 		
 		if(id== null)
 			id = "";
@@ -32,7 +32,8 @@ public class AdminProvider {
 		JSONResultMemberList jsonresult = 
 				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/member?id="+id+
 						"&orderdateStart="+ orderDateStart
-						+"&orderdateEnd="+ orderDateEnd, JSONResultMemberList.class);		
+						+"&orderdateEnd="+ orderDateEnd
+						+"&startCol="+ startCol, JSONResultMemberList.class);		
 		
 		return jsonresult.getData();
 	}
@@ -45,10 +46,10 @@ public class AdminProvider {
 		return 1;
 	}
 	
-public List<GoodsVo> selectGoodsList(Long pageNum) {
+public List<GoodsVo> selectGoodsList(Integer startCol) {
 		
 		JSONResultGoodsList jsonresult = 
-				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/goodslist/"+pageNum, JSONResultGoodsList.class);		
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/goodslist/"+startCol, JSONResultGoodsList.class);		
 		
 		return jsonresult.getData();
 	}
@@ -77,6 +78,19 @@ public List<GoodsVo> selectGoodsList(Long pageNum) {
 		
 		JSONResultInteger jsonresult = 
 				restTemplate.postForObject("http://localhost:8099/ShoppingMall_backend/api/admin/goods", goodsVo, JSONResultInteger.class);
+		
+		return jsonresult.getData();
+	}
+
+	public Integer selectTotalGoodsCount() {
+		JSONResultInteger jsonresult = 
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/goods/totalcount",  JSONResultInteger.class);
+		
+		return jsonresult.getData();
+	}
+	public Integer selectTotalMemberCount() {
+		JSONResultInteger jsonresult = 
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/member/totalcount",  JSONResultInteger.class);
 		
 		return jsonresult.getData();
 	}

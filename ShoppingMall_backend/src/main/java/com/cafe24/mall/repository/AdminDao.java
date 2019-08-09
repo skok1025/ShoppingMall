@@ -138,7 +138,7 @@ public class AdminDao {
 		return sqlsession.delete("admin.deleteMemberInfo", memberNo);
 	}
 
-	public List<MemberVo> selectMemberList(Map<String, String> map) {
+	public List<MemberVo> selectMemberList(Map<String, Object> map) {
 		return sqlsession.selectList("admin.selectMemberList", map);
 	}
 
@@ -189,6 +189,14 @@ public class AdminDao {
 
 	public Long getCurrentInsertGoodsDetailNo() {
 		return sqlsession.selectOne("admin.getCurrentInsertGoodsDetailNo");
+	}
+
+	public Integer selectGoodsTotalCount() {
+		return sqlsession.selectOne("admin.selectGoodsTotalCount");
+	}
+
+	public Integer selectMemberTotalCount() {
+		return sqlsession.selectOne("admin.selectMemberTotalCount");
 	}
 	
 

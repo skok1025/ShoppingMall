@@ -4,13 +4,16 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.mall.provider.AdminProvider;
+import com.cafe24.mall.util.PagingUtil;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
@@ -25,19 +28,51 @@ public class AdminService {
 	private static final String SAVE_PATH = "/mall-uploads";
 	@Autowired
 	private AdminProvider adminProvider;
+	
+	// 페이징 변수
+	private int listSize = 5; // 페이징 리스트 수 
+	private int pageSize = 10; // 한 페이지의 게시물 수 
 
-	public List<MemberVo> getMemberList(String id, String orderDateStart, String orderDateEnd) {
-		return adminProvider.selectMemberList(id,orderDateStart,orderDateEnd);
+	public List<MemberVo> getMemberList(String id, String orderDateStart,
+			String orderDateEnd ,Integer currentpage ) {
+		
+		
+		Integer totalcount = adminProvider.selectTotalMemberCount(); 
+		Integer startCol = PagingUtil.getStartRecordNum(currentpage, totalcount, pageSize);
+		
+		System.out.println("총 멤버 수: "+totalcount);
+		
+		return adminProvider.selectMemberList(id,orderDateStart,orderDateEnd,startCol);
 	}
+	
+	public Map<String, Integer> getMemberPaging(Integer currentPage) {
+		Integer totalcount = adminProvider.selectTotalMemberCount();
+		Map<String, Integer> result = PagingUtil.getPagingVariable(currentPage, totalcount, pageSize, listSize);
+		
+		return result;
+	}
+
 
 	public int removerMember(Long userNo) {
 		return adminProvider.deleteMember(userNo);
 	}
 
-	public List<GoodsVo> getGoodsList(Long pageNum) {
-		return adminProvider.selectGoodsList(pageNum);
+	public List<GoodsVo> getGoodsList(Integer currentpage) {
+		
+		Integer totalcount = adminProvider.selectTotalGoodsCount();
+		Integer startCol = PagingUtil.getStartRecordNum(currentpage, totalcount, pageSize); // 시작 인덱스
+		
+		return adminProvider.selectGoodsList(startCol);
 	}
-
+	
+	public Map<String, Integer> getGoodsPaging(Integer currentPage) {
+	
+		Integer totalcount = adminProvider.selectTotalGoodsCount();
+		Map<String, Integer> result = PagingUtil.getPagingVariable(currentPage, totalcount, pageSize, listSize);	
+		
+		return result;
+	}
+	
 	public int removerGoods(Long goodsNo) {
 		return adminProvider.deleteGoods(goodsNo);
 	}
@@ -160,6 +195,10 @@ public class AdminService {
 
 		return filename;
 	}
+
+	
+
+	
 
 	
 }
