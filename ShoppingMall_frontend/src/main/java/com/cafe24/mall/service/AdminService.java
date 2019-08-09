@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.mall.provider.AdminProvider;
-import com.cafe24.mall.util.PagingUtil;
+import com.cafe24.mall.util.PagingFrontUtil;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
@@ -38,7 +38,7 @@ public class AdminService {
 		
 		
 		Integer totalcount = adminProvider.selectTotalMemberCount(); 
-		Integer startCol = PagingUtil.getStartRecordNum(currentpage, totalcount, pageSize);
+		Integer startCol = PagingFrontUtil.getStartRecordNum(currentpage, totalcount, pageSize);
 		
 		System.out.println("총 멤버 수: "+totalcount);
 		
@@ -47,7 +47,7 @@ public class AdminService {
 	
 	public Map<String, Integer> getMemberPaging(Integer currentPage) {
 		Integer totalcount = adminProvider.selectTotalMemberCount();
-		Map<String, Integer> result = PagingUtil.getPagingVariable(currentPage, totalcount, pageSize, listSize);
+		Map<String, Integer> result = PagingFrontUtil.getPagingVariable(currentPage, totalcount, pageSize, listSize);
 		
 		return result;
 	}
@@ -60,7 +60,7 @@ public class AdminService {
 	public List<GoodsVo> getGoodsList(Integer currentpage) {
 		
 		Integer totalcount = adminProvider.selectTotalGoodsCount();
-		Integer startCol = PagingUtil.getStartRecordNum(currentpage, totalcount, pageSize); // 시작 인덱스
+		Integer startCol = PagingFrontUtil.getStartRecordNum(currentpage, totalcount, pageSize); // 시작 인덱스
 		
 		return adminProvider.selectGoodsList(startCol);
 	}
@@ -68,7 +68,7 @@ public class AdminService {
 	public Map<String, Integer> getGoodsPaging(Integer currentPage) {
 	
 		Integer totalcount = adminProvider.selectTotalGoodsCount();
-		Map<String, Integer> result = PagingUtil.getPagingVariable(currentPage, totalcount, pageSize, listSize);	
+		Map<String, Integer> result = PagingFrontUtil.getPagingVariable(currentPage, totalcount, pageSize, listSize);	
 		
 		return result;
 	}

@@ -8,7 +8,7 @@ import java.util.Map;
  * @author 김석현
  *
  */
-public class PagingUtil {
+public class PagingFrontUtil {
 
 	/**
 	 * 페이징 변수를 가진 맵을 반환하는 메소드
