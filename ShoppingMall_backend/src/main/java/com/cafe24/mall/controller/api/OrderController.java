@@ -5,13 +5,11 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +24,6 @@ import com.cafe24.mall.dto.OrderGoodsDTO;
 import com.cafe24.mall.service.OrderService;
 import com.cafe24.mall.vo.CancelApplyVo;
 import com.cafe24.mall.vo.ChangeApplyVo;
-import com.cafe24.mall.vo.GoodsVo;
-import com.cafe24.mall.vo.OrderGoodsVo;
 import com.cafe24.mall.vo.OrderVo;
 
 import io.swagger.annotations.ApiImplicitParam;

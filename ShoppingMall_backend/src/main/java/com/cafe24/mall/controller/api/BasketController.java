@@ -2,13 +2,11 @@ package com.cafe24.mall.controller.api;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +19,6 @@ import com.cafe24.mall.dto.BasketProcessDTO;
 import com.cafe24.mall.dto.JSONResult;
 import com.cafe24.mall.service.BasketService;
 import com.cafe24.mall.vo.BasketVo;
-import com.cafe24.mall.vo.MemberVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

@@ -2,11 +2,8 @@ package com.cafe24.mall.vo;
 
 import java.util.List;
 
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.MultipartFile;
 
 public class GoodsVo {
 
