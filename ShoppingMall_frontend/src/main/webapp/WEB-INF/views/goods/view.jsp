@@ -368,8 +368,8 @@ input[type=number]::-webkit-outer-spin-button {
 												 <i class="mdi mdi-cart-outline"></i>
 												</button>
 												
-						</form>
 											</div>
+						</form>
 											<div style="clear: both;"></div>
 										</div>
 									</div>
