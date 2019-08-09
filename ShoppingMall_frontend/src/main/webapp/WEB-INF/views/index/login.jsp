@@ -19,6 +19,9 @@
 <c:if test='${param.joinsuccess eq "yes"}'>
 	alert("회원가입에 성공하셨습니다. 해당 아이디로 로그인을 진행해 주세요.");
 </c:if>
+<c:if test='${param.result eq "fail"}'>
+	alert("로그인 실패하셨습니다. 아이디 혹은 비밀번호를 확인해주세요.");
+</c:if>
 
 </script>
 
