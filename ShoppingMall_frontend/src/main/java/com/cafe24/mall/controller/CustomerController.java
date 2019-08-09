@@ -1,5 +1,6 @@
 package com.cafe24.mall.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,18 @@ public class CustomerController {
 	@GetMapping("/checkid")
 	public Integer checkid(@RequestParam String id) {
 		return customerService.checkid(id);
+	}
+	
+	//@ResponseBody
+	@GetMapping("/cafe24/api/checktel")
+	public String checkTel(HttpServletRequest req) {
+		String message  = "영운씨 안녕하세요";
+		String sellertel = "01068669202";
+		
+		req.setAttribute("sellertel", sellertel);
+		req.setAttribute("message", message);
+		
+		return "api/smsOrder";
 	}
 	
 }
