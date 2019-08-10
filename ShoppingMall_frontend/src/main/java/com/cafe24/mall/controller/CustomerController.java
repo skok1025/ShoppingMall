@@ -1,6 +1,7 @@
 package com.cafe24.mall.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import javax.mail.Transport;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.mall.service.CustomerService;
+import com.cafe24.mall.util.SMSCafe24Service;
 import com.cafe24.mall.util.SMTPAuthenticatior;
 import com.cafe24.mall.vo.MemberVo;
 
@@ -36,6 +38,11 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private SMSCafe24Service smsService;
+	
+	
 	
 	@GetMapping("/join")
 	public String join(@ModelAttribute("memberVo") MemberVo memberVo) {
@@ -136,5 +143,32 @@ public class CustomerController {
 		
 		return "api/smsOrder";
 	}
+	
+	@GetMapping("/cafe24/api/checktel2")
+	public String checkTel2() {
+		String message  = "test2 이제 좀 아끼자";
+		String receiverTel = "01068669202";
+		try {
+			smsService.cafe24SMSService( 
+					message, 
+					receiverTel, 
+					null, 
+					null, 
+					null, 
+					null, 
+					null,
+					null,
+					null,
+					null,
+					null
+			);		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "template";
+	}
+	
+	
+	
 	
 }

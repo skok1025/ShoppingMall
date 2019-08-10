@@ -78,7 +78,7 @@
         String rdate = base64Encode(nullcheck(request.getParameter("rdate"), ""));
         String rtime = base64Encode(nullcheck(request.getParameter("rtime"), ""));
         String mode = base64Encode("1");
-        String subject = "너쓸랭 안내메세지입니다.";
+        String subject = "sms 제목";
         if(nullcheck(request.getParameter("smsType"), "").equals("L")) {
             subject = base64Encode(nullcheck(request.getParameter("subject"), ""));
         }
