@@ -68,6 +68,47 @@
 			})
 			
 		});
+		
+		
+
+		$("#codecheckbt").click(function(){
+			//alert($("#realcode").val()); // Real Code
+			//alert($("#emcheck").val()); // 내가 입력한 코드
+			
+			if($("#realcode").val()== $("#emcheck").val()){
+				$("#emchecktxt").attr("color","cornflowerblue");
+				$("#emchecktxt").text("인증 성공!!");
+				$("#codecheckbt").attr("disabled","false");
+				$("#checkembt").attr("disabled","false");
+				
+			} else{
+				$("#emchecktxt").attr("color","tomato");
+				$("#emchecktxt").text("인증 코드를 확인하세요.");
+			}
+		});
+		
+		$("#checkembt").click(function(){
+			//alert("click");
+			
+			$.ajax({
+				type:"post",
+				url:"${pageContext.servletContext.contextPath}/customer/checkemail",
+				data:"to="+$("#email").val(),
+				success:function(result){
+					console.log(result);
+					alert('메세지를 전송했습니다. 인증코드를 확인해주세요.');
+					$("#realcode").val(result);
+				},
+				error:function(a,b,c){
+					console.log(a+b+c);				
+				}
+			});
+		});
+		
+		
+		
+		
+		
 	});
 
 
@@ -78,6 +119,8 @@
 	.form-group > input {
 		margin-bottom: 10px;
 	}
+	
+	
 
 </style>
 
@@ -113,9 +156,14 @@
                 <div class="form-group">
                   <form:input type="tel" class="form-control form-control-lg" id="tel" name="tel" placeholder="연락처" value="" path="tel"/>
                 </div>
-                <div class="form-group">
+                <div class="form-group" >
                   <form:input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Email" path="email" />
+               	  <input type="button" id="checkembt" class="btn btn-gradient-primary btn-sm" value="이메일 인증"/> 
                	  <form:errors path="email" />
+               	  <input type="text" id="emcheck" class="form-control" placeholder="인증번호 입력"/>
+               	  <input type="button" id="codecheckbt"  class="btn btn-gradient-primary btn-sm" value="인증하기"/>
+               	  <span id="emchecktxt"></span>
+               	  <input type="hidden" id="realcode"/>
                 </div>
                 <div class="form-group">
                   <form:input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Password" value="" path="password"/>
