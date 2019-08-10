@@ -39,8 +39,7 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
-	@Autowired
-	private SMSCafe24Service smsService;
+	
 	
 	
 	
@@ -132,42 +131,7 @@ public class CustomerController {
 		return code;
 	}
 	
-	//@ResponseBody
-	@GetMapping("/cafe24/api/checktel")
-	public String checkTel(HttpServletRequest req) {
-		String message  = "영운씨 안녕하세요";
-		String sellertel = "01068669202";
-		
-		req.setAttribute("sellertel", sellertel);
-		req.setAttribute("message", message);
-		
-		return "api/smsOrder";
-	}
-	
-	@GetMapping("/cafe24/api/checktel2")
-	public String checkTel2() {
-		String message  = "test2 이제 좀 아끼자";
-		String receiverTel = "01068669202";
-		try {
-			smsService.cafe24SMSService( 
-					message, 
-					receiverTel, 
-					null, 
-					null, 
-					null, 
-					null, 
-					null,
-					null,
-					null,
-					null,
-					null
-			);		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "template";
-	}
-	
+
 	
 	
 	
