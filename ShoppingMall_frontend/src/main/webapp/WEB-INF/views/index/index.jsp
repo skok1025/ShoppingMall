@@ -69,10 +69,93 @@
 
 
 </style>
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/ejs.js"></script>
 <script type="text/javascript">
 	$(document)
 			.ready(
 					function() {
+						
+						var isEnd = false;
+						var listTemplate = new EJS({
+							url: '${pageContext.request.contextPath }/assets/js/ejs-templates/list-item.ejs'
+						});
+						
+						
+						var fetchList = function(){
+							if(isEnd){
+								return;
+							}
+							
+							var lastNo = $('#goods-container .goodsitem').last().data('no') || 0;
+							
+							$.ajax({
+								url: "${pageContext.request.contextPath }/api/list/" + lastNo,
+								type: "get",
+								//contentType: "application/json" //post 방식으로  JSON Type으로 데이터를 보낼 때
+								dataType: "json",
+								data: "",
+								success: function(response){
+									
+									console.log(response);
+									
+									// detect end
+									if(response.length == 0){
+										isEnd = true;
+										//$("#btn-next").prop("disabled", true);
+										return;
+									}					
+									
+									// rendering
+									//var html = listTemplate.render(response);
+									//var html ="<div>test</div>"
+									
+									$.each(response, function(i,item){
+										
+										var imageDiv="";
+										if(item.thumbnail != null){
+											imageDiv = "<img class='card-img-top img-fluid' src='${pageContext.servletContext.contextPath}/images/"+item.thumbnail+"' alt='Card image cap'>";
+										} else{
+											imageDiv = "<img class='card-img-top img-fluid' src='${pageContext.servletContext.contextPath}/assets/images/noimage.jpg' alt='Card image cap'>";
+										}
+										//console.log(item.thumbnail);
+										console.log(imageDiv);
+										
+										var html = 
+											"<div data-no='"+item.no+"' class='goodsitem col-md-3' onclick='location.href=\"${pageContext.servletContext.contextPath}/goods/view/${goods.no}\"'>"+
+											imageDiv+
+											"<div style='clear: both;'></div>"+
+											"<span class='goodsname'>"+item.name+"</span>"+
+											"<div style='clear: both; margin: 5px 0px;'></div>"+
+											"<span class='price'>"+item.seillingPrice+" 원</span>"+
+											"<div class='goodsdetail-box' style='border: 0px solid red'>"+item.detail+"</div>"+
+											"<div class='category-box'><span>"+item.bigcategoryName+" >"+item.smallcategoryName+"</span></div>"+
+											"</div>";
+											
+
+										$("#goods-container").append(html);
+									})
+									//$("#goods-container").append(html);
+								},
+								error: function(jqXHR, status, e){
+									console.error(status + ":" + e);
+								}
+							});
+						}
+						
+						$(window).scroll(function(){
+							var $window = $(this);
+							var scrollTop = $window.scrollTop();
+							var windowHeight = $window.height();
+							var documentHeight = $(document).height();
+							if( scrollTop + windowHeight + 10 > documentHeight ){
+								fetchList();
+							}
+						});
+
+						// 최초 리스트 가져오기
+						fetchList();
+						
+						///////////////////////////////////////////////////////////
 						$("#myCarousel")
 								.on(
 										"slide.bs.carousel",
@@ -214,9 +297,9 @@
 							</div>
 						</div>
 						 --%>
-
+<%-- 
 						<c:forEach items="${goodslist}" var="goods">
-							<div class="goodsitem col-md-3" onclick="location.href='${pageContext.servletContext.contextPath}/goods/view/${goods.no}'">
+							<div data-no="${goods.no}" class="goodsitem col-md-3" onclick="location.href='${pageContext.servletContext.contextPath}/goods/view/${goods.no}'">
 								
 								<c:if test="${goods.thumbnail ne null}">
 									<img class="card-img-top img-fluid"
@@ -247,7 +330,7 @@
 							</div>
 						</c:forEach>
 
-
+ --%>
 					</div>
 
 

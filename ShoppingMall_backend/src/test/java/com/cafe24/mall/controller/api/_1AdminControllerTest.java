@@ -410,8 +410,9 @@ public class _1AdminControllerTest {
 	 * @throws Exception 예외
 	 */
 	@Test
+	@Rollback(false)
 	public void testGoodsAdd_Success() throws Exception{
-		testAddSmallCategory_Success();
+		//testAddSmallCategory_Success();
 		
 		GoodsVo goodsvo = new GoodsVo();
 		

@@ -2,8 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="goods">
-	
 	<select id="selectGoodsList" parameterType="integer" resultType="goodsvo">
+		<![CDATA[
+			select 
+			no,
+			name,
+			seilling_price as seillingPrice,
+			concat(left(g.viewdetail,30),'...') as detail,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
+			seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g 
+            where 
+            display_status = 'y' and isdel is null
+        ]]>
+        <if test="_parameter > 0">
+			<![CDATA[
+			and no < #{_parameter}
+		 	]]>	
+		</if>    
+		<![CDATA[
+			order by no desc
+			limit 0,8
+		]]>
+	</select>
+	<select id="selectGoodsList2" parameterType="integer" resultType="goodsvo">
 		<![CDATA[
 			select 
 			no,
