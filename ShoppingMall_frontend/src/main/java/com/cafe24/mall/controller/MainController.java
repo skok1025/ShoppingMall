@@ -38,7 +38,7 @@ public class MainController {
 		//int startNo = 0;
 		//if(startNo ==null) 
 			startNo = 0;
-		//List<GoodsVo> mainDisplayList = mainService.getMainDisplayList();
+		List<GoodsVo> mainDisplayList = mainService.getMainDisplayList();
 		//List<GoodsVo> list = mainService.getGoodsList(startNo);
 		List<BigCategoryVo> categoryList = mainService.getCategoryList(); 
 		
@@ -47,7 +47,7 @@ public class MainController {
 		
 		//System.out.println("상품 리스트 : "+list);
 		System.out.println("+++++++++++++++");
-		//System.out.println("메인 진열 리스트: "+mainDisplayList);
+		System.out.println("메인 진열 리스트: "+mainDisplayList);
 		System.out.println("+++++++++++++++");
 		System.out.println("카테고리 리스트: "+categoryList);		
 		System.out.println("+++++++++++++++");
@@ -55,7 +55,9 @@ public class MainController {
 		
 		
 		//model.addAttribute("goodslist", list);
-		//model.addAttribute("mainDisplayList",mainDisplayList);
+		
+		
+		model.addAttribute("mainDisplayList",mainDisplayList);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("maindisplayCategoryVo",maindisplayCategoryVo);
 		

@@ -39,7 +39,8 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
-	
+	@Autowired
+	private SMSCafe24Service smsService;
 	
 	
 	
@@ -61,6 +62,14 @@ public class CustomerController {
 		}
 		
 		Integer result = customerService.joinMember(memberVo);
+		
+		String message = memberVo.getName()+"("+memberVo.getId()+") 님  [SK Mall] 회원가입을 축하드립니다~~~. ";
+		
+		try {
+			smsService.cafe24SMSService(message, memberVo.getTel(), null, null, null, null, null, null, null, null, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if(result == 1) {
 			return "redirect:/login?joinsuccess=yes";
