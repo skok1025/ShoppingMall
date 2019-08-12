@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -66,12 +67,44 @@
 	cursor: pointer;
 }
 
+.total-price {
+	text-align: right;
+}
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
+
+}
+
+#cnt{
+	width: 75px;
+}
+
+.btns-box{
+text-align: center;
+}
 
 </style>
 
 <script type="text/javascript">
-	
+$(document)
+	.ready(function(){
+		$(".editBtn").click(function(event){
+			//alert($(this).prev().val());
+			var cnt = $(this).prev().val();
+			var goodsDetailNo = $(this).prev().prev().val();
+			var no = $(this).prev().prev().prev().val();
+			
+			//alert(cnt);
+			//alert(goodsDetailNo);
+			//alert(no);
+			
+			location.href="${pageContext.servletContext.contextPath}/basket/edit/"+goodsDetailNo+"/"+${memberNo}+"/"+no+"/"+cnt;
+		});
+		
+	});
 </script>
 
 </head>
@@ -109,39 +142,60 @@
 
 					<h1>장바구니</h1>
 
+<form action="${pageContext.servletContext.contextPath }/order/" method="post">
 					<table class="table table-striped">
 					
 					<thead>
-						<tr><th>no</th></tr>
-						<tr><th>상품 이미지</th></tr>
-						<tr><th>상품명 (상품옵션)</th></tr>
-						<tr><th>수량</th></tr>
-						<tr><th>상품가격</th></tr>
+						<tr>
+							<th>no</th>
+							<th>상품 이미지</th>
+							<th>상품명 (상품옵션)</th>
+							<th>수량</th>
+							<th>상품가격</th>
+							<th>취소</th>
+						</tr>
 					</thead>
 					
 					<tbody>
-						
-						<c:forEach items="${basketList }" var="vo">
+						<c:forEach items="${basketList }" var="vo" varStatus="status">
+						<tr>
 						
 							<td>${vo.no }</td>
 							<td><img src="${pageContext.servletContext.contextPath }/images/${vo.thumbnail}" alt="상품이미지" /></td>
 							<td>${vo.goodsName }( ${vo.optionName })</td>
-							<td>${vo.cnt }</td>
-							<td>${vo.price }</td>
-						
+							<td>
+							<input type="hidden" class="no" value="${vo.no}" />
+							<input type="hidden" class="goodsDetailNo" value="${vo.goodsDetailNo}" name="list[${status.index }].goodsDetailNo"/>
+							<input class="form-control" type="number" id="cnt" value="${vo.cnt }" name="list[${status.index }].cnt"/>
+							<input style="margin-top: 5px;" type="button" class="editBtn btn btn-gradient-primary btn-sm" value="EDIT"
+							onclick="${pageContext.servletContext.contextPath}/basket/edit/${vo.goodsDetailNo}/${memberNo}/${vo.no}/${vo.cnt}"
+							/>
+							</td>
+							<td><fmt:formatNumber value="${vo.price }" type="currency"></fmt:formatNumber></td>
+							<td><a href="${pageContext.servletContext.contextPath }/basket/delete/${vo.goodsDetailNo}/${memberNo}" class="btn btn-sm btn-gradient-danger"><i class="mdi mdi-delete"></i>delete</a></td>
+						</tr>						
 						</c:forEach>
 						
 						
 					</tbody>
 					
+					
+					
 					</table>
+					<hr />
+					<div class="total-price">
+						<span>총 구매금액: <fmt:formatNumber value="${totalPrice }" type="currency"></fmt:formatNumber></span>
+					</div>
+					<hr />
 
 
+					<div class="btns-box">
+						
+						<button type="submit" class="btn btn-gradient-primary btn-bg">주문하기</button>
+						<a href="${pageContext.servletContext.contextPath }/basket/allremove/${memberNo}" class="btn btn-outline-danger btn-bg">장바구니 비우기</a>
+					</div>
 
-
-
-
-
+</form>
 
 
 				</div>

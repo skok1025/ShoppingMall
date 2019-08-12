@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.BasketDTO;
+import com.cafe24.mall.dto.BasketItemDTO;
 import com.cafe24.mall.dto.BasketProcessDTO;
 import com.cafe24.mall.dto.JSONResult;
 import com.cafe24.mall.service.BasketService;
@@ -76,6 +78,19 @@ public class BasketController {
 		List<BasketDTO> list = basketService.getBasketList(memberNo);
 		return JSONResult.success("장바구니 조회 (회원) 완료", list);
 	}
+
+	@ApiOperation(value = "장바구니 총 금액 조회 (회원)")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "memberNo", value = "회원번호", required = true, dataType = "Long", defaultValue = "") 
+	})
+	@GetMapping("/member/totalprice")
+	public JSONResult BasketMemberTotal(@RequestParam Long memberNo) {
+		Integer result = basketService.getBasketTotal(memberNo);
+		return JSONResult.success("장바구니 총 금액 조회 (회원) 완료", result);
+	}
+	
+	
+	
 	@ApiOperation(value = "장바구니 조회 (비회원)")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "basketCode", value = "장바구니 코드", required = true, dataType = "String", defaultValue = "") 
@@ -88,7 +103,7 @@ public class BasketController {
 	
 	@ApiOperation(value = "장바구니수량 수정")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "basketvo", value = "수정된 장바구니 정보 (tblBasket.no, cnt)", required = true, dataType = "String", defaultValue = "") 
+		@ApiImplicitParam(name = "basketvo", value = "수정된 장바구니 정보 (tblBasketcode, detailNO, cnt)", required = true, dataType = "String", defaultValue = "") 
 	})
 	@PutMapping("/modify")
 	public JSONResult modifyBasketInfo(@RequestBody BasketVo basketvo) {
@@ -97,9 +112,12 @@ public class BasketController {
 	}
 	
 	@ApiOperation(value = "장바구니특정상품 삭제")	
-	@DeleteMapping("/remove")
-	public JSONResult removeBasketGoods(@RequestParam Long basketNo) {
-		int result = basketService.removeBasketGoods(basketNo);
+	@DeleteMapping("/remove/{goodsDetailNo}/{basketCode}")
+	public JSONResult removeBasketGoods(
+			@PathVariable("goodsDetailNo") Long goodsDetailNo,
+			@PathVariable("basketCode") String basketCode
+			) {
+		int result = basketService.removeBasketGoods(goodsDetailNo,basketCode);
 		return result == 1 ? JSONResult.success("장바구니 상품 삭제 완료",result) : JSONResult.fail("장바구니 상품 삭제 실패");		
 	}
 
@@ -118,6 +136,16 @@ public class BasketController {
 		return result >= 1 ? JSONResult.success("장바구니상품전체삭제 완료",result) 
 				: JSONResult.fail("장바구니상품전체 삭제 실패 (삭제할 장바구니가 없음)");		
 	}
+	
+	@GetMapping("/getItem/{goodsDetailNo}")
+	public JSONResult getItem(@PathVariable("goodsDetailNo") Long goodsDetailNo) {
+		BasketItemDTO result = basketService.getItem(goodsDetailNo);
+		
+		
+		return JSONResult.success("장바구니 상품 조회 완료",result);
+		
+	}
+	
 	
 	
 	

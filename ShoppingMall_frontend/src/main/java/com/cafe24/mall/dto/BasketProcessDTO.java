@@ -1,10 +1,15 @@
 package com.cafe24.mall.dto;
 
+import java.util.List;
+
 public class BasketProcessDTO {
 	
 	private Long memberNo;
 	private Long goodsDetailNo;
 	private Integer cnt;
+	
+	
+	
 	public Long getMemberNo() {
 		return memberNo;
 	}

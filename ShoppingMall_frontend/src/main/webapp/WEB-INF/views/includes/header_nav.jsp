@@ -41,8 +41,8 @@
 						</a>
 							<div class="dropdown-menu navbar-dropdown"
 								aria-labelledby="profileDropdown">
-								<a class="dropdown-item" href="#"> <i
-									class="mdi mdi-cached mr-2 text-success"></i> Activity Log
+								<a class="dropdown-item" href="${pageContext.servletContext.contextPath }/basket/view"> <i
+									class="mdi mdi-cart mr-2 text-success"></i> My Basket
 								</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="${pageContext.servletContext.contextPath }/logout"> <i

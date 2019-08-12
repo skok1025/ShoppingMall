@@ -72,12 +72,12 @@
 				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
 				g.name as goodsName,
 				gd.option_name as optionName,
-				b.cnt as cnt,
-				g.seilling_price * b.cnt as price
+				sum(b.cnt) as cnt,
+				g.seilling_price * sum(b.cnt) as price
 				from tblBasket b inner join tblGoodsDetail gd
 				                            on b.goods_detail_no = gd.no inner join tblGoods g
 				                                on gd.goods_no = g.no
-                                where basket_code in (select code from tblCustomerBasketCode where member_no =#{memberNo})
+                                where basket_code in (select code from tblCustomerBasketCode where member_no =#{memberNo}) group by goodsDetailNo
 		
 		]]>
 	</select>
@@ -89,9 +89,9 @@
 	
 	</update>
 	
-	<delete id="deleteBasketGoods" parameterType="long">
+	<delete id="deleteBasketGoods" parameterType="map">
 		<![CDATA[
-			delete from tblBasket where no = #{no}
+			delete from tblBasket where basket_code = #{basketCode} and goods_detail_no=#{goodsDetailNo}
 		]]>
 	</delete>
 	
@@ -109,4 +109,42 @@
 	<select id="getCurrentInsertBasketNo" resultType="long">
 		select max(no) from tblBasket
 	</select>
+	
+	<select id="selectMemberBasketTotal" parameterType="long" resultType="integer">
+	
+		select sum(a.price) from
+(select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				sum(b.cnt) as cnt,
+				g.seilling_price * sum(b.cnt) as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code in (select code from tblCustomerBasketCode where member_no =#{memberNo}) group by goodsDetailNo) a
+	
+	</select>
+	
+	<update id="updateBasketCntZero" parameterType="basketvo">
+		update tblBasket set cnt=0 where basket_code= #{basketCode} and goods_detail_no = #{goodsDetailNo}
+	
+	</update>
+	
+	<delete id="deleteBasketCntZero">
+		delete from tblBasket where cnt=0
+	</delete>
+	
+	<select id="selectItem" parameterType="long" resultType="basketitemdto">
+		 select 
+ g.name as goodsName,
+ option_name as optionName,
+ seilling_price as price,
+ (select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+ from tblGoodsDetail gd inner join tblGoods g
+			on gd.goods_no = g.no where gd.no = #{goodsDetailNo}
+	</select>
+	
 </mapper>

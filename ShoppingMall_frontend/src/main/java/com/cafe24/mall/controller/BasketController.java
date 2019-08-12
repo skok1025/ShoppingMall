@@ -6,17 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.mall.dto.BasketDTO;
+import com.cafe24.mall.dto.BasketItemDTO;
 import com.cafe24.mall.security.SecurityUser;
 import com.cafe24.mall.service.BasketService;
 import com.cafe24.mall.vo.BasketVo;
+import com.cafe24.mall.vo.GoodsDetailVo;
 
 @Controller
 @RequestMapping("/basket")
@@ -62,10 +66,59 @@ public class BasketController {
 			@AuthenticationPrincipal SecurityUser user) {
 		
 		Long memberNo = user.getNo();
-		//List<BasketDTO> basketList = basketService.getBasketList(memberNo);
-		//System.out.println("장바구니: "+basketList);
-		//model.addAttribute("basketList", basketList);
+		List<BasketItemDTO> basketList = basketService.getBasketList(memberNo);
+		
+		Integer totalPrice = basketService.getTotalPrice(memberNo);
+		
+		System.out.println("장바구니: "+basketList);
+		model.addAttribute("basketList", basketList);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("memberNo",memberNo);
 		return "basket/view";
+	}
+	
+	@GetMapping("/delete/{goodsDetailNo}/{basketCode}")
+	public String deleteMemberBasket(
+			@PathVariable("goodsDetailNo") Long goodsDetailNo,
+			@PathVariable("basketCode") String basketCode,
+			@AuthenticationPrincipal SecurityUser user
+			) {
+		System.out.println("삭제 진행 회원번호: "+user.getNo());
+		
+		if(user.getNo().toString().equals(basketCode)) { // 로그인을 한 회원인지 여부 확인
+			basketService.deleteBasket(goodsDetailNo,basketCode);
+		}
+		return "redirect:/basket/view";
+	}
+	
+	@GetMapping("/edit/{goodsDetailNo}/{memberNo}/{no}/{cnt}")
+	public String editMemberBasket(
+			@PathVariable("goodsDetailNo") Long goodsDetailNo,
+			@PathVariable("memberNo") Long memberNo,
+			@PathVariable("no") Long no,
+			@PathVariable("cnt") int cnt,
+			@AuthenticationPrincipal SecurityUser user
+			) {
+		if(user.getNo().equals(memberNo)) {
+			basketService.editBasket(goodsDetailNo,memberNo,no,cnt);
+		}
+		
+		return "redirect:/basket/view";
+	}
+	
+	@GetMapping("/allremove/{memberNo}")
+	public String allRemove(
+			@PathVariable("memberNo") Long memberNo,
+			@AuthenticationPrincipal SecurityUser user) {
+		
+		System.out.println("삭제 진행 회원번호: "+user.getNo());
+		System.out.println(memberNo);
+		
+		if(user.getNo().equals(memberNo)) {
+			basketService.allremove(memberNo);
+		}
+		
+		return "redirect:/basket/view";
 	}
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.mall.dto.BasketDTO;
+import com.cafe24.mall.dto.BasketItemDTO;
 import com.cafe24.mall.repository.BasketDao;
 import com.cafe24.mall.vo.BasketVo;
 
@@ -70,11 +71,20 @@ public class BasketService {
 	 * @return
 	 */
 	public int modifyBasketInfo(BasketVo basketvo) {
-		return basketDao.updateBasketInfo(basketvo);
+		basketDao.updateBasketCntZero(basketvo);
+		
+		int result = basketDao.updateBasketInfo(basketvo);
+		
+		basketDao.deleteCntZero();
+		return result;
 	}
 
-	public int removeBasketGoods(Long basketNo) {
-		return basketDao.deleteBasketGoods(basketNo);
+	public int removeBasketGoods(Long goodsDetailNo,String basketCode) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("goodsDetailNo", goodsDetailNo);
+		map.put("basketCode", basketCode);
+		
+		return basketDao.deleteBasketGoods(map);
 	}
 
 	public List<BasketDTO> getBasketList(String basketCode) {
@@ -91,6 +101,14 @@ public class BasketService {
 
 	public int allremoveBasketGoods(String basketCode) {
 		return basketDao.allDeleteBasketGoods(basketCode);
+	}
+
+	public Integer getBasketTotal(Long memberNo) {
+		return basketDao.selectBasketTotal(memberNo);
+	}
+
+	public BasketItemDTO getItem(Long goodsDetailNo) {
+		return basketDao.selectItem(goodsDetailNo);
 	}
 
 	
