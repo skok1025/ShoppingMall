@@ -67,7 +67,7 @@
 	
 	</select>
 	
-	<select id="selectGoodsListByCategory" parameterType="long" resultType="goodsvo">
+	<select id="selectGoodsListByCategory" parameterType="map" resultType="goodsvo">
 		<![CDATA[
 			select 
 			g.no as no,
@@ -84,7 +84,12 @@
             g.display_status = 'y' and g.isdel is null and
             g.smallcategory_no = #{smallcategoryNo}
             order by no
+            limit 8 offset #{startCol}
 		]]>
+	</select>
+	
+	<select id="selectTotalCountCategoryGoods" parameterType="long" resultType="integer">
+		select count(*) from tblGoods where smallcategory_no = #{smallcategoryNo} and isdel is null
 	</select>
 	
 	<select id="selectMainDisplayList" parameterType="long" resultType="goodsvo">

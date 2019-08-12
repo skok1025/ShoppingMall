@@ -1,6 +1,7 @@
 package com.cafe24.mall.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,14 @@ public class GoodsController {
 	private MainService mainService;
 	
 	@GetMapping("/category/{smallcategoryNo}")
-	public String categoryPage(@PathVariable("smallcategoryNo") Long smallcategoryNo,Model model) {
+	public String categoryPage(
+			@PathVariable("smallcategoryNo") Long smallcategoryNo,
+			@RequestParam(defaultValue = "1") Integer currentPage,
+			Model model) {
 		
-		List<GoodsVo> list = goodsService.getGoodsList(smallcategoryNo);
+		List<GoodsVo> list = goodsService.getGoodsList(smallcategoryNo,currentPage);
+		Map<String, Integer> paging = goodsService.getGoodsPaging(smallcategoryNo, currentPage);
+		
 		List<BigCategoryVo> categoryList = mainService.getCategoryList(); 
 		
 		GoodsVo categoryNames = goodsService.getCategoryNames(smallcategoryNo);
@@ -47,6 +53,8 @@ public class GoodsController {
 		model.addAttribute("goodslist", list);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("categoryNames",categoryNames);
+		model.addAttribute("smallcategoryNo",smallcategoryNo);
+		model.addAttribute("paging",paging);
 		
 		return "goods/categorygoods";
 	}

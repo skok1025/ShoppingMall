@@ -48,6 +48,8 @@ public class GoodsController {
 		List<GoodsVo> list = goodsService.getGoodsList(startNo);
 		return JSONResult.success("전체 상품리스트 조회 성공",list);
 	}
+	
+	
 	/**
 	 * 상품카테고리를 통한 상품 리스트 탐색
 	 * @param smallcategoryNo 2차 카테고리 번호
@@ -58,10 +60,22 @@ public class GoodsController {
 		@ApiImplicitParam(name = "smallcategoryNo", value = "검색할 키워드", required = true, dataType = "String", defaultValue = ""),
 	})
 	@GetMapping("/category")
-	public JSONResult search(@RequestParam Long smallcategoryNo) {
-		List<GoodsVo> list = goodsService.getGoodsList(smallcategoryNo);
+	public JSONResult search(
+			@RequestParam Long smallcategoryNo,
+			@RequestParam Integer startCol) {
+		List<GoodsVo> list = goodsService.getGoodsList(smallcategoryNo, startCol);
 		return JSONResult.success("상품카테고리 상품리스트 탐색 성공",list);
 	}
+	@ApiOperation(value = "상품카테고리 상품리스트 총 갯수")
+	@GetMapping("/totalcount/category/{smallcategoryNo}")
+	public JSONResult gettotalCount(
+			@PathVariable("smallcategoryNo") Long smallcategoryNo) {
+		Integer count = goodsService.getTotalCount(smallcategoryNo);
+		return JSONResult.success("상품카테고리 상품리스트 총 갯수 조회성공",count);
+	}
+	
+	
+	
 	/**
 	 * 상품 검색
 	 * @param kw 검색할 키워드

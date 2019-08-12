@@ -1,6 +1,7 @@
 package com.cafe24.mall.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class GoodsDao {
 		return sqlSession.selectList("goods.selectGoodsDetailList", goodsNo);
 	}
 
-	public List<GoodsVo> selectGoodsList(Long smallcategoryNo) {
-		return sqlSession.selectList("goods.selectGoodsListByCategory", smallcategoryNo);
+	public List<GoodsVo> selectGoodsList(Map<String,Object> map) {
+		return sqlSession.selectList("goods.selectGoodsListByCategory", map);
 	}
 
 	public List<GoodsVo> selectMainDisplayList(Long maindisplayNo) {
@@ -55,6 +56,10 @@ public class GoodsDao {
 
 	public MaindisplayCategoryVo selectMainDisplayCategoryVo() {
 		return sqlSession.selectOne("goods.selectMainDisplayCategoryVo");
+	}
+
+	public Integer selectTotalCount(Long smallcategoryNo) {
+		return sqlSession.selectOne("goods.selectTotalCountCategoryGoods",smallcategoryNo);
 	}
 
 	

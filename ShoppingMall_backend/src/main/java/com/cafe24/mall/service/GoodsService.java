@@ -1,6 +1,8 @@
 package com.cafe24.mall.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +44,12 @@ public class GoodsService {
 		return goodsDao.selectGoodsDetailList(goodsNo);
 	}
 
-	public List<GoodsVo> getGoodsList(Long smallcategoryNo) {
-		return goodsDao.selectGoodsList(smallcategoryNo);
+	public List<GoodsVo> getGoodsList(Long smallcategoryNo,Integer startCol) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("smallcategoryNo", smallcategoryNo);
+		map.put("startCol", startCol);
+		
+		return goodsDao.selectGoodsList(map);
 		
 	}
 
@@ -57,6 +63,10 @@ public class GoodsService {
 
 	public MaindisplayCategoryVo getMainDisplayCategoryVo() {
 		return goodsDao.selectMainDisplayCategoryVo();
+	}
+
+	public Integer getTotalCount(Long smallcategoryNo) {
+		return goodsDao.selectTotalCount(smallcategoryNo);
 	}
 
 }
