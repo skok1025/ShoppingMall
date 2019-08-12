@@ -29,6 +29,7 @@ select * from tblCustomerBasketCode;
 select * from tblBasket;
 select * from tblCustomerBasketCode;
 
+delete from tblSmallCategory where bigcategory_no=6;
 
 select sum(regdate) from tblOrder;
 
@@ -242,5 +243,107 @@ select
 			from tblMember m left outer join tblOrder o 
 			on m.no = o.member_no
 			where m.id != 'admin' and m.id like concat('%','','%') 
-			limit 10 offset 1
-           
+			limit 10 offset 1;
+
+
+select 
+			no,
+			name,
+			seilling_price as seillingPrice,
+			concat(left(g.viewdetail,30),'...') as detail,
+			(select name from tblSmallCategory where no =  g.smallcategory_no) as smallcategoryName,
+			(select name from tblBigCategory where no =(select bigcategory_no from tblSmallCategory where no =  g.smallcategory_no)) as bigcategoryName,
+			seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g 
+            where 
+            display_status = 'y' and isdel is null
+            and no < 8
+            order by no desc
+			limit 0,8;
+            
+select count(*) from tblGoods where smallcategory_no = 1 and isdel is null;
+
+
+select 
+			g.no as no,
+			g.name as name,
+			concat(left(g.viewdetail,30),'...') as detail,
+			s.name as smallcategoryName,
+			b.name as bigcategoryName,
+			g.seilling_price as seillingPrice,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+			from tblGoods g inner join tblSmallCategory s 
+			on  s.no = g.smallcategory_no inner join tblBigCategory b
+			on b.no = s.bigcategory_no
+            where 
+            g.display_status = 'y' and g.isdel is null
+            order by no;
+            
+ 
+ 
+ select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				b.cnt as cnt,
+				g.seilling_price * b.cnt as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code in (select code from tblCustomerBasketCode where member_no =2);
+            
+select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				sum(b.cnt) as cnt,
+				g.seilling_price * sum(b.cnt) as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code in (select code from tblCustomerBasketCode where member_no =2) group by goodsDetailNo;
+                                
+select * from tblBasket;
+delete from tblBasket where basket_code = 2 and goods_detail_no=35;
+select * from tblGoodsDetail;
+
+delete from tblBasket where basket_code = 2 and goods_detail_no=22;							
+                            
+select
+				goods_no,cnt * seilling_price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+                                where basket_code in (select code from tblCustomerBasketCode where member_no =2) group by goods_no;
+      
+ -- 멤버번호 2 의 총 구매금액     
+select sum(a.price) from
+(select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				sum(b.cnt) as cnt,
+				g.seilling_price * sum(b.cnt) as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code in (select code from tblCustomerBasketCode where member_no =2) group by goodsDetailNo) a;
+ 
+ 
+ -- 상품 상세번호의 goodsName, optionName, thumbnail, price
+ 
+ select 
+ g.name as goodsName,
+ option_name as optionName,
+ seilling_price as price,
+ (select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail
+ from tblGoodsDetail gd inner join tblGoods g
+			on gd.goods_no = g.no where gd.no = 1;
+ 
+ 

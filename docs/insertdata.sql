@@ -1,3 +1,6 @@
+
+
+
 insert into 
 			tblMember (no,name,address,birth_date,gender,id,password,email,tel,regdate) 
 			values(null,

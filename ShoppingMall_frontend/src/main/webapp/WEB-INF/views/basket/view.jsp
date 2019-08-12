@@ -142,7 +142,7 @@ $(document)
 
 					<h1>장바구니</h1>
 
-<form action="${pageContext.servletContext.contextPath }/order/" method="post">
+<form action="${pageContext.servletContext.contextPath }/order/view" method="post">
 					<table class="table table-striped">
 					
 					<thead>
