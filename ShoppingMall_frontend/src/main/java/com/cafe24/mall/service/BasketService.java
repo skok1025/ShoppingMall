@@ -24,4 +24,8 @@ public class BasketService {
 		
 		return result;
 	}
+
+	public List<BasketDTO> getBasketList(Long memberNo) {
+		return basketProvider.selectBasketList(memberNo);
+	}
 }

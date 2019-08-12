@@ -223,7 +223,7 @@ public class _4BasketControllerTest {
 		ResultActions resultActions =
 				mockMvc
 				.perform(get("/api/basket/member/list").contentType(MediaType.APPLICATION_JSON)
-						.param("memberNo", "1")
+						.param("memberNo", "2")
 						);
 		
 				

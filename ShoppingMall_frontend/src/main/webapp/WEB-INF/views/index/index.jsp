@@ -101,7 +101,7 @@
 									// detect end
 									if(response.length == 0){
 										isEnd = true;
-										//$("#btn-next").prop("disabled", true);
+										$("#btn-next").prop("disabled", true);
 										return;
 									}					
 									
@@ -121,7 +121,7 @@
 										console.log(imageDiv);
 										
 										var html = 
-											"<div data-no='"+item.no+"' class='goodsitem col-md-3' onclick='location.href=\"${pageContext.servletContext.contextPath}/goods/view/${goods.no}\"'>"+
+											"<div data-no='"+item.no+"' class='goodsitem col-md-3' onclick='location.href=\"${pageContext.servletContext.contextPath}/goods/view/"+item.no+"\"'>"+
 											imageDiv+
 											"<div style='clear: both;'></div>"+
 											"<span class='goodsname'>"+item.name+"</span>"+
@@ -142,16 +142,22 @@
 							});
 						}
 						
+						
 						$(window).scroll(function(){
 							var $window = $(this);
 							var scrollTop = $window.scrollTop();
 							var windowHeight = $window.height();
 							var documentHeight = $(document).height();
-							if( scrollTop + windowHeight + 10 > documentHeight ){
+							if( scrollTop + windowHeight + 5> documentHeight ){
 								fetchList();
 							}
 						});
-
+						
+						
+						$("#btn-next").click(function(){
+							fetchList();
+						});
+ 
 						// 최초 리스트 가져오기
 						fetchList();
 						
@@ -331,8 +337,12 @@
 						</c:forEach>
 
  --%>
+ 
+ 
 					</div>
-
+					<div style="text-align: center;">
+ 						<button class="btn btn-gradient-primary btn-sm" id="btn-next"><i class="mdi mdi-library-plus"></i>상품 더보기</button>
+					</div>
 
 
 

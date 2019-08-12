@@ -156,7 +156,9 @@ $(document).ready(function() {
 							</div>
 						</div>
 						 --%>
-						
+						<c:if test="${empty goodslist}"> 
+						<span>진열된 상품이 없습니다.</span>
+						</c:if>
 						<c:forEach items="${goodslist}" var="goods">
 							<div class="goodsitem col-md-3" onclick="location.href='${pageContext.servletContext.contextPath}/goods/view/${goods.no}'">
 								<c:if test="${goods.thumbnail ne null}">
