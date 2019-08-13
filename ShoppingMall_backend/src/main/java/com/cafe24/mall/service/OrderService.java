@@ -52,6 +52,11 @@ public class OrderService {
 		return orderDao.selectOrderGoodsList(orderCode);
 	}
 
+	public List<OrderGoodsDTO> getOrderGoodsList(Long memberNo) {
+		return orderDao.selectOrderGoodsList(memberNo);
+	}
+
+	
 	public OrderVo getOrderInfo(String orderCode) {
 		return orderDao.selectOrderInfo(orderCode);
 	}
@@ -75,5 +80,6 @@ public class OrderService {
 	public List<OrderDTO> getOrderList(Long memberNo) {
 		return orderDao.selectOrderList(memberNo);
 	}
+
 
 }

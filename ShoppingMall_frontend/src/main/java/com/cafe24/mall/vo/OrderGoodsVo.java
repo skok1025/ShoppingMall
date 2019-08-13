@@ -8,7 +8,7 @@ public class OrderGoodsVo {
 	
 	private Long orderNo;
 	private Long goodsDetailNo;
-	private int cnt;
+	private Integer cnt;
 	private OrderGoodsVo.status status;
 	private int sailingPrice;
 	
@@ -66,7 +66,7 @@ public class OrderGoodsVo {
 	@Override
 	public String toString() {
 		return "OrderGoodsVo [orderNo=" + orderNo + ", goodsDetailNo=" + goodsDetailNo + ", cnt=" + cnt + ", status="
-				+ status + ", sailingPrice=" + sailingPrice + "]";
+				+ status + ", sailingPrice=" + sailingPrice + ", basketCode=" + basketCode + "]";
 	}
 	
 	

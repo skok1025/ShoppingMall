@@ -45,6 +45,10 @@
 									class="mdi mdi-cart mr-2 text-success"></i> My Basket
 								</a>
 								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="${pageContext.servletContext.contextPath }/order/list"> <i
+									class="mdi mdi-truck text-danger"></i> My Order List
+								</a>
+								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="${pageContext.servletContext.contextPath }/logout"> <i
 									class="mdi mdi-logout mr-2 text-primary"></i> Signout
 								</a>

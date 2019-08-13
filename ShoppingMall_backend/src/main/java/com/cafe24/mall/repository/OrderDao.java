@@ -34,6 +34,11 @@ public class OrderDao {
 		return sqlsession.selectList("order.selectOrderGoodsList", orderCode);
 	}
 
+	
+	public List<OrderGoodsDTO> selectOrderGoodsList(Long memberNo) {
+		return sqlsession.selectList("order.selectOrderGoodsListByMemberNo", memberNo);
+	}
+	
 	public OrderVo selectOrderInfo(String orderCode) {
 		return sqlsession.selectOne("order.selectOrderInfo",orderCode);
 	}
@@ -91,5 +96,7 @@ public class OrderDao {
 		map.put("cnt", cnt);
 		sqlsession.update("order.updateInventoryCnt", map);
 	}
+
+	
 
 }

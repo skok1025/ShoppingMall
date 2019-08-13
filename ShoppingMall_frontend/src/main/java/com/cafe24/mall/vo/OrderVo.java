@@ -28,6 +28,27 @@ public class OrderVo {
 	private String message;
 	private String invoiceCode;
 	
+	private String addr1;
+	private String addr2;
+	
+	
+	
+	public String getAddr1() {
+		return addr1;
+	}
+
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
+	}
+
+	public String getAddr2() {
+		return addr2;
+	}
+
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
+	}
+
 	private List<OrderGoodsVo> orderGoodsList;
 
 	public Long getNo() {
@@ -173,7 +194,7 @@ public class OrderVo {
 				+ ", orderStatus=" + orderStatus + ", paymentWay=" + paymentWay + ", receiverName=" + receiverName
 				+ ", receiverTel1=" + receiverTel1 + ", receiverTel2=" + receiverTel2 + ", receiverPostcode="
 				+ receiverPostcode + ", receiverAddress=" + receiverAddress + ", message=" + message + ", invoiceCode="
-				+ invoiceCode + ", orderGoodsList=" + orderGoodsList + "]";
+				+ invoiceCode + ", addr1=" + addr1 + ", addr2=" + addr2 + ", orderGoodsList=" + orderGoodsList + "]";
 	}
 	
 	

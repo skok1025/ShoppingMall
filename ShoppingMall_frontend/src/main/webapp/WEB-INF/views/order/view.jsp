@@ -86,14 +86,58 @@ input[type=number]::-webkit-outer-spin-button {
 text-align: center;
 }
 
-</style>
+#input-box{
+	border: 0px solid red;
+	width: 400px;
+	float: left;
+	margin: 50px;
+}
 
+#input-box > input{
+	padding: 10px !important;
+}
+
+</style>
+<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
-$(document)
-	.ready(function(){
+function openZipSearch() {
+	new daum.Postcode({
+		oncomplete: function(data) {
+			$('[name=receiverPostcode]').val(data.zonecode); // 우편번호 (5자리)
+			$('[name=addr1]').val(data.address);
+			$('[name=addr2]').val(data.buildingName);
+		}
+	}).open();
+}
+
+$(document).ready(function(){
+	$("#samebox").change(function(){
+        if($("#samebox").is(":checked")){
+            //alert("체크박스 체크했음!");
+            $("#orderName").val("${userName}");
+            $("#orderTel").val("${userTel}");
+        }else{
+            //alert("체크박스 체크 해제!");
+            $("#orderName").val("");
+            $("#orderTel").val("");
+        }
+    });	
+	
+	$("#samebox2").change(function(){
+        if($("#samebox2").is(":checked")){
+            //alert("체크박스 체크했음!");
+            $("#receiverName").val("${userName}");
+            $("#receiverTel1").val("${userTel}");
+            $("#receiverTel2").val("${userTel}");
+        }else{
+            //alert("체크박스 체크 해제!");
+            $("#receiverName").val("");
+            $("#receiverTel1").val("");
+            $("#receiverTel2").val("");
+        }
+    });	
 		
-		
-	});
+});
 </script>
 
 </head>
@@ -153,9 +197,8 @@ $(document)
 							<td>${vo.goodsName }( ${vo.optionName })</td>
 							<td>
 							<input type="hidden" class="goodsDetailNo" value="${vo.goodsDetailNo}" name="orderGoodsList[${status.index }].goodsDetailNo"/>
-							<input class="form-control" disabled="disabled" type="number" id="cnt" value="${vo.cnt }" name="orderGoodsList[${status.index }].cnt"/>
-				
-							</td>
+							<input class="form-control" type="number" id="cnt" value="${vo.cnt }" name="orderGoodsList[${status.index }].cnt"/>
+							<input type="hidden" value="${vo.price }" name="orderGoodsList[${status.index }].sailingPrice" />
 							<td><fmt:formatNumber value="${vo.price }" type="currency"></fmt:formatNumber></td>
 							
 						</tr>						
@@ -167,6 +210,90 @@ $(document)
 					
 					
 					</table>
+					
+					<hr />
+					<div id="input-box">
+						<div style="float: left;">
+							<h1>주문자 정보</h1>
+						</div>
+						<div style="float: right;">
+							<label for="samebox">회원정보와 동일</label>
+							<input id="samebox" type="checkbox" />
+						</div>
+						<div style="clear: both;"></div>
+						<div class="form-group">
+							<label for="orderName">주문자명</label>
+							<input type="text" class="form-control form-lg" id="orderName" name="orderName"/>
+						</div>
+						
+						<div class="form-group">
+							<label for="orderTel">주문자 연락처</label>
+							<input type="tel" class="form-control form-lg" id="orderTel" name="orderTel"/>
+						</div>
+						<sec:authorize access="isAnonymous()">
+							<div class="form-group">
+								<label for="password">비밀번호 (비회원 확인용)</label>
+								<input type="password" class="form-control form-lg" id="password" name="password"/>
+							</div>
+						</sec:authorize>
+					</div>
+					
+					<div id="input-box">
+						<div style="float: left;">
+							<h1>수령자 정보</h1>
+						</div>
+						<div style="float: right;">
+							<label for="samebox2">회원정보와 동일</label>
+							<input id="samebox2" type="checkbox" />
+						</div>
+						<div style="clear: both;"></div>
+						<div class="form-group">
+							<label for="receiverName">수령자명</label>
+							<input type="text" class="form-control form-lg" id="receiverName" name="receiverName"/>
+						</div>
+						<div class="form-group">
+							<label for="receiverTel1">수령인 연락처1</label>
+							<input type="text" class="form-control form-lg" id="receiverTel1" name="receiverTel1"/>
+						</div>
+						<div class="form-group">
+							<label for="receiverTel2">수령인 연락처2</label>
+							<input type="text" class="form-control form-lg" id="receiverTel2" name="receiverTel2"/>
+						</div>
+
+						
+					</div>
+					
+					
+					<div id="input-box">
+						<div style="float: left;">
+							<h1>배송지 정보</h1>
+						</div>
+						
+						<div style="clear: both;"></div>
+						<div class="form-group">
+							<label for="receiverPostcode">수령지 우편번호</label>
+							<div style="clear: both;">
+								<input type="text" readonly required class="form-control form-lg" id="receiverPostcode" name="receiverPostcode" style="float: left; width: 320px;"/>
+								<input type="button" class="btn btn-gradient-primary btn-sm " value="검색" onclick="openZipSearch()" style="float: right;"/>
+							</div>
+							<div style="clear: both;"></div>
+							<label for="addr1">주소</label>
+							<input type="text" required class="form-control form-lg" id="addr1" name="addr1" readonly="readonly"/>							
+							<label for="addr2">상세</label>
+							<input type="text" required class="form-control form-lg" id="addr2" name="addr2" />
+							
+							<label for="message">배송 메세지 (기사님에게)</label>
+							<input type="text" class="form-control form-lg" id="message" name="message" />
+							
+						</div>
+
+
+						
+					</div>
+					
+					
+					<div style="clear: both;"></div>
+					
 					<hr />
 					<div class="total-price">
 						<span>총 구매금액: <fmt:formatNumber value="${totalPrice }" type="currency"></fmt:formatNumber></span>

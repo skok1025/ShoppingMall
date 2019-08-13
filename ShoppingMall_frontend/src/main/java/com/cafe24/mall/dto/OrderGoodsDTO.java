@@ -14,8 +14,6 @@ public class OrderGoodsDTO {
 	private String orderStatus;
 	private int sailingPrice;
 	private String invoiceCode;
-
-	private String thumbnail;
 	
 	public String getThumbnail() {
 		return thumbnail;
@@ -23,6 +21,7 @@ public class OrderGoodsDTO {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
+	private String thumbnail;
 	public String getGoodsName() {
 		return goodsName;
 	}

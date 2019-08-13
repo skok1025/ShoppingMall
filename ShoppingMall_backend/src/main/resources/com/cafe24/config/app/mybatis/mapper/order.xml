@@ -48,7 +48,8 @@
 			code as orderCode, 
 			status as orderStatus, 
 			sailing_price as sailingPrice,
-			invoice_code as invoiceCode 
+			invoice_code as invoiceCode,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail 
 		from tblOrder o 
 		inner join tblOrderGoods og 
 		on o.no = og.order_no inner join tblGoodsDetail gd
@@ -57,6 +58,26 @@
 		where code = #{code}
 		]]>
 	
+	</select>
+	
+	<select id="selectOrderGoodsListByMemberNo" parameterType="long" resultType="ordergoodsdto">
+		<![CDATA[
+		 select 
+			name as goodsName, 
+			option_name as optionName, 
+			cnt as orderCnt,
+			code as orderCode, 
+			status as orderStatus, 
+			sailing_price as sailingPrice,
+			invoice_code as invoiceCode,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail 
+		from tblOrder o 
+		inner join tblOrderGoods og 
+		on o.no = og.order_no inner join tblGoodsDetail gd
+		on gd.no = og.goods_detail_no inner join tblGoods g
+		on g.no = gd.goods_no
+		where code in (select code tblOrder where o.member_no = #{memberNo})
+		]]>
 	</select>
 	
 	<select id="selectOrderInfo" parameterType="string" resultType="ordervo">

@@ -49,7 +49,7 @@ public class OrderController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "ordervo", value = "고객이 주문한 orderVo", required = true, dataType = "OrderVo", defaultValue = "") })
 	@PostMapping("/")
-	public ResponseEntity<JSONResult> addOrder(@RequestBody @Valid OrderVo ordervo,BindingResult bindresult) {
+	public ResponseEntity<JSONResult> addOrder(@RequestBody /* @Valid */ OrderVo ordervo,BindingResult bindresult) {
 		// 유효성 검사 실패시
 		if (bindresult.hasErrors()) {
 			List<FieldError> list = bindresult.getFieldErrors();
@@ -64,7 +64,7 @@ public class OrderController {
 		int result = orderService.addOrder(ordervo);
 		// int result = 1;
 
-		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("고객 주문등록 성공", ordervo))
+		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("고객 주문등록 성공", result))
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("고객 주문등록 실패"));
 	}
 	
@@ -100,6 +100,15 @@ public class OrderController {
 		// int result = 1;
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문코드에 따른 상품상세조회 성공", orderList));
+	}
+	@ApiOperation(value = "주문 회원번호에 따른상품상세조회")
+	@PostMapping("/membergoodslist")
+	public ResponseEntity<JSONResult> viewOrderGoodsList(@RequestBody Long memberNo) {
+		
+		List<OrderGoodsDTO> orderList = orderService.getOrderGoodsList(memberNo);
+		// int result = 1;
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 회원번호에 따른 상품상세조회 성공", orderList));
 	}
 	
 	@ApiOperation(value = "주문코드에 따른 주문자정보 및 배송지정보 조회 API")

@@ -25,6 +25,8 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	
 	<!-- Encoding Filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -45,6 +47,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	
 	<!-- Spring Security Filter 등록  -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -55,6 +58,7 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 	
 	<!-- Dispatcher Server(=Front Controller) -->
 	<servlet>

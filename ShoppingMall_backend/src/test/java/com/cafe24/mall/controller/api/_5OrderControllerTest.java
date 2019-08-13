@@ -98,14 +98,14 @@ public class _5OrderControllerTest {
 	public void testAddOrder_Success() throws Exception{
 		
 		//선행작업 : 상품등록, 회원가입
-		addMember();
-		addGoods();
+		//addMember();
+		//addGoods();
 		
 		OrderVo vo = new OrderVo();
 		
 		//vo.setCode(orderdao.getGenerateOrderCode());
 		//vo.setCode("20190722-00005");
-		vo.setMemberNo(customerdao.getCurrentInsertNo());
+		vo.setMemberNo(2L);
 		vo.setOrderName("김석현");
 		vo.setOrderTel("01068669202");
 		vo.setPassword("1234");

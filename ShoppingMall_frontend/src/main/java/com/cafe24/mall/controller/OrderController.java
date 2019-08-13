@@ -1,5 +1,6 @@
 package com.cafe24.mall.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.mall.dto.BasketItemDTO;
+import com.cafe24.mall.dto.OrderGoodsDTO;
 import com.cafe24.mall.security.SecurityUser;
 import com.cafe24.mall.service.BasketService;
 import com.cafe24.mall.service.OrderService;
+import com.cafe24.mall.vo.OrderVo;
 
 @Controller
 @RequestMapping("/order")
@@ -35,13 +38,60 @@ public class OrderController {
 		Long memberNo = user.getNo();
 		List<BasketItemDTO> basketItemList = basketItemDTO.getList();
 		
+		String userName = user.getName();
+		
+		System.out.println("로그인 중인 회원명: "+userName);
+		
+//		try {
+//			userName = new String(userName.getBytes("MS949"), "utf-8");
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+		
 		basketItemList = orderService.getBasketItemList(basketItemList);
 		Integer totalPrice = basketService.getTotalPrice(memberNo);
 		
 		
 		model.addAttribute("basketItemList",basketItemList);
 		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("userName", userName);
+		model.addAttribute("userTel", user.getTel());
 		
 		return "order/view";
+	}
+	
+	//@ResponseBody
+	@PostMapping("/proceed")
+	public String orderProceed(
+			OrderVo vo,
+			@AuthenticationPrincipal SecurityUser user,
+			Model model) {
+		
+		vo.setMemberNo(user.getNo());
+		
+		int result = orderService.addOrder(vo);
+		
+		if(result == 1) {
+			// 장바구니 비우기
+			basketService.allremove(user.getNo());
+			
+			return "redirect:/order/list?ordersuccess=yes";
+		}
+		
+		model.addAttribute("orderfail", "yes");
+		return "order/view";
+	}
+	
+	//@ResponseBody
+	@GetMapping("/list")
+	public String orderList(
+			@AuthenticationPrincipal SecurityUser user,
+			Model model
+			) {
+		
+		List<OrderGoodsDTO> list = orderService.getOrderList(user.getNo());
+		
+		model.addAttribute("list", list);
+		return "order/list";
 	}
 }
