@@ -128,6 +128,23 @@
 	
 	</select>
 	
+	<select id="selectNonMemberBasketTotal" parameterType="string" resultType="integer">
+		 select sum(a.price) from
+(select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				sum(b.cnt) as cnt,
+				g.seilling_price * sum(b.cnt) as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code = #{basketCode} group by goodsDetailNo) a
+	</select>
+	
+	
 	<update id="updateBasketCntZero" parameterType="basketvo">
 		update tblBasket set cnt=0 where basket_code= #{basketCode} and goods_detail_no = #{goodsDetailNo}
 	
@@ -146,5 +163,12 @@
  from tblGoodsDetail gd inner join tblGoods g
 			on gd.goods_no = g.no where gd.no = #{goodsDetailNo}
 	</select>
+	
+	<update id="updateToLoginBasket" parameterType="map">
+		<![CDATA[
+			update tblBasket set basket_code= #{memberNo} where basket_code = #{basketCode}	
+		]]>
+		
+	</update>
 	
 </mapper>

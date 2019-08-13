@@ -45,6 +45,10 @@ public class BasketService {
 		return basketProvider.selectTotalPrice(memberNo);
 	}
 
+	public Integer getTotalPrice(String basketCode) {
+		return basketProvider.selectTotalPrice(basketCode);
+	}
+
 	public int deleteBasket(Long goodsDetailNo, String basketCode) {
 		return basketProvider.deleteBasket(goodsDetailNo,basketCode);
 	}
@@ -56,8 +60,15 @@ public class BasketService {
 	public void allremove(Long memberNo) {
 		basketProvider.deleteAllBasket(memberNo);
 	}
+
+	public void allremove(String basketCode) {
+		basketProvider.deleteAllBasket(basketCode);
+	}
 	public List<BasketItemDTO> getBasketList(String basketCode) {
 		return basketProvider.selectBasketList(basketCode);
+	}
+	public void updateToLoginBasket(Long memberNo, String basketCode) {
+		basketProvider.updateToLoginBasket(memberNo, basketCode);
 	}
 
 	

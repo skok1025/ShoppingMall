@@ -113,7 +113,7 @@ public class BasketController {
 		
 		for(Cookie cookie:req.getCookies()) {
 			if(cookie.getName().equals("temp_id")) {
-				System.out.println("유효범위: "+cookie.getPath());
+				//System.out.println("유효범위: "+cookie.getPath());
 				basketCode = cookie.getValue();
 			}
 		}
@@ -129,11 +129,13 @@ public class BasketController {
 		if(basketCode != null) {
 			basketList = basketService.getBasketList(basketCode);
 		}
-		//Integer totalPrice = basketService.getTotalPrice(memberNo);
+		
+		Integer totalPrice = basketService.getTotalPrice(basketCode);
 		
 		System.out.println("장바구니: "+basketList);
 		model.addAttribute("basketList", basketList);
-		//model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("basketCode",basketCode);
 		//model.addAttribute("memberNo",memberNo);
 		return "basket/view";
 	}
@@ -170,6 +172,15 @@ public class BasketController {
 		}
 		return "redirect:/basket/view";
 	}
+	@GetMapping("/nonuser/delete/{goodsDetailNo}/{basketCode}")
+	public String deleteMemberBasket(
+			@PathVariable("goodsDetailNo") Long goodsDetailNo,
+			@PathVariable("basketCode") String basketCode
+			) {
+		
+			basketService.deleteBasket(goodsDetailNo,basketCode);
+		return "redirect:/basket/nonuser/view";
+	}
 	
 	@GetMapping("/edit/{goodsDetailNo}/{memberNo}/{no}/{cnt}")
 	public String editMemberBasket(
@@ -199,6 +210,25 @@ public class BasketController {
 		}
 		
 		return "redirect:/basket/view";
+	}
+	
+	@GetMapping("/nonmember/allremove")
+	public String nonmemberAllRemove(HttpServletRequest req) {
+		String basketCode = "";
+		
+		for(Cookie cookie:req.getCookies()) {
+			if(cookie.getName().equals("temp_id")) {
+				//System.out.println("유효범위: "+cookie.getPath());
+				basketCode = cookie.getValue();
+			}
+		}
+		
+		System.out.println("삭제 진행할 장바구니 코드: "+basketCode);
+		
+		basketService.allremove(basketCode);	
+		
+		
+		return "redirect:/basket/nonuser/view";
 	}
 	
 }

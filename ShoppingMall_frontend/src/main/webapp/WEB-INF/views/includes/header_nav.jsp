@@ -57,6 +57,8 @@
 					</sec:authorize>
 					<sec:authorize access="isAnonymous()">
 						<li class="nav-item nav-profile"><a href="${pageContext.servletContext.contextPath}/login">로그인을 해주세요.</a></li>
+						/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<li class="nav-item"><a href="${pageContext.servletContext.contextPath}/basket/nonuser/view">비회원 장바구니</a></li>
 					</sec:authorize>
 					
 					<li class="nav-item d-none d-lg-block full-screen-link"><a

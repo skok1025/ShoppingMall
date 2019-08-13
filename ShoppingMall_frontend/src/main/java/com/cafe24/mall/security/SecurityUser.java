@@ -24,9 +24,18 @@ public class SecurityUser implements UserDetails{
    private String regdate;
    
    
+   private String basketCode; // 비회원일때 장바구니 코드
    
    
-   public String getBirthDate() {
+   public String getBasketCode() {
+	return basketCode;
+}
+
+public void setBasketCode(String basketCode) {
+	this.basketCode = basketCode;
+}
+
+public String getBirthDate() {
 	return birthDate;
 }
 

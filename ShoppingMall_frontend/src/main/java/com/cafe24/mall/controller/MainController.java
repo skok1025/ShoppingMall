@@ -6,12 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.mall.security.SecurityUser;
+import com.cafe24.mall.service.BasketService;
 import com.cafe24.mall.service.MainService;
 import com.cafe24.mall.util.SMSCafe24Service;
 import com.cafe24.mall.vo.BigCategoryVo;
@@ -24,6 +27,9 @@ public class MainController {
 
 	@Autowired
 	private MainService mainService;
+	
+	@Autowired
+	private BasketService basketService;
 
 	@Autowired
 	private SMSCafe24Service smsService;
@@ -69,6 +75,17 @@ public class MainController {
 	@GetMapping("/login")
 	public String login() {
 		return "index/login";
+	}
+	
+	@GetMapping("/basket/update")
+	public String authChangeMemberBasket(HttpServletRequest request,@AuthenticationPrincipal SecurityUser user) {
+		Long memberNo = user.getNo();
+    	String basketCode = user.getBasketCode();
+    	
+    	basketService.updateToLoginBasket(memberNo, basketCode);
+    	
+    	// 로그인 장바구니 업데이트 후 메인 페이지로 redirect
+    	return "redirect:/";
 	}
 	
 	

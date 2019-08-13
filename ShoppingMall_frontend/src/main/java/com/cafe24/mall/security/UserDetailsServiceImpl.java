@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import com.cafe24.mall.provider.BasketProvider;
 import com.cafe24.mall.provider.CustomerProvider;
 import com.cafe24.mall.vo.MemberVo;
 
@@ -17,6 +18,9 @@ import com.cafe24.mall.vo.MemberVo;
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private CustomerProvider customerProvider;
+	
+	@Autowired
+	private BasketProvider basketProvider;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -44,6 +48,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				securityUser.setPassword(memberVo.getPassword()); // credential
 			
 				securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(role)));	
+				
+				//System.out.println("=============비회원 장바구니 코드: "+securityUser.getBasketCode());
+				
+				// 로그인 시, 비회원 장바구니 코드를 회원의 장바구니 코드로 변경
+				//basketProvider.updateToLoginBasket(securityUser.getNo(),securityUser.getBasketCode());
 				//securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userVo.getRole())));
 			} else if(memberVo.getId().equals("admin")){
 				String role = "ROLE_ADMIN";

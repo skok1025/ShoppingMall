@@ -11,6 +11,7 @@ import com.cafe24.mall.dto.BasketDTO;
 import com.cafe24.mall.dto.BasketItemDTO;
 import com.cafe24.mall.dto.BasketProcessDTO;
 import com.cafe24.mall.dto.JSONResult;
+import com.cafe24.mall.dto.LoginBasketDTO;
 import com.cafe24.mall.vo.BasketVo;
 
 
@@ -64,6 +65,13 @@ public class BasketProvider {
 		
 		return jsonresult.getData();
 	}
+
+	public Integer selectTotalPrice(String basketCode) {
+		JSONResultInteger jsonresult = 
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/basket/nonmember/totalprice?basketCode="+basketCode, JSONResultInteger.class);
+		
+		return jsonresult.getData();
+	}
 	
 	public int deleteBasket(Long goodsDetailNo, String basketCode) {
 		
@@ -86,6 +94,19 @@ public class BasketProvider {
 	
 	public void deleteAllBasket(Long memberNo) {
 		restTemplate.delete("http://localhost:8099/ShoppingMall_backend/api/basket/member/allremove?memberNo="+memberNo);
+	}
+
+	public void deleteAllBasket(String basketCode) {
+		restTemplate.delete("http://localhost:8099/ShoppingMall_backend/api/basket/nonmember/allremove?basketCode="+basketCode);
+	}
+	public int updateToLoginBasket(Long memberNo, String basketCode) {
+		//LoginBasketDTO dto = new LoginBasketDTO();
+		//dto.setBasketCode(basketCode);
+		//dto.setMemberNo(memberNo);
+		
+		JSONResultInteger jsonresult = restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/basket/change/memberbasketcode/"+basketCode+"/"+memberNo,JSONResultInteger.class);
+		
+		return jsonresult.getData();
 	}
 	private static class JSONResultInteger extends JSONResult<Integer>{	}
 	private static class JSONResultBasketList extends JSONResult<List<BasketItemDTO>>{	}

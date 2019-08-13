@@ -19,6 +19,7 @@ import com.cafe24.mall.dto.BasketDTO;
 import com.cafe24.mall.dto.BasketItemDTO;
 import com.cafe24.mall.dto.BasketProcessDTO;
 import com.cafe24.mall.dto.JSONResult;
+import com.cafe24.mall.dto.LoginBasketDTO;
 import com.cafe24.mall.service.BasketService;
 import com.cafe24.mall.vo.BasketVo;
 
@@ -89,6 +90,16 @@ public class BasketController {
 		return JSONResult.success("장바구니 총 금액 조회 (회원) 완료", result);
 	}
 	
+	@ApiOperation(value = "장바구니 총 금액 조회 (비회원)")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "basketCode", value = "장바구니 코드", required = true, dataType = "String", defaultValue = "") 
+	})
+	@GetMapping("/nonmember/totalprice")
+	public JSONResult BasketMemberTotal(@RequestParam String basketCode) {
+		Integer result = basketService.getBasketTotal(basketCode);
+		return JSONResult.success("장바구니 총 금액 조회 (비회원) 완료", result);
+	}
+	
 	
 	
 	@ApiOperation(value = "장바구니 조회 (비회원)")
@@ -144,6 +155,20 @@ public class BasketController {
 		
 		return JSONResult.success("장바구니 상품 조회 완료",result);
 		
+	}
+	
+	@ApiOperation(value = "로그인 시, 기존 비회원 장바구니 코드를 회원의 장바구니 코드로 변경")
+	@GetMapping("/change/memberbasketcode/{basketCode}/{memberNo}")
+	public JSONResult changeloginbasket(
+			//@RequestBody LoginBasketDTO dto
+			@PathVariable("basketCode") String basketCode,
+			@PathVariable("memberNo") Long memberNo
+			) {
+		
+//		int result = basketService.changeloginbasket(dto.getBasketCode(),dto.getMemberNo());
+		int result = basketService.changeloginbasket(basketCode,memberNo);
+		
+		return JSONResult.success("비회원 장바구니 -> 회원 장바구니 정보로 변경 완료 ",result);
 	}
 	
 	

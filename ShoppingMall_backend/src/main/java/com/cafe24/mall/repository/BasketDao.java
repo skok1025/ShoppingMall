@@ -65,6 +65,10 @@ public class BasketDao {
 		return sqlsession.selectOne("basket.selectMemberBasketTotal", memberNo);
 	}
 
+	public Integer selectBasketTotal(String basketCode) {
+		return sqlsession.selectOne("basket.selectNonMemberBasketTotal", basketCode);
+	}
+
 	public void updateBasketCntZero(BasketVo basketvo) {
 		sqlsession.update("basket.updateBasketCntZero",basketvo);
 	}
@@ -76,4 +80,9 @@ public class BasketDao {
 	public BasketItemDTO selectItem(Long goodsDetailNo) {
 		return sqlsession.selectOne("basket.selectItem", goodsDetailNo);
 	}
+
+	public int updateToLoginBasket(Map<String, Object> map) {
+		return sqlsession.update("basket.updateToLoginBasket", map);
+	}
+
 }

@@ -107,9 +107,25 @@ public class BasketService {
 		return basketDao.selectBasketTotal(memberNo);
 	}
 
+	public Integer getBasketTotal(String basketCode) {
+		return basketDao.selectBasketTotal(basketCode);
+	}
+
 	public BasketItemDTO getItem(Long goodsDetailNo) {
 		return basketDao.selectItem(goodsDetailNo);
 	}
+
+	public int changeloginbasket(String basketCode, Long memberNo) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("basketCode", basketCode);
+		map.put("memberNo", memberNo);
+		
+		return basketDao.updateToLoginBasket(map);
+	}
+
+	
 
 	
 	

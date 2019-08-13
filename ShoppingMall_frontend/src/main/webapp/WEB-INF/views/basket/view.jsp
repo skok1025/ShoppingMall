@@ -172,7 +172,12 @@ $(document)
 							/>
 							</td>
 							<td><fmt:formatNumber value="${vo.price }" type="currency"></fmt:formatNumber></td>
+							<sec:authorize access="isAuthenticated()">
 							<td><a href="${pageContext.servletContext.contextPath }/basket/delete/${vo.goodsDetailNo}/${memberNo}" class="btn btn-sm btn-gradient-danger"><i class="mdi mdi-delete"></i>delete</a></td>
+							</sec:authorize>
+							<sec:authorize access="isAnonymous()">
+							<td><a href="${pageContext.servletContext.contextPath }/basket/nonuser/delete/${vo.goodsDetailNo}/${basketCode}" class="btn btn-sm btn-gradient-danger"><i class="mdi mdi-delete"></i>delete</a></td>
+							</sec:authorize>
 						</tr>						
 						</c:forEach>
 						
@@ -192,8 +197,12 @@ $(document)
 					<div class="btns-box">
 						<sec:authorize access="isAuthenticated()">
 							<button type="submit" class="btn btn-gradient-primary btn-bg">주문하기</button>
+							<a href="${pageContext.servletContext.contextPath }/basket/allremove/${memberNo}" class="btn btn-outline-danger btn-bg">장바구니 비우기</a>
 						</sec:authorize>
-						<a href="${pageContext.servletContext.contextPath }/basket/allremove/${memberNo}" class="btn btn-outline-danger btn-bg">장바구니 비우기</a>
+						<sec:authorize access="isAnonymous()">
+							<a href="${pageContext.servletContext.contextPath }/basket/nonmember/allremove" class="btn btn-outline-danger btn-bg">장바구니 비우기</a>
+						</sec:authorize>
+						
 					</div>
 
 </form>
