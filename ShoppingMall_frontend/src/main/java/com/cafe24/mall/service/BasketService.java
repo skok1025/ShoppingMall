@@ -15,12 +15,23 @@ public class BasketService {
 	@Autowired
 	private BasketProvider basketProvider;
 
+	// 회원 장바구니 담기
 	public int addBasketManyGoods(Long memberNo, List<BasketDTO> goodsBasketList) {
 
 		int result = 1;
 		
 		for(BasketDTO dto : goodsBasketList) {
 			result *= basketProvider.addBasket(memberNo,dto.getGoodsDetailNo(),dto.getCnt());
+		}
+		
+		return result;
+	}
+	// 비회원 장바구니 담기
+	public int addBasketManyGoods(String basketCode, List<BasketDTO> goodsBasketList) {
+		int result = 1;
+		
+		for(BasketDTO dto : goodsBasketList) {
+			result *= basketProvider.addBasket(basketCode, dto);
 		}
 		
 		return result;
@@ -45,4 +56,9 @@ public class BasketService {
 	public void allremove(Long memberNo) {
 		basketProvider.deleteAllBasket(memberNo);
 	}
+	public List<BasketItemDTO> getBasketList(String basketCode) {
+		return basketProvider.selectBasketList(basketCode);
+	}
+
+	
 }

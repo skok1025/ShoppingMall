@@ -190,8 +190,9 @@ $(document)
 
 
 					<div class="btns-box">
-						
-						<button type="submit" class="btn btn-gradient-primary btn-bg">주문하기</button>
+						<sec:authorize access="isAuthenticated()">
+							<button type="submit" class="btn btn-gradient-primary btn-bg">주문하기</button>
+						</sec:authorize>
 						<a href="${pageContext.servletContext.contextPath }/basket/allremove/${memberNo}" class="btn btn-outline-danger btn-bg">장바구니 비우기</a>
 					</div>
 

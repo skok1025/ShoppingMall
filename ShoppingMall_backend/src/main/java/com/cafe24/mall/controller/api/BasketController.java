@@ -63,8 +63,8 @@ public class BasketController {
 		@ApiImplicitParam(name = "cnt", value = "장바구니에 등록할 상품갯수", required = true, dataType = "Integer", defaultValue = "1") 
 	})
 	@PostMapping("/nonmember/add")
-	public ResponseEntity<JSONResult> addBasket(@RequestParam String basketCode ,@RequestParam Long goodsDetailNo, @RequestParam Integer cnt) {
-		int result = basketService.addNonMemberBasket(basketCode,goodsDetailNo,cnt);
+	public ResponseEntity<JSONResult> addBasket(@RequestParam String basketCode ,@RequestBody BasketDTO basketDTO) {
+		int result = basketService.addNonMemberBasket(basketCode,basketDTO.getGoodsDetailNo(),basketDTO.getCnt());
 		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("비회원 장바구니 상품등록 완료",result)) 
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("비회원 장바구니 상품등록 실패"));
 	}

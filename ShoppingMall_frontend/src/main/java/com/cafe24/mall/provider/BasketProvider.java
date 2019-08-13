@@ -33,10 +33,27 @@ public class BasketProvider {
 		return jsonresult.getData();
 	}
 	
+
+	public int addBasket(String basketCode, BasketDTO dto) {
+		JSONResultInteger jsonresult = 
+				restTemplate.postForObject("http://localhost:8099/ShoppingMall_backend/api/basket/nonmember/add?basketCode="+basketCode, dto, JSONResultInteger.class);
+		
+		
+		return jsonresult.getData();
+	}
+	
+	
 	public List<BasketItemDTO> selectBasketList(Long memberNo) {
 		
 		JSONResultBasketList jsonresult = 
 				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/basket/member/list?memberNo="+memberNo, JSONResultBasketList.class);
+		
+		return jsonresult.getData();
+	}
+	
+	public List<BasketItemDTO> selectBasketList(String basketCode) {
+		JSONResultBasketList jsonresult = 
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/basket/nonmember/list?basketCode="+basketCode, JSONResultBasketList.class);
 		
 		return jsonresult.getData();
 	}
@@ -72,6 +89,8 @@ public class BasketProvider {
 	}
 	private static class JSONResultInteger extends JSONResult<Integer>{	}
 	private static class JSONResultBasketList extends JSONResult<List<BasketItemDTO>>{	}
+	
+	
 
 	
 	
