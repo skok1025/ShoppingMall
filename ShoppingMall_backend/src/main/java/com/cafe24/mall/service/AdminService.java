@@ -182,10 +182,12 @@ public class AdminService {
 	 */
 	public List<OrderDTO> getAdminOrderList(
 			String orderdateStart, 
-			String orderdateEnd) {
-		Map<String, String> map = new HashMap<String, String>();
+			String orderdateEnd,
+			Integer startCol) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orderdateStart", orderdateStart);
 		map.put("orderdateEnd",orderdateEnd);
+		map.put("startCol", startCol);
 		
 		return adminDao.selectAdminOrderList(map);
 	}
@@ -246,6 +248,10 @@ public class AdminService {
 
 	public Integer getMemberTotalCount() {
 		return adminDao.selectMemberTotalCount();
+	}
+
+	public Integer getOrderTotalCount() {
+		return adminDao.selectOrderTotalCount();
 	}
 
 

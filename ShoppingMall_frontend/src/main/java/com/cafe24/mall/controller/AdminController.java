@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.service.AdminService;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsVo;
@@ -68,6 +69,26 @@ public class AdminController {
 		model.addAttribute("paging",paging);
 		
 		return "admin/goods";
+	}
+
+	@GetMapping({"/order"})
+	public String orderPage(			
+			Model model,
+			@RequestParam(value = "orderdateEnd", defaultValue = "") String orderdateEnd,
+			@RequestParam(value = "orderdateStart", defaultValue = "") String orderdateStart,
+			@RequestParam(defaultValue = "1") Integer currentPage) {
+		
+		System.out.println("----------currentPage:"+currentPage);
+		
+		List<OrderDTO> orderList = adminService.getOrderList(orderdateStart,orderdateEnd,currentPage);
+		System.out.println("등록된 주문 리스트: "+orderList);
+		
+		Map<String, Integer> paging = adminService.getGoodsPaging(currentPage);
+		
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("paging",paging);
+		
+		return "admin/order";
 	}
 	
 	

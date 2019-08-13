@@ -312,7 +312,7 @@
 	
 	<select id="selectAdminOrderList" parameterType="map" resultType="orderdto">
 		<![CDATA[
-			select 
+ select 
 				code,
 				o.regdate as regdate,
 				m.id as memberId,
@@ -321,10 +321,19 @@
 			    cast(AES_DECRYPT(o.order_tel, 'CAFE24') as char(100)) as orderTel,
 				(select name from tblGoods where no = (select goods_no from tblGoodsDetail where no =  (select min(goods_detail_no) from tblOrderGoods where order_no=o.no))) as titleGoodsName,
 				(select count(*) from tblOrderGoods where order_no = o.no) as orderGoodsCnt,
-				(select sum(sailing_price) from tblOrderGoods where order_no=o.no) as total
+				(select sum(sailing_price) from tblOrderGoods where order_no=o.no) as total,
+                (select image from tblGoodsImages where goods_no = (select goods_no from tblGoodsDetail where no =  (select min(goods_detail_no) from tblOrderGoods where order_no=o.no)) and ismain='y') as thumbnail
 						from tblOrder o inner join tblMember m 
 							on o.member_no = m.no
-		where o.regdate between #{orderdateStart} and date_add(#{orderdateEnd},interval 1 DAY)
+		]]>
+		
+		<if test="orderdateStart != null and orderdateEnd != null and orderdateStart != '' and orderdateEnd != ''">
+			<![CDATA[
+			where o.regdate between #{orderdateStart} and date_add(#{orderdateEnd},interval 1 DAY)
+			]]>
+		</if>
+		<![CDATA[
+		limit 10 offset #{startCol}
 		]]>
 	</select>
 	
@@ -403,6 +412,10 @@
 	
 	<select id="selectMemberTotalCount" resultType="integer">
 		select count(*) from tblMember where id != 'admin'
+	</select>
+	
+	<select id="selectOrderTotalCount" resultType="integer">
+		select count(*) from tblOrder
 	</select>
 	
 </mapper>

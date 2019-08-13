@@ -305,10 +305,11 @@ public class AdminController {
 	})
 	@GetMapping("/orderlist")
 	public JSONResult adminOrderList(
-			@RequestParam String orderdateStart,
-			@RequestParam String orderdateEnd
+			@RequestParam(defaultValue = "") String orderdateStart,
+			@RequestParam(defaultValue = "") String orderdateEnd,
+			@RequestParam(defaultValue = "1") Integer startCol
 			) {
-		List<OrderDTO> result = adminService.getAdminOrderList(orderdateStart,orderdateEnd);
+		List<OrderDTO> result = adminService.getAdminOrderList(orderdateStart,orderdateEnd,startCol);
 		return result != null ? JSONResult.success("관리자 주문 내역조회 성공", result) 
 				: JSONResult.fail("관리자 주문 내역조회 실패");
 	}
@@ -415,6 +416,16 @@ public class AdminController {
 		return result != null ? JSONResult.success("관리자 회원 수 조회 성공", result) 
 				: JSONResult.fail("관리자 회원 수 조회 실패");
 	}
+
+	@ApiOperation(value = "관리자 주문수 조회")
+	@GetMapping("/order/totalcount")
+	public JSONResult getOrderTotalCount() {
+		Integer result = adminService.getOrderTotalCount();
+		return result != null ? JSONResult.success("관리자 주문 수 조회 성공", result) 
+				: JSONResult.fail("관리자 주문 수 조회 실패");
+	}
+	
+	
 	
 	
 	

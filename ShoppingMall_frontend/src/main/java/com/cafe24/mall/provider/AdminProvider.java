@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mall.dto.JSONResult;
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.vo.BigCategoryVo;
 import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MemberVo;
@@ -72,6 +73,7 @@ public List<GoodsVo> selectGoodsList(Integer startCol) {
 		
 		return jsonresult.getData();
 	}
+	
 	public Integer insertGoods(GoodsVo goodsVo) {
 		
 		JSONResultInteger jsonresult = 
@@ -92,11 +94,28 @@ public List<GoodsVo> selectGoodsList(Integer startCol) {
 		
 		return jsonresult.getData();
 	}
+	public Integer selectTotalOrderCount() {
+		JSONResultInteger jsonresult = 
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/order/totalcount",  JSONResultInteger.class);
+		
+		return jsonresult.getData();
+	}
+	
+	public List<OrderDTO> selectOrderGoodsList(String orderdateStart, String orderdateEnd, Integer startCol) {
+		JSONResultOrderList jsonresult = 
+				restTemplate.getForObject("http://localhost:8099/ShoppingMall_backend/api/admin/orderlist?orderdateStart="+orderdateStart+"&orderdateEnd="+orderdateEnd+"&startCol="+startCol, JSONResultOrderList.class);
+		
+		return jsonresult.getData();
+	}
+	
+	
 	private static class JSONResultMemberList extends JSONResult<List<MemberVo>>{	}
 	private static class JSONResultInteger extends JSONResult<Integer>{	}
 	private static class JSONResultGoodsList extends JSONResult<List<GoodsVo>>{}
 	private static class JSONResultBigCategoryList extends JSONResult<List<BigCategoryVo>>{}
 	private static class JSONResultSmallCategoryList extends JSONResult<List<SmallCategoryVo>>{}
+	private static class JSONResultOrderList extends JSONResult<List<OrderDTO>>{}
+	
 	
 
 

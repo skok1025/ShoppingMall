@@ -142,7 +142,7 @@ public class AdminDao {
 		return sqlsession.selectList("admin.selectMemberList", map);
 	}
 
-	public List<OrderDTO> selectAdminOrderList(Map<String, String> map) {
+	public List<OrderDTO> selectAdminOrderList(Map<String, Object> map) {
 		return sqlsession.selectList("admin.selectAdminOrderList",map);
 	}
 
@@ -197,6 +197,10 @@ public class AdminDao {
 
 	public Integer selectMemberTotalCount() {
 		return sqlsession.selectOne("admin.selectMemberTotalCount");
+	}
+
+	public Integer selectOrderTotalCount() {
+		return sqlsession.selectOne("admin.selectOrderTotalCount");
 	}
 	
 

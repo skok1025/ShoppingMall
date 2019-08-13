@@ -28,7 +28,7 @@
 					</li>
 
 					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.servletContext.contextPath}/admin/basket"> <span class="menu-title">Cart</span>
+						href="${pageContext.servletContext.contextPath}/admin/order"> <span class="menu-title">Order</span>
 							<i class="mdi mdi-cart menu-icon"></i>
 					</a>
 					</li>

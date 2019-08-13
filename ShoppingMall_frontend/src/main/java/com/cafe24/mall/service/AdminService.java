@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.provider.AdminProvider;
 import com.cafe24.mall.util.PagingFrontUtil;
 import com.cafe24.mall.vo.BigCategoryVo;
@@ -62,6 +63,14 @@ public class AdminService {
 		Integer startCol = PagingFrontUtil.getStartRecordNum(currentpage, totalcount, pageSize); // 시작 인덱스
 		
 		return adminProvider.selectGoodsList(startCol);
+	}
+
+	public List<OrderDTO> getOrderList(String orderdateStart,String orderdateEnd,Integer currentPage) {
+		
+		Integer totalcount = adminProvider.selectTotalOrderCount();
+		Integer startCol = PagingFrontUtil.getStartRecordNum(currentPage, totalcount, pageSize);
+		
+		return adminProvider.selectOrderGoodsList(orderdateStart,orderdateEnd,startCol);
 	}
 	
 	public Map<String, Integer> getGoodsPaging(Integer currentPage) {
@@ -194,6 +203,7 @@ public class AdminService {
 
 		return filename;
 	}
+
 
 	
 
