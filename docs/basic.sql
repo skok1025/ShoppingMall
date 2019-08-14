@@ -6,6 +6,7 @@ modify column code varchar(50) unique;
 
 alter table tblMaindisplay_category add isshow char(3);
 alter table tblMaindisplay_category modify column isshow char(3) unique;
+alter table tblOrder modify column password varbinary(128) null;
 
 alter table tblGoods add viewdetail text null;
 update tblGoods set viewdetail = '앞에 보여질 간단한 디테일 내용';
@@ -31,6 +32,12 @@ select * from tblCustomerBasketCode;
 
 delete from tblSmallCategory where bigcategory_no=6;
 
+delete from tblBasket where no < 100;
+delete from tblOrder where no <100;
+delete from tblOrderGoods where order_no<30;
+
+
+update tblBasket set basket_code= '2' where basket_code = 'u_78780';
 select sum(regdate) from tblOrder;
 
 select * from tblMaindisplay_category where isshow = 'y';
@@ -335,6 +342,20 @@ select sum(a.price) from
 				                                on gd.goods_no = g.no
                                 where basket_code in (select code from tblCustomerBasketCode where member_no =2) group by goodsDetailNo) a;
  
+ -- 장바구니 코드 의 총 구매금액
+ select sum(a.price) from
+(select
+				b.no as no,
+				gd.no as goodsDetailNo,
+				(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail,
+				g.name as goodsName,
+				gd.option_name as optionName,
+				sum(b.cnt) as cnt,
+				g.seilling_price * sum(b.cnt) as price
+				from tblBasket b inner join tblGoodsDetail gd
+				                            on b.goods_detail_no = gd.no inner join tblGoods g
+				                                on gd.goods_no = g.no
+                                where basket_code = 'u_78780' group by goodsDetailNo) a;
  
  -- 상품 상세번호의 goodsName, optionName, thumbnail, price
  
@@ -347,3 +368,50 @@ select sum(a.price) from
 			on gd.goods_no = g.no where gd.no = 1;
  
  
+ select
+      no, id, 
+      cast(AES_DECRYPT(name, 'CAFE24') as char(200)) as name,
+      gender,
+      cast(AES_DECRYPT(address, 'CAFE24') as char(200)) as address,
+      cast(AES_DECRYPT(birth_date, 'CAFE24') as char(100)) as birthDate,
+      cast(AES_DECRYPT(email, 'CAFE24') as char(100)) as email,
+      cast(AES_DECRYPT(tel, 'CAFE24') as char(50)) as tel,
+      regdate,
+      password
+      from tblMember
+      where id = 'skok1025' and password =
+      SHA2('1234', 512);
+ 
+ 
+ -- 멤버번호 2 의 주문내역
+ select 
+			name as goodsName, 
+			option_name as optionName, 
+			cnt as orderCnt,
+			code as orderCode, 
+			status as orderStatus, 
+			sailing_price as sailingPrice,
+			invoice_code as invoiceCode,
+			(select image from tblGoodsImages where goods_no=g.no and ismain='y') as thumbnail 
+		from tblOrder o 
+		inner join tblOrderGoods og 
+		on o.no = og.order_no inner join tblGoodsDetail gd
+		on gd.no = og.goods_detail_no inner join tblGoods g
+		on g.no = gd.goods_no
+		where code in (select code tblOrder where o.member_no = 2);
+ 
+ select * from tblOrder;
+ 
+ select 
+				code,
+				o.regdate as regdate,
+				m.id as memberId,
+				 cast(AES_DECRYPT(m.name, 'CAFE24') as char(100)) as memberName,
+			    cast(AES_DECRYPT(o.order_name, 'CAFE24') as char(100)) as orderName,
+			    cast(AES_DECRYPT(o.order_tel, 'CAFE24') as char(100)) as orderTel,
+				(select name from tblGoods where no = (select goods_no from tblGoodsDetail where no =  (select min(goods_detail_no) from tblOrderGoods where order_no=o.no))) as titleGoodsName,
+				(select count(*) from tblOrderGoods where order_no = o.no) as orderGoodsCnt,
+				(select sum(sailing_price) from tblOrderGoods where order_no=o.no) as total,
+                (select image from tblGoodsImages where goods_no = (select goods_no from tblGoodsDetail where no =  (select min(goods_detail_no) from tblOrderGoods where order_no=o.no)) and ismain='y') as thumbnail
+						from tblOrder o inner join tblMember m 
+							on o.member_no = m.no;

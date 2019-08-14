@@ -302,6 +302,7 @@ public class AdminController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "orderdateStart", value = "주문 시작날짜", required = true, dataType = "String", defaultValue = ""),
 		@ApiImplicitParam(name = "orderdateEnd", value = "주문 마지막날짜", required = true, dataType = "String", defaultValue = ""),		
+		@ApiImplicitParam(name = "startCol", value = "시작 인덱스", required = true, dataType = "Integer", defaultValue = ""),		
 	})
 	@GetMapping("/orderlist")
 	public JSONResult adminOrderList(
