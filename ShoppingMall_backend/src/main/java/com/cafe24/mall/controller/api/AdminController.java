@@ -173,6 +173,27 @@ public class AdminController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 카테고리 목록 조회 성공", categoryList));
 
 	}
+	
+	@ApiOperation(value = "관리자 새로운 카테고리 등록 (1,2차 카테고리)")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "vo", value = "관리자가 등록할 카테고리 vo", required = true, dataType = "BigCategoryVo", defaultValue = "") })
+	@PostMapping("/category")
+	public ResponseEntity<JSONResult> addCategory(@RequestBody @Valid BigCategoryVo vo, BindingResult bindresult) {
+
+		if (bindresult.hasErrors()) {
+			List<FieldError> list = bindresult.getFieldErrors();
+			String errMsg = "";
+			for (FieldError err : list) {
+				errMsg += err.getField() + "/";
+			}
+			errMsg += "오류발생";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errMsg));
+		}
+
+		int result = adminService.addCatergory(vo);
+		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("관리자 카테고리 등록 성공", result))
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("관리자 카테고리등록 실패"));
+	}
 
 	@ApiOperation(value = "관리자 1차 카테고리 등록")
 	@ApiImplicitParams({
@@ -217,10 +238,10 @@ public class AdminController {
 
 	@ApiOperation(value = "관리자 1차 카테고리 삭제")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "vo", value = "관리자가 삭제할 1차카테고리 vo(번호)", required = true, dataType = "Long", defaultValue = "") })
-	@DeleteMapping("/bigcategory")
-	public JSONResult removeBigCategory(@RequestBody BigCategoryVo vo) {
-		int result = adminService.removeBigCatergory(vo);
+			@ApiImplicitParam(name = "no", value = "관리자가 삭제할 1차카테고리 no(번호)", required = true, dataType = "Long", defaultValue = "") })
+	@DeleteMapping("/bigcategory/{no}")
+	public JSONResult removeBigCategory(@PathVariable("no") Long no) {
+		int result = adminService.removeBigCatergory(no);
 		return result == 1 ? JSONResult.success("관리자 1차 카테고리 삭제 성공", result) : JSONResult.fail("관리자 1차 카테고리 삭제 실패");
 	}
 
@@ -267,10 +288,10 @@ public class AdminController {
 
 	@ApiOperation(value = "관리자 2차 카테고리 삭제")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "vo", value = "관리자가 삭제할 2차카테고리 vo(번호)", required = true, dataType = "Long", defaultValue = "") })
-	@DeleteMapping("/smallcategory")
-	public JSONResult removeSmallCategory(@RequestBody SmallCategoryVo vo) {
-		int result = adminService.removeSmallCatergory(vo);
+			@ApiImplicitParam(name = "no", value = "관리자가 삭제할 2차카테고리 no(번호)", required = true, dataType = "Long", defaultValue = "") })
+	@DeleteMapping("/smallcategory/{no}")
+	public JSONResult removeSmallCategory(@PathVariable("no") Long no) {
+		int result = adminService.removeSmallCatergory(no);
 		return result == 1 ? JSONResult.success("관리자 2차 카테고리 삭제 성공", result) : JSONResult.fail("관리자 2차 카테고리 삭제 실패");
 	}
 	

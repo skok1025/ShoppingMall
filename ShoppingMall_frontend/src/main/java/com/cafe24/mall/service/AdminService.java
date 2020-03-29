@@ -204,6 +204,43 @@ public class AdminService {
 		return filename;
 	}
 
+	public List<BigCategoryVo> getNowCategoryList() {
+		
+		return adminProvider.getNowCategoryList();
+	}
+
+	public Integer addCategory(String bigCategoryName, String[] smallCategoryNames) {
+		BigCategoryVo bigcategoryVo = new BigCategoryVo();
+		bigcategoryVo.setName(bigCategoryName);
+		
+		List<SmallCategoryVo> smallCategoryList = new ArrayList<SmallCategoryVo>();
+		
+		smallCategoryList.add(new SmallCategoryVo("(미분류)"));
+		
+		if (smallCategoryNames.length > 0) {
+			
+			for (String smallCategoryName : smallCategoryNames) {
+				smallCategoryList.add(new SmallCategoryVo(smallCategoryName));
+			}
+		} 
+		
+		bigcategoryVo.setSmallCategoryList(smallCategoryList);
+		
+		
+		
+		return adminProvider.addCategory(bigcategoryVo);
+	}
+
+	public int removeBigCategory(Long bigCategoryNo) {
+	
+		return adminProvider.removeBigCategory(bigCategoryNo);
+	}
+
+	public int removeSmallCategory(Long smallCategoryNo) {
+		
+		return adminProvider.removeSmallCategory(smallCategoryNo);
+	}
+
 
 	
 

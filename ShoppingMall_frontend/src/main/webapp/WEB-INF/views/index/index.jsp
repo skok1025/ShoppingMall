@@ -66,6 +66,10 @@
 	cursor: pointer;
 }
 
+.no-images {
+    height: 50% !important;
+}
+
 
 
 </style>
@@ -162,37 +166,50 @@
 						fetchList();
 						
 						///////////////////////////////////////////////////////////
-						$("#myCarousel")
-								.on(
-										"slide.bs.carousel",
-										function(e) {
-											var $e = $(e.relatedTarget);
-											var idx = $e.index();
-											var itemsPerSlide = 4;
-											var totalItems = $(".carousel-item").length;
+						var cardCnt = $(".card").length;
+						// 4 이하이면 슬라이드 x
+						if (cardCnt <= 4) {
+							$("#myCarousel")
+							.on(
+									"slide.bs.carousel",
+									function(e) {
+										e.preventDefault();
+									}
+							   );
+						} else {
+							$("#myCarousel")
+							.on(
+									"slide.bs.carousel",
+									function(e) {
+										var $e = $(e.relatedTarget);
+										var idx = $e.index();
+										var itemsPerSlide = 4;
+										var totalItems = $(".carousel-item").length;
 
-											if (idx >= totalItems
-													- (itemsPerSlide - 1)) {
-												var it = itemsPerSlide
-														- (totalItems - idx);
-												for (var i = 0; i < it; i++) {
-													// append slides to end
-													if (e.direction == "left") {
-														$(".carousel-item")
-																.eq(i)
-																.appendTo(
-																		".carousel-inner");
-													} else {
-														$(".carousel-item")
-																.eq(0)
-																.appendTo(
-																		$(this)
-																				.find(
-																						".carousel-inner"));
-													}
+										if (idx >= totalItems
+												- (itemsPerSlide - 1)) {
+											var it = itemsPerSlide
+													- (totalItems - idx);
+											for (var i = 0; i < it; i++) {
+												// append slides to end
+												if (e.direction == "left") {
+													$(".carousel-item")
+															.eq(i)
+															.appendTo(
+																	".carousel-inner");
+												} else {
+													$(".carousel-item")
+															.eq(0)
+															.appendTo(
+																	$(this)
+																			.find(
+																					".carousel-inner"));
 												}
 											}
-										});
+										}
+									});
+						}
+						
 					});
 </script>
 <script type="text/javascript">
@@ -252,7 +269,7 @@
 											</c:if>
 
 											<c:if test="${mainDisplayVo.thumbnail eq null }">
-												<img class="card-img-top img-fluid"
+												<img class="no-images card-img-top img-fluid"
 													src="${pageContext.servletContext.contextPath}/assets/images/noimage.jpg"
 													alt="Card image cap">
 											</c:if>

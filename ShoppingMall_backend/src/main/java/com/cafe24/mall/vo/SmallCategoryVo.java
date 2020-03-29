@@ -12,6 +12,13 @@ public class SmallCategoryVo {
 	
 	private int presult;
 	
+	public SmallCategoryVo(String name) {
+		this.name = name;
+	}
+	
+	public SmallCategoryVo() {
+		
+	}
 	
 	public int getPresult() {
 		return presult;

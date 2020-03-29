@@ -38,8 +38,8 @@ public class AdminDao {
 	public Long getCurrentInsertSmallCategoryNo() {
 		return sqlsession.selectOne("admin.getCurrentInsertSmallCategoryNo");
 	}
-	public int deleteBigCategory(BigCategoryVo vo) {
-		return sqlsession.delete("admin.deleteBigCategory",vo);
+	public int deleteBigCategory(Long no) {
+		return sqlsession.delete("admin.deleteBigCategory",no);
 		//return vo.getPresult();
 	}
 

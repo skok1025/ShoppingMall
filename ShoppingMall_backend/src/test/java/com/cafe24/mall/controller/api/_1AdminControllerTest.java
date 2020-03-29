@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -111,6 +112,38 @@ public class _1AdminControllerTest {
 	@Rollback(true)
 	public void cleanup() {}
 	
+	
+	/**
+	 * 관리자가 카테고리 (상의)를 등록하는 테스트메소드 (성공케이스) 
+	 * @throws Exception 예외
+	 */
+	@Test
+	//@Rollback(false)
+	public void testAddCategory_Success() throws Exception{
+		//String accessToken = obtainAccessToken("admin", "1234", "ADMIN");
+		BigCategoryVo vo = new BigCategoryVo();
+		vo.setName("상의");
+		
+	    List<SmallCategoryVo> smallCategoryList = new ArrayList<SmallCategoryVo>();
+	    smallCategoryList.add(new SmallCategoryVo("티셔츠"));
+	    smallCategoryList.add(new SmallCategoryVo("남방"));
+	    smallCategoryList.add(new SmallCategoryVo("가디건"));
+	    vo.setSmallCategoryList(smallCategoryList);
+		
+		ResultActions resultActions =
+				mockMvc
+				.perform(
+						post("/api/admin/category")
+										/* .header("Authorization", "Bearer " + accessToken) */
+						.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isCreated())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		//.andExpect(jsonPath("$.data", is(1)))
+		;	
+	}
 	
 	/**
 	 * 관리자가 1차 카테고리 (상의)를 등록하는 테스트메소드 (성공케이스) 

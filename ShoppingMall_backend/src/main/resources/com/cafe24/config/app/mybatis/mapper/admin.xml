@@ -75,7 +75,7 @@
 		
 	</delete> -->
 	
-	<delete id="deleteBigCategory" parameterType="bigcategoryvo">
+	<delete id="deleteBigCategory" parameterType="Long">
 	  	<![CDATA[		
 			delete from tblBigCategory where no =#{no}
 		]]>

@@ -91,6 +91,16 @@ public class AdminController {
 		return "admin/order";
 	}
 	
+	@GetMapping({"/addcategory"})
+	public String addCategoryPage(Model model) {
+		
+		List<BigCategoryVo> nowCategoryList = adminService.getNowCategoryList();
+		
+		model.addAttribute("categoryList", nowCategoryList);
+		
+		return "admin/addcategory";
+	}
+	
 	
 	
 	@GetMapping("/memberdelete/{userNo}")
@@ -118,6 +128,34 @@ public class AdminController {
 		model.addAttribute("deletefail", "yes");
 		return "admin/index";
 	}
+	
+	@GetMapping("/bigcategory/delete/{no}")
+	public String bigCategoryDelete(@PathVariable("no") Long bigCategoryNo, Model model) {
+		int result = adminService.removeBigCategory(bigCategoryNo);
+		
+		if (result == 1) {
+			return "redirect:/admin/addcategory";
+		}
+		
+		// 실패한 경우
+		model.addAttribute("deletefail", "yes");
+		return "admin/index";
+	}
+	
+	@GetMapping("/smallcategory/delete/{no}")
+	public String smallCategoryDelete(@PathVariable("no") Long smallCategoryNo, Model model) {
+		int result = adminService.removeSmallCategory(smallCategoryNo);
+		
+		if (result == 1) {
+			return "redirect:/admin/addcategory";
+		}
+		
+		// 실패한 경우
+		model.addAttribute("deletefail", "yes");
+		return "admin/index";
+	}
+	
+	
 	
 	@GetMapping("/goods/add")
 	public String addPage(Model model) {
@@ -152,6 +190,23 @@ public class AdminController {
 		return "admin/index";
 	}
 	
+	@PostMapping("/addcategory")
+	public String addCatergory(
+			@RequestParam("bigCategoryName") String bigCategoryName,
+			@RequestParam("smallCategoryName[]") String[] smallCategoryNames,
+			Model model
+			) {
+		
+		Integer result = adminService.addCategory(bigCategoryName,smallCategoryNames);
+		
+		if(result == 1) {
+			return "redirect:/admin/addcategory?addsuccess=yes";
+		}
+		
+		// 실패한 경우
+		model.addAttribute("addfail", "yes");
+		return "admin/addcategory";
+	}
 	
 
 	@ResponseBody

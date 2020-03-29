@@ -78,6 +78,31 @@ public class AdminService {
 		return result;
 	}
 
+	/**
+	 * 새로운 카테고리를 틍록하는 메소드 1차 카테고리 등록 및 ,2차 카테고리 리스트 등록
+	 * @param vo 1차카테고리 및 2차카테고리 리스트
+	 * @return 성공 유무 
+	 */
+	public int addCatergory(BigCategoryVo vo) {
+		
+		// 1차 카테고리 등록
+		int bigCategoryResult = adminDao.insertBigCategory(vo);
+		
+		// 2차 카테고리 등록
+		List<SmallCategoryVo> smallCategoryList = vo.getSmallCategoryList();
+		int smallCategoryResult = 1;
+		
+		for (SmallCategoryVo sVo : smallCategoryList) {
+			sVo.setBigcategoryNo(vo.getNo());
+			smallCategoryResult *= adminDao.insertSmallCategory(sVo);
+		}
+		
+		int result = bigCategoryResult * smallCategoryResult;
+		
+		return result;
+	}
+
+	
 	public int addBigCatergory(BigCategoryVo vo) {
 		return adminDao.insertBigCategory(vo);
 	}
@@ -87,11 +112,11 @@ public class AdminService {
 	}
 
 	@Transactional
-	public int removeBigCatergory(BigCategoryVo vo) {
+	public int removeBigCatergory(Long no) {
 		
-		adminDao.updateGoodsSmallCategoryNullByBigCategoryNo(vo.getNo());
-		adminDao.deleteSmallCategoryByBigCategoryNo(vo.getNo());
-		int result = adminDao.deleteBigCategory(vo);
+		adminDao.updateGoodsSmallCategoryNullByBigCategoryNo(no);
+		adminDao.deleteSmallCategoryByBigCategoryNo(no);
+		int result = adminDao.deleteBigCategory(no);
 		
 		return result;
 	}
@@ -104,7 +129,9 @@ public class AdminService {
 		return adminDao.updateSmallCategory(vo);
 	}
 
-	public int removeSmallCatergory(SmallCategoryVo vo) {
+	public int removeSmallCatergory(Long no) {
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setNo(no);
 		return adminDao.deleteSmallCategory(vo);
 	}
 

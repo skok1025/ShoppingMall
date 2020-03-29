@@ -82,6 +82,10 @@ public class MainController {
 		Long memberNo = user.getNo();
     	String basketCode = user.getBasketCode();
     	
+    	if(basketCode == null || "".equals(basketCode)) {
+    		return "redirect:/";
+    	}
+    	
     	basketService.updateToLoginBasket(memberNo, basketCode);
     	
     	// 로그인 장바구니 업데이트 후 메인 페이지로 redirect

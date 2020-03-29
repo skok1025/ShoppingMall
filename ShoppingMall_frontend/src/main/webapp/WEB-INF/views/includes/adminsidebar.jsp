@@ -33,6 +33,11 @@
 					</a>
 					</li>
 					
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.servletContext.contextPath}/admin/addcategory"> <span class="menu-title">Add Category</span>
+							<i class="mdi mdi-menu menu-icon"></i>
+					</a>
+					</li>
 					
 					
 					
