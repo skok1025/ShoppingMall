@@ -117,7 +117,7 @@ public List<GoodsVo> selectGoodsList(Integer startCol) {
 	}
 	
 	public Integer addCategory(BigCategoryVo bigcategoryVo) {
-		System.out.println(bigcategoryVo);
+		
 		JSONResultInteger jsonresult = 
 				restTemplate.postForObject("http://localhost:8099/ShoppingMall_backend/api/admin/category", bigcategoryVo, JSONResultInteger.class);
 		
@@ -134,6 +134,20 @@ public List<GoodsVo> selectGoodsList(Integer startCol) {
 		return 1;
 	}
 	
+	public Integer smallCategoryAdd(SmallCategoryVo vo) {
+		JSONResultSmallCategoryVo jsonresult = 
+				restTemplate.postForObject("http://localhost:8099/ShoppingMall_backend/api/admin/smallcategory", vo, JSONResultSmallCategoryVo.class);
+		
+		
+		return jsonresult.getResult() == "success" ? 1 : 0;
+	}
+	
+	public Integer smallCategoryEdit(SmallCategoryVo vo) {
+		System.out.println(vo);
+		restTemplate.put("http://localhost:8099/ShoppingMall_backend/api/admin/smallcategory", vo);
+		
+		return 1;
+	}
 	
 	private static class JSONResultMemberList extends JSONResult<List<MemberVo>>{	}
 	private static class JSONResultInteger extends JSONResult<Integer>{	}
@@ -141,6 +155,9 @@ public List<GoodsVo> selectGoodsList(Integer startCol) {
 	private static class JSONResultBigCategoryList extends JSONResult<List<BigCategoryVo>>{}
 	private static class JSONResultSmallCategoryList extends JSONResult<List<SmallCategoryVo>>{}
 	private static class JSONResultOrderList extends JSONResult<List<OrderDTO>>{}
+	private static class JSONResultSmallCategoryVo extends JSONResult<SmallCategoryVo>{}
+	
+	
 	
 	
 	

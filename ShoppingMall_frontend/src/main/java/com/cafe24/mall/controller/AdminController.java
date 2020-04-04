@@ -219,5 +219,19 @@ public class AdminController {
 		return slist;
 	}
 	
+	@ResponseBody
+	@GetMapping("/api/smallcategory")
+	public Integer smallCategoryAdd(@RequestParam("no") Long no, @RequestParam("name") String name){
+		
+		return adminService.smallCategoryAdd(no, name);
+	}
+	
+	@ResponseBody
+	@GetMapping("/api/smallcategory/edit")
+	public Integer smallCategoryEdit(@RequestParam("no") Long no, @RequestParam("name") String name){
+		
+		return adminService.smallCategoryEdit(no, name);
+	}
+	
 
 }

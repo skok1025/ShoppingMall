@@ -241,6 +241,22 @@ public class AdminService {
 		return adminProvider.removeSmallCategory(smallCategoryNo);
 	}
 
+	public Integer smallCategoryAdd(Long no, String name) {
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setBigcategoryNo(no);
+		vo.setName(name);
+		
+		return adminProvider.smallCategoryAdd(vo);
+	}
+
+	public Integer smallCategoryEdit(Long no, String name) {
+		SmallCategoryVo vo = new SmallCategoryVo();
+		vo.setNo(no);
+		vo.setName(name);
+		
+		return adminProvider.smallCategoryEdit(vo);
+	}
+
 
 	
 

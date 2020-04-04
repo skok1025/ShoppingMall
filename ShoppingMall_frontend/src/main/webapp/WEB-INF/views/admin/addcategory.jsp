@@ -74,13 +74,23 @@ ol{
     
 }
 
+.big_category_button_box > * {
+	padding: 2px !important;
+}
+
+.category-add-form {
+    width: 120px;
+    margin: 10px auto;
+}
+
+
 
 </style>
 
 <script type="text/javascript">
 
 <c:if test='${param.addsuccess eq "yes"}'>
-alert("카테고리가 추가되었습니다.");
+	alert("카테고리가 추가되었습니다.");
 </c:if>
    
 
@@ -96,10 +106,75 @@ alert("카테고리가 추가되었습니다.");
                 '</div>';
             $("#sm-category-list").append(sm_category_html);
     	});
+    	
+    	$(".btn-add-category").click(function(e){
+    		var no = $(this).data('no');
+    		var big_category_box = $(this).parent().parent();
+    		
+    		var input_category = "<input type='text' class='form-control category-add-form' placeholder='카테고리입력' data-no='" + no +"'>";
+    		big_category_box.append(input_category);
+    	    	
+    	});
+    	
+    	// 2차 카테고리 등록 form
+    	$(document).on("keydown",".category-add-form",function(e){
+    		
+    		// 엔터버튼 누르면 카테고리 추가
+    		if (e.keyCode == 13) {
+    			var no = $(this).data('no');
+    			var name = $(this).val();
+    			
+    			$.ajax({
+					url: "${pageContext.request.contextPath }/admin/api/smallcategory?no=" + no +"&name=" + name,
+					type: "get",
+					//contentType: "application/json" //post 방식으로  JSON Type으로 데이터를 보낼 때
+					dataType: "json",
+					data: "",
+					success: function(response){
+						location.reload();
+					},
+					error: function(jqXHR, status, e){
+						console.error(status + ":" + e);
+					}
+				});
+			}
+    	});
+    	
+    	// 2차 카테고리 편집 form
+    	$(document).on("keydown",".category-edit-form",function(e){
+    		
+    		// 엔터버튼 누르면 카테고리 추가
+    		if (e.keyCode == 13) {
+    			var no = $(this).data('no');
+    			var name = $(this).val();
+    			
+    			$.ajax({
+					url: "${pageContext.request.contextPath }/admin/api/smallcategory/edit?no=" + no +"&name=" + name,
+					type: "get",
+					//contentType: "application/json" //post 방식으로  JSON Type으로 데이터를 보낼 때
+					dataType: "json",
+					data: "",
+					success: function(response){
+						location.reload();
+					},
+					error: function(jqXHR, status, e){
+						console.error(status + ":" + e);
+					}
+				});
+			}
+    	});
   
     	// 2차 카테고리 삭제 버튼
     	$(document).on("click",".sm-category-del",function(){
     		$(this).parent().remove();
+    	});
+    	
+    	$(".small_category").click(function(){
+    		if ($(this).children('input').length > 0) return;
+    		var input_text = "<input class='form-control category-edit-form' value='" + $(this).data("name") + "' data-no=" + $(this).data("no") + ">";
+    		$(this).children().remove();
+    		$(this).append(input_text);
+    		
     	});
     });
     
@@ -135,23 +210,28 @@ alert("카테고리가 추가되었습니다.");
 					</div>
 					<!-- 이곳에 내용을 작성  -->
 
-					<form action="${pageContext.servletContext.contextPath }/admin/addcategory" method="post">
 
 					<div class="col-lg-4 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
 								<h3>현재 카테고리 리스트</h3>
 								<hr />
-								<ol>
+								
+								
 								    <c:forEach items="${categoryList}" var="categoryItem">
-								        <li class="big_category">${categoryItem.name}</li>
-								        <div class="big_category_delete_box">
+								    <div id="big_category_box-{$categoryItem.no}">
+								        <span class="big_category">${categoryItem.name}</span>
+								        <div class="big_category_button_box">
 									                <a class="btn-rounded btn-lg" onclick="if(confirm('${categoryItem.name} 카테고리를 정말 삭제하시겠습니까? (하위카테고리 포함)')){ location.href='${pageContext.servletContext.contextPath }/admin/bigcategory/delete/${categoryItem.no }'}">
 					                          	        <i class="mdi mdi-delete" style="color: red;"></i>
 					                          	    </a>
+					                          	    <a class="btn-rounded btn-lg btn-add-category" title="카테고리 추가" data-no="${categoryItem.no}">
+					                          	        <i class="mdi mdi-note-plus" style="color: blue;"></i>
+					                          	    </a>
 									    </div>
 								        <c:forEach items="${categoryItem.smallCategoryList}" var="smCategoryItem">
-								            <div class="small_category" ><span>- ${smCategoryItem.name}</span> 
+								            <div class="small_category" data-no="${smCategoryItem.no}" data-name="${smCategoryItem.name}">
+								                <span>- ${smCategoryItem.name}</span> 
 									            <div class="sm_category_delete_box">
 									                <a class="btn-rounded btn-lg" onclick="if(confirm('${categoryItem.name} > ${smCategoryItem.name} 카테고리를 정말 삭제하시겠습니까?')){ location.href='${pageContext.servletContext.contextPath }/admin/smallcategory/delete/${smCategoryItem.no }'}">
 					                          	        <i class="mdi mdi-delete" style="color: red;"></i>
@@ -161,14 +241,16 @@ alert("카테고리가 추가되었습니다.");
 				                          	</div>
 								           
 								        </c:forEach>
-					
+					                </div>
 								    </c:forEach>
 								
-								</ol>
+								
 							</div>
 							<div class="card-body"></div>
 						</div>
 					</div>
+					
+					<form action="${pageContext.servletContext.contextPath }/admin/addcategory" method="post">
 					
 					<div class="col-lg-4 grid-margin stretch-card">
 						<div class="card">
