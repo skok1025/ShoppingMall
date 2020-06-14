@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -21,36 +25,24 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 @Configuration
 public class MVCConfig extends WebMvcConfigurerAdapter{
-	//
-	// View Resolver
-	//	
+
+	// View Resolver	
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-
 		resolver.setPrefix("/WEB-INF/views/");
 		resolver.setSuffix(".jsp");
 		resolver.setExposeContextBeansAsAttributes(true);
-
 		return resolver;
 	}
 
-	//
 	// Defalut Servlet Handler
-	//
-	
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		//configurer.enable();
 	}
 	
-	
-	
-	
-	
-	//
 	// Message Converter
-	//
 	@Bean
 	public MappingJackson2HttpMessageConverter mappingConverter() {
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
@@ -59,10 +51,22 @@ public class MVCConfig extends WebMvcConfigurerAdapter{
 				.modulesToInstall(new ParameterNamesModule());
 		
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(builder.build());
-		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application","json",Charset.forName("UTF-8"))));
-		
-		
+		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application","json",Charset.forName("UTF-8"))));	
 		return converter;
+	}
+	
+	@Bean
+	public CacheManager cacheManager() {
+		return new EhCacheCacheManager(ehCacheManager().getObject());
+	}
+	
+	@Bean
+	public EhCacheManagerFactoryBean ehCacheManager() {
+		EhCacheManagerFactoryBean factory = new EhCacheManagerFactoryBean();
+		factory.setConfigLocation(new ClassPathResource("com/cafe24/config/app/cache/ehcache.xml"));
+		factory.setShared(true);
+		
+		return factory;
 	}
 	
 	public StringHttpMessageConverter stringConverter() {

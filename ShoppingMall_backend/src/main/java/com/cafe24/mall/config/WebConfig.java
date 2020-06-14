@@ -25,7 +25,6 @@ import com.cafe24.config.web.ZipkinConfig;
 	SecurityConfig.class, 
 	MessageConfig.class, 
 	SwaggerConfig.class,
-	//EhCacheCacheManager.class 
 	//ZipkinConfig.class   
 })
 public class WebConfig{

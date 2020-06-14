@@ -13,7 +13,7 @@
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"/>
-    <cache name="findByBestCategoryCache"
+    <cache name="goodsList"
            maxEntriesLocalHeap="10000"
            maxEntriesLocalDisk="1000"
            eternal="false"

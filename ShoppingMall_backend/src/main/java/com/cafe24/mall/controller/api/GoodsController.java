@@ -3,6 +3,8 @@ package com.cafe24.mall.controller.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +41,10 @@ public class GoodsController {
 	@Autowired
 	private AdminService adminService;
 	
+	@Autowired
+	private CacheManager cacheManager;
+	
+	@Cacheable(value = "goodsList", key = "skok1025")
 	@ApiOperation(value = "전체 상품리스트 조회 API")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "startNo", value = "시작할 상품번호", required = true, dataType = "Integer", defaultValue = ""),
@@ -46,6 +52,10 @@ public class GoodsController {
 	@GetMapping("/list/{startNo}")
 	public JSONResult list(@PathVariable("startNo") Integer startNo) {
 		List<GoodsVo> list = goodsService.getGoodsList(startNo);
+		System.out.println(cacheManager.getCache("goodsList").getName());
+		System.out.println(cacheManager.getCache("goodsList").getNativeCache());
+		System.out.println(cacheManager.getCache("goodsList").hashCode());
+		
 		return JSONResult.success("전체 상품리스트 조회 성공",list);
 	}
 	
