@@ -1,5 +1,7 @@
 package com.cafe24.mall.exception;
 
+import static org.mockito.Matchers.startsWith;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,12 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.cafe24.mall.dto.JSONResult;
 
-@ControllerAdvice
 /**
  * GlobalExceptionHandler 백엔드 에서 에러가 발생하면 요청하는 쪽으로 에러 상태값을 보내준다
  * @author 김석현
  *
  */
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
 	//무결성 제약조건 예외
@@ -21,7 +23,10 @@ public class GlobalExceptionHandler {
 	   public ResponseEntity<JSONResult> Exception() {
 	      System.out.println("------------------------내부 에러------------------------");
 	      JSONResult result = JSONResult.fail("내부 에러");
-	      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+	      
+	      ResponseEntity<JSONResult> status = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+	      System.out.println(status);
+	      return status;   
 	   }
 	@ExceptionHandler(NullPointerException.class)
 	   public ResponseEntity<JSONResult> NullPointException() {

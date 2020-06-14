@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.mall.repository.GoodsDao;
@@ -20,6 +21,7 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 
 
+	@Cacheable("getGoodsList")
 	public List<GoodsVo> getGoodsList(Integer startNo) {
 		return goodsDao.selectGoodsList(startNo);
 	}
