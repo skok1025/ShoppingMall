@@ -14,7 +14,7 @@
 <meta name="Description" content="SK mall" />
 
 
-
+<!--  -->
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet"
 	href="${pageContext.servletContext.contextPath }/assets/css/bootstrap/bootstrap-3.3.2.min.css"
