@@ -120,7 +120,7 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-        <!-- ehcache 설정 -->
+		<!-- ehcache 설정 -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
