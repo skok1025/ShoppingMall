@@ -106,4 +106,12 @@
 		]]>
 	</select>
 	
+	<update id="updateDormancy">
+	    <![CDATA[
+	        UPDATE tblMember 
+	        SET is_dormancy = 'y'
+	        WHERE regdate <= DATE_ADD(now(), INTERVAL -1 YEAR)
+	    ]]>
+	</update>
+	
 </mapper>
