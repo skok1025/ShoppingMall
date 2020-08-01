@@ -20,10 +20,10 @@ public class GlobalExceptionHandler {
 
 	//무결성 제약조건 예외
 	@ExceptionHandler(Exception.class)
-	   public ResponseEntity<JSONResult> Exception() {
+	   public ResponseEntity<JSONResult> Exception(Exception e) {
 	      System.out.println("------------------------내부 에러------------------------");
+	      System.out.println(e);
 	      JSONResult result = JSONResult.fail("내부 에러");
-	      
 	      ResponseEntity<JSONResult> status = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
 	      System.out.println(status);
 	      return status;   

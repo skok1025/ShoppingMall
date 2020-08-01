@@ -229,6 +229,14 @@
 			<version>1.3.2.RELEASE</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+
+
 		<!-- jUnit4 되지 않아서 서블릿 스펙을 3.1로 변경 (Test 할 때만 주석제거) -->
 		<!-- <dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> 
 			<version>3.1.0</version> <scope>provided</scope> </dependency> -->

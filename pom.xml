@@ -103,5 +103,6 @@
 	<modules>
 		<module>ShoppingMall_backend</module>
 		<module>ShoppingMall_frontend</module>
+		<module>ShoppingMall_backend_coupon</module>
 	</modules>
 </project>
