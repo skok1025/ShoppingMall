@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="coupon">
+
+	<insert id="infoInsert">
+		<![CDATA[
+			INSERT INTO tblCouponInfo(info_no, name, sale_type, sale_value, issued_timestamp)
+			VALUES(null, #{name}, #{sale_type}, #{sale_value}, now())
+		]]>
+		<selectKey keyProperty="info_no" resultType="string" order="AFTER">
+	      <![CDATA[
+	         select last_insert_id()      
+	      ]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insert">
+		<![CDATA[
+			INSERT INTO tblCoupon(no, name, sale_type, sale_value, user_id, is_used, info_no)
+			VALUES(null, #{name}, #{sale_type}, #{sale_value}, #{user_id}, #{is_used}, #{info_no})
+		]]>
+	</insert>
+	
+	
+	
+</mapper>

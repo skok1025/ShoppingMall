@@ -8,7 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
 @SpringBootApplication
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class}) // no database setting
+//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class}) // no database setting
 public class BootApp {
 	
 	public static void main(String[] args) {
