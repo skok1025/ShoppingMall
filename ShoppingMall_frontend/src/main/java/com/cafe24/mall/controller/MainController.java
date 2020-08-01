@@ -34,6 +34,7 @@ public class MainController {
 	@Autowired
 	private SMSCafe24Service smsService;
 	
+	
 	@ResponseBody
 	@GetMapping("/api/list/{lastNo}")
 	public List<GoodsVo> getList(@PathVariable("lastNo") int lastNo){
