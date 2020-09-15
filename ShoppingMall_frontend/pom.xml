@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<org.springframework-version>4.3.1.RELEASE</org.springframework-version>
-		<org.springsecurity-version>4.2.0.RELEASE</org.springsecurity-version>
+		<org.springsecurity-version>5.4.0</org.springsecurity-version>
 		<mysql-connector-version>8.0.14</mysql-connector-version>
 		<!-- mysql-connector-version>5.1.38</mysql-connector-version -->
 		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>
@@ -231,25 +231,25 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>4.1.3.RELEASE</version>
+			<version>5.4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>4.1.3.RELEASE</version>
+			<version>5.4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>4.1.3.RELEASE</version>
+			<version>5.4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
-			<version>4.1.3.RELEASE</version>
+			<version>5.4.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.activation/activation -->
