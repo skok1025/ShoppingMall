@@ -1,5 +1,6 @@
 package com.cafe24.mall.controller.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -64,10 +65,10 @@ public class CouponController {
 		@ApiImplicitParam(name = "sale_value", value = "할인값", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "ins_timestamp", value = "생성일자", required = false, dataType = "String", defaultValue = "now()"),
 	})
-	@PostMapping("/issue")
+	@GetMapping("/issue")
 	public ResponseEntity<JSONResult> couponAdd(CouponVo vo) {
 		System.out.println("Sending message...");
-        /*
+        
 		List<String> memberNoList = new ArrayList<String>();
 		memberNoList.add("2"); memberNoList.add("3");
 		
@@ -77,9 +78,9 @@ public class CouponController {
 		vo.setSale_value("10");
 		vo.setIs_used("F");
 		vo.setMemberNoList(memberNoList);
-		*/
 		
-		List<String> memberNoList = vo.getMemberNoList();
+		
+		//List<String> memberNoList = vo.getMemberNoList();
 		
 		for (String memberNo : memberNoList) {
 			vo.setMember_no(memberNo);

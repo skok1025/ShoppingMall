@@ -2,6 +2,12 @@ package com.cafe24.mall.vo;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
 public class CouponVo {
 	
 	private String no;
@@ -14,74 +20,7 @@ public class CouponVo {
 	private String ins_timestamp;
 	private String upt_timestamp;
 	private String is_delete;
-	
-	public String getIs_delete() {
-		return is_delete;
-	}
-	public void setIs_delete(String is_delete) {
-		this.is_delete = is_delete;
-	}
-	List<String> memberNoList;
-	public String getNo() {
-		return no;
-	}
-	public void setNo(String no) {
-		this.no = no;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSale_type() {
-		return sale_type;
-	}
-	public void setSale_type(String sale_type) {
-		this.sale_type = sale_type;
-	}
-	public String getSale_value() {
-		return sale_value;
-	}
-	public void setSale_value(String sale_value) {
-		this.sale_value = sale_value;
-	}
-	public String getIs_used() {
-		return is_used;
-	}
-	public void setIs_used(String is_used) {
-		this.is_used = is_used;
-	}
-	public String getInfo_no() {
-		return info_no;
-	}
-	public void setInfo_no(String info_no) {
-		this.info_no = info_no;
-	}
-	public List<String> getMemberNoList() {
-		return memberNoList;
-	}
-	public void setMemberNoList(List<String> memberNoList) {
-		this.memberNoList = memberNoList;
-	}
-	public String getMember_no() {
-		return member_no;
-	}
-	public void setMember_no(String member_no) {
-		this.member_no = member_no;
-	}
-	public String getIns_timestamp() {
-		return ins_timestamp;
-	}
-	public void setIns_timestamp(String ins_timestamp) {
-		this.ins_timestamp = ins_timestamp;
-	}
-	public String getUpt_timestamp() {
-		return upt_timestamp;
-	}
-	public void setUpt_timestamp(String upt_timestamp) {
-		this.upt_timestamp = upt_timestamp;
-	}
+	private List<String> memberNoList;
 	
 	@Override
 	public String toString() {
@@ -90,5 +29,4 @@ public class CouponVo {
 				+ ", ins_timestamp=" + ins_timestamp + ", upt_timestamp=" + upt_timestamp + ", is_delete=" + is_delete
 				+ ", memberNoList=" + memberNoList + "]";
 	}
-	
 }
