@@ -30,21 +30,23 @@ public class CouponCreateConsumer {
     	String data = rawMessage.replace("CouponVo ", "").replace("[", "").replace("]", "");
     	String[] data2 = data.split(",");
     	String[] noData = data2[0].split("=");
-    	String[] nameData = data2[1].split("=");
-    	String[] saleTypeData = data2[2].split("=");
-    	String[] saleValueData = data2[3].split("=");
-    	String[] userIdData = data2[4].split("=");
-    	String[] isUsedData = data2[5].split("=");
-    	String[] infoNoData = data2[6].split("=");
+    	String[] infoNoData = data2[1].split("=");
+    	String[] memberNoData = data2[2].split("=");
+    	String[] nameData = data2[3].split("=");
+    	String[] saleTypeData = data2[4].split("=");
+    	String[] saleValueData = data2[5].split("=");
+    	String[] isUsedData = data2[6].split("=");
+    	
     	
     	CouponVo vo = new CouponVo();
     	vo.setNo(noData[1]);
+    	vo.setInfo_no(infoNoData[1]);
+    	vo.setMember_no(memberNoData[1]);
     	vo.setName(nameData[1]);
     	vo.setSale_type(saleTypeData[1]);
     	vo.setSale_value(saleValueData[1]);
-    	vo.setUser_id(userIdData[1]);
     	vo.setIs_used(isUsedData[1]);
-    	vo.setInfo_no(infoNoData[1]);
+    	
     	return vo;
     }
 

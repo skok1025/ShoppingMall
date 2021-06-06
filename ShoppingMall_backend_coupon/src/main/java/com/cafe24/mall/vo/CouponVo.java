@@ -5,13 +5,23 @@ import java.util.List;
 public class CouponVo {
 	
 	private String no;
+	private String info_no;
+	private String member_no;
 	private String name;
 	private String sale_type;
 	private String sale_value;
-	private String user_id;
 	private String is_used;
-	private String info_no;
-	List<String> userIdList;
+	private String ins_timestamp;
+	private String upt_timestamp;
+	private String is_delete;
+	
+	public String getIs_delete() {
+		return is_delete;
+	}
+	public void setIs_delete(String is_delete) {
+		this.is_delete = is_delete;
+	}
+	List<String> memberNoList;
 	public String getNo() {
 		return no;
 	}
@@ -36,12 +46,6 @@ public class CouponVo {
 	public void setSale_value(String sale_value) {
 		this.sale_value = sale_value;
 	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
 	public String getIs_used() {
 		return is_used;
 	}
@@ -54,17 +58,37 @@ public class CouponVo {
 	public void setInfo_no(String info_no) {
 		this.info_no = info_no;
 	}
-	public List<String> getUserIdList() {
-		return userIdList;
+	public List<String> getMemberNoList() {
+		return memberNoList;
 	}
-	public void setUserIdList(List<String> userIdList) {
-		this.userIdList = userIdList;
+	public void setMemberNoList(List<String> memberNoList) {
+		this.memberNoList = memberNoList;
 	}
+	public String getMember_no() {
+		return member_no;
+	}
+	public void setMember_no(String member_no) {
+		this.member_no = member_no;
+	}
+	public String getIns_timestamp() {
+		return ins_timestamp;
+	}
+	public void setIns_timestamp(String ins_timestamp) {
+		this.ins_timestamp = ins_timestamp;
+	}
+	public String getUpt_timestamp() {
+		return upt_timestamp;
+	}
+	public void setUpt_timestamp(String upt_timestamp) {
+		this.upt_timestamp = upt_timestamp;
+	}
+	
 	@Override
 	public String toString() {
-		return "CouponVo [no=" + no + ", name=" + name + ", sale_type=" + sale_type + ", sale_value=" + sale_value
-				+ ", user_id=" + user_id + ", is_used=" + is_used + ", info_no=" + info_no + ", userIdList="
-				+ userIdList + "]";
+		return "CouponVo [no=" + no + ", info_no=" + info_no + ", member_no=" + member_no + ", name=" + name
+				+ ", sale_type=" + sale_type + ", sale_value=" + sale_value + ", is_used=" + is_used
+				+ ", ins_timestamp=" + ins_timestamp + ", upt_timestamp=" + upt_timestamp + ", is_delete=" + is_delete
+				+ ", memberNoList=" + memberNoList + "]";
 	}
-
+	
 }

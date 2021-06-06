@@ -246,7 +246,7 @@
 			(select image from tblGoodsImages where ismain='y' and goods_no=g.no) as thumbnail
 			from tblGoods g 
 			where g.isdel is null order by no desc
-			limit 10 offset #{startCol}
+			limit 5 offset #{startCol}
 		]]>
 	</select>
 	

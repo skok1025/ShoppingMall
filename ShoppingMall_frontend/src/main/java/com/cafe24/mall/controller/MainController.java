@@ -97,8 +97,8 @@ public class MainController {
 	/*Cafe24 SMS Hosing Service Test*/
 		@GetMapping("/cafe24/api/checktel")
 		public String checkTel(HttpServletRequest req) {
-			String message  = "영운씨 안녕하세요";
-			String sellertel = "01068669202";
+			String message  = "소은씨 안녕하세요, 잘할수있어요";
+			String sellertel = "01042443196";
 			
 			req.setAttribute("sellertel", sellertel);
 			req.setAttribute("message", message);

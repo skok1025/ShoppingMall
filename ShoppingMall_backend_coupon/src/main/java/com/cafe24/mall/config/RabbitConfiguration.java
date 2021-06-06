@@ -11,7 +11,7 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 public class RabbitConfiguration {
 
     private static final String queueName = "coupon-create";

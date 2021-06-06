@@ -236,6 +236,11 @@
 			<version>2.9.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 
 		<!-- jUnit4 되지 않아서 서블릿 스펙을 3.1로 변경 (Test 할 때만 주석제거) -->
 		<!-- <dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> 

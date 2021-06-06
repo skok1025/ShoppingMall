@@ -17,8 +17,8 @@
 	
 	<insert id="insert">
 		<![CDATA[
-			INSERT INTO tblCoupon(no, name, sale_type, sale_value, user_id, is_used, info_no)
-			VALUES(null, #{name}, #{sale_type}, #{sale_value}, #{user_id}, #{is_used}, #{info_no})
+			INSERT INTO tblCoupon(no, info_no, member_no, name, sale_type, sale_value, is_used, ins_timestamp)
+			VALUES(null, #{info_no}, #{member_no}, #{name}, #{sale_type}, #{sale_value}, #{is_used}, now())
 		]]>
 	</insert>
 	

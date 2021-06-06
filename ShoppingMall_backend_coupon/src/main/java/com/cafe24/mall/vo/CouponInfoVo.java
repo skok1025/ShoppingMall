@@ -1,13 +1,32 @@
 package com.cafe24.mall.vo;
 
-import java.util.List;
-
 public class CouponInfoVo {
 	private String info_no;
 	private String name;
 	private String sale_type;
 	private String sale_value;
-	private String issued_timestamp;
+	private String ins_timestamp;
+	private String upt_timestamp;
+	private String is_delete;
+	
+	public String getIs_delete() {
+		return is_delete;
+	}
+	public void setIs_delete(String is_delete) {
+		this.is_delete = is_delete;
+	}
+	public String getIns_timestamp() {
+		return ins_timestamp;
+	}
+	public void setIns_timestamp(String ins_timestamp) {
+		this.ins_timestamp = ins_timestamp;
+	}
+	public String getUpt_timestamp() {
+		return upt_timestamp;
+	}
+	public void setUpt_timestamp(String upt_timestamp) {
+		this.upt_timestamp = upt_timestamp;
+	}
 	public String getInfo_no() {
 		return info_no;
 	}
@@ -32,20 +51,12 @@ public class CouponInfoVo {
 	public void setSale_value(String sale_value) {
 		this.sale_value = sale_value;
 	}
-	public String getIssued_timestamp() {
-		return issued_timestamp;
-	}
-	public void setIssued_timestamp(String issued_timestamp) {
-		this.issued_timestamp = issued_timestamp;
-	}
+	
 	@Override
 	public String toString() {
 		return "CouponInfoVo [info_no=" + info_no + ", name=" + name + ", sale_type=" + sale_type + ", sale_value="
-				+ sale_value + ", issued_timestamp=" + issued_timestamp + "]";
+				+ sale_value + ", ins_timestamp=" + ins_timestamp + ", upt_timestamp=" + upt_timestamp + ", is_delete="
+				+ is_delete + "]";
 	}
-	
-	
-	
-	
 	
 }

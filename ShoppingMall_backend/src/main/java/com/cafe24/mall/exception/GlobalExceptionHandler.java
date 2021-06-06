@@ -1,6 +1,6 @@
 package com.cafe24.mall.exception;
 
-import static org.mockito.Matchers.startsWith;
+//import static org.mockito.Matchers.startsWith;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

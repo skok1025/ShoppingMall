@@ -31,7 +31,7 @@ public class AdminService {
 	
 	// 페이징 변수
 	private int listSize = 5; // 페이징 리스트 수 
-	private int pageSize = 10; // 한 페이지의 게시물 수 
+	private int pageSize = 5; // 한 페이지의 게시물 수 
 
 	public List<MemberVo> getMemberList(String id, String orderDateStart,
 			String orderDateEnd ,Integer currentpage ) {
