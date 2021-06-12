@@ -88,7 +88,7 @@ public class CouponController {
 			String send_message = vo.toString();
 			rabbitTemplate.convertAndSend(
 					libCouponConst.TOPIC_EXCHANGE, 
-					libCouponConst.ROUTING_KEY, 
+					libCouponConst.CREATE_ROUTING_KEY, 
 					send_message
 			);
 		}

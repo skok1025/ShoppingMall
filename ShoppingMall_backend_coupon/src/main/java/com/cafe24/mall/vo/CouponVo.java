@@ -2,15 +2,18 @@ package com.cafe24.mall.vo;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 public class CouponVo {
-	
-	private String no;
+	private Long no;
 	private String info_no;
 	private String member_no;
 	private String name;

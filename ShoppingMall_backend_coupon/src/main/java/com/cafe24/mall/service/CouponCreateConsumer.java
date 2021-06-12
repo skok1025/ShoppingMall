@@ -39,7 +39,7 @@ public class CouponCreateConsumer {
     	
     	
     	CouponVo vo = new CouponVo();
-    	vo.setNo(noData[1]);
+    	//vo.setNo(Long.parseLong(noData[1]));
     	vo.setInfo_no(infoNoData[1]);
     	vo.setMember_no(memberNoData[1]);
     	vo.setName(nameData[1]);

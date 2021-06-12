@@ -1,5 +1,8 @@
 package com.cafe24.mall.repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,7 +15,7 @@ public class CouponDao {
 
 	@Autowired
 	private SqlSession sqlsession;
-
+	
 	public int couponInfoInsert(CouponInfoVo vo) {
 		return sqlsession.insert("coupon.infoInsert", vo);
 	}

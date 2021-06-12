@@ -8,7 +8,7 @@
 			INSERT INTO tblCouponInfo(info_no, name, sale_type, sale_value, issued_timestamp)
 			VALUES(null, #{name}, #{sale_type}, #{sale_value}, now())
 		]]>
-		<selectKey keyProperty="info_no" resultType="string" order="AFTER">
+		<selectKey keyProperty="info_no" resultType="Long" order="AFTER">
 	      <![CDATA[
 	         select last_insert_id()      
 	      ]]>
