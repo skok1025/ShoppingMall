@@ -22,6 +22,66 @@
 		]]>
 	</insert>
 	
+	<select id="getInfoList" resultType="couponInfoVo">
+	    <![CDATA[
+	        SELECT * FROM tblCouponInfo;
+	    ]]>
+	</select>
+	
+	<select id="getInfo" parameterType="String" resultType="couponInfoVo">
+	    <![CDATA[
+	        SELECT * FROM tblCouponInfo WHERE info_no = #{info_no} LIMIT 1
+	    ]]>
+	</select>
+	
+	<update id="updateCouponInfo" parameterType="couponInfoVo">
+	    <![CDATA[
+	        UPDATE tblCouponInfo 
+	        SET upt_timestamp = now()
+	    ]]>
+	    <if test="name != null">
+		    <![CDATA[
+		        ,name=#{name}
+		    ]]>
+	    </if>
+	    <if test="sale_type != null">
+		    <![CDATA[
+		        ,sale_type=#{sale_type}
+		    ]]>
+	    </if>
+	    <if test="sale_value != null">
+		    <![CDATA[
+		        ,sale_value=#{sale_value}
+		    ]]>  
+	    </if>  
+	    <![CDATA[  
+	        WHERE info_no = #{info_no}
+	    ]]>
+	</update>
+	
+	<update id="deleteCouponInfo" parameterType="String">
+	    <![CDATA[
+	       UPDATE tblCouponInfo 
+	       SET is_delete = 'T'
+	       WHERE info_no=#{info_no}
+	    ]]>
+	</update>
+	
+	<update id="deleteCoupon" parameterType="String">
+	    <![CDATA[
+	        UPDATE tblCoupon
+	        SET is_delete = 'T'
+	        WHERE no = #{couponNo}
+	    ]]>
+	</update>
+	
+	<update id="deleteCouponByInfoNo" parameterType="String">
+	    <![CDATA[
+	        UPDATE tblCoupon
+	        SET is_delete = 'T'
+	        WHERE info_no = #{info_no}
+	    ]]>
+	</update>
 	
 	
 </mapper>
