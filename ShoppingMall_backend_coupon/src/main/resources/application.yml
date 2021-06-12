@@ -1,0 +1,31 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /mall_coupon
+spring:
+  profiles:
+    active: develope
+  devtools:
+    livereload:
+      enabled: true
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://192.168.123.111:3307/mall
+    username: mall
+    password: mall
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+      force-request: true
+      force-response: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+mybatis:
+  config-location: classpath:mybatis/configuration.xml
+      
