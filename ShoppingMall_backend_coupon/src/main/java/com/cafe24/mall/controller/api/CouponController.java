@@ -79,7 +79,6 @@ public class CouponController {
 		vo.setIs_used("F");
 		vo.setMemberNoList(memberNoList);
 		
-		
 		//List<String> memberNoList = vo.getMemberNoList();
 		
 		for (String memberNo : memberNoList) {
