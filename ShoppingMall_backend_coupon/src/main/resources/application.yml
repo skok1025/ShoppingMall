@@ -10,7 +10,7 @@ spring:
       enabled: true
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://192.168.123.111:3307/mall
+    url: jdbc:mariadb://192.168.219.111:3307/mall
     username: mall
     password: mall
   http:
