@@ -28,7 +28,7 @@
 
 </style>
 <script type="text/javascript">
-	if('${issue_request}' == 'yes') {
+	if('${param.issue_request}' == 'yes') {
 		alert("쿠폰 전체발급 요청완료되었습니다. 전체 발급 결과는 쿠폰 상세보기 탭에서 확인이 가능합니다.");
 	}
 </script>

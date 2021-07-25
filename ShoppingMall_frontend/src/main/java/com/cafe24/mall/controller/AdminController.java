@@ -266,11 +266,7 @@ public class AdminController {
 	public String couponTotalIssue(CouponVo vo, Model model) {
 		adminService.totalIssueCoupon(vo);
 		
-		ArrayList<CouponInfoVo> couponInfoList = adminService.getCouponInfoList();
-		model.addAttribute("couponInfoList", couponInfoList);
-		model.addAttribute("issue_request", "yes");
-		
-		return "admin/coupon";
+		return "redirect:/admin/coupon?issue_request=yes";
 	}
 	
 
