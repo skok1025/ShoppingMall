@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,15 +47,16 @@ public class CouponController {
 		@ApiImplicitParam(name = "ins_timestamp", value = "생성일자", required = false, dataType = "String", defaultValue = "now()"),
 	})
 	@PostMapping("/info")
-	public ResponseEntity<JSONResult> couponInfoAdd(CouponInfoVo vo) {
+	public ResponseEntity<JSONResult> couponInfoAdd(@RequestBody CouponInfoVo vo) {
 		/*
 		vo.setName("coupon name");
 		vo.setSale_type("P");
 		vo.setSale_value("10");
 		*/
-		String info_no = couponService.couponInfoAdd(vo);
-		return info_no != null ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("쿠폰정보 등록 성공", info_no))
-				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("쿠폰정보 등록 실패",info_no));
+		Integer result = couponService.couponInfoAdd(vo);
+		System.out.println(result);
+		return result != 0 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("쿠폰정보 등록 성공", result))
+				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("쿠폰정보 등록 실패"));
 	}
 
 	@ApiOperation(value = "쿠폰 발급")
@@ -65,18 +67,18 @@ public class CouponController {
 		@ApiImplicitParam(name = "sale_value", value = "할인값", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "ins_timestamp", value = "생성일자", required = false, dataType = "String", defaultValue = "now()"),
 	})
-	@GetMapping("/issue")
-	public ResponseEntity<JSONResult> couponAdd(CouponVo vo) {
+	@PostMapping("/issue")
+	public ResponseEntity<JSONResult> couponAdd(@RequestBody CouponVo vo) {
 		System.out.println("Sending message...");
         
-		List<String> memberNoList = new ArrayList<String>();
-		memberNoList.add("2"); memberNoList.add("3");
+		// 초기 버전 발급은 전체 멤버를 대상으로 발급한다.
+		List<String> memberNoList = couponService.getAllMemberNoList();
 		
-		vo.setInfo_no("1");
-		vo.setName("coupon name");
-		vo.setSale_type("P");
-		vo.setSale_value("10");
-		vo.setIs_used("F");
+//		vo.setInfo_no("1");
+//		vo.setName("coupon name");
+//		vo.setSale_type("P");
+//		vo.setSale_value("10");
+//		vo.setIs_used("F");
 		vo.setMemberNoList(memberNoList);
 		
 		//List<String> memberNoList = vo.getMemberNoList();

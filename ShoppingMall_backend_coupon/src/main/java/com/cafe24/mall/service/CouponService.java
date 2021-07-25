@@ -15,9 +15,9 @@ public class CouponService {
 	@Autowired
 	private CouponDao couponDao;
 	
-	public String couponInfoAdd(CouponInfoVo vo) {
+	public Integer couponInfoAdd(CouponInfoVo vo) {
 		int result = couponDao.couponInfoInsert(vo);
-		return vo.getInfo_no();
+		return result;
 	}
 
 	public int couponAdd(CouponVo vo) {
@@ -57,6 +57,10 @@ public class CouponService {
 
 	public Integer deleteCouponByInfoNo(String info_no) {
 		return couponDao.deleteCouponByInfoNo(info_no);
+	}
+
+	public List<String> getAllMemberNoList() {
+		return couponDao.getAllMemberNoList();
 	}
 
 }

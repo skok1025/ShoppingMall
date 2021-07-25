@@ -15,6 +15,8 @@ import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.provider.AdminProvider;
 import com.cafe24.mall.util.PagingFrontUtil;
 import com.cafe24.mall.vo.BigCategoryVo;
+import com.cafe24.mall.vo.CouponInfoVo;
+import com.cafe24.mall.vo.CouponVo;
 import com.cafe24.mall.vo.GoodsDetailVo;
 import com.cafe24.mall.vo.GoodsImagesVo;
 import com.cafe24.mall.vo.GoodsVo;
@@ -257,6 +259,18 @@ public class AdminService {
 		return adminProvider.smallCategoryEdit(vo);
 	}
 
+	public Integer addCouponInfo(CouponInfoVo couponInfoVo) {
+		return adminProvider.addCouponInfo(couponInfoVo);
+	}
+
+	public ArrayList<CouponInfoVo> getCouponInfoList() {
+
+		return adminProvider.getCouponInfoList();
+	}
+
+	public void totalIssueCoupon(CouponVo vo) {
+		adminProvider.totalIssueCoupon(vo);
+	}
 
 	
 

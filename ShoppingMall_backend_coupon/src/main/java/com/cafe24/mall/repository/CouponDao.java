@@ -49,4 +49,8 @@ public class CouponDao {
 	public Integer deleteCouponByInfoNo(String info_no) {
 		return sqlsession.update("coupon.deleteCouponByInfoNo", info_no);
 	}
+
+	public List<String> getAllMemberNoList() {
+		return sqlsession.selectList("coupon.getAllMemberNoList");
+	}
 }

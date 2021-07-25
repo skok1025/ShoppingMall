@@ -1,5 +1,6 @@
 package com.cafe24.mall.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 import com.cafe24.mall.dto.JSONResult;
 import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.vo.BigCategoryVo;
+import com.cafe24.mall.vo.CouponInfoVo;
+import com.cafe24.mall.vo.CouponVo;
 import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
@@ -149,6 +152,26 @@ public List<GoodsVo> selectGoodsList(Integer startCol) {
 		return 1;
 	}
 	
+	public Integer addCouponInfo(CouponInfoVo couponInfoVo) {
+		JSONResultInteger jsonresult = 
+				restTemplate.postForObject(
+						"http://localhost:8082/mall_coupon/api/coupon/info", 
+						couponInfoVo, 
+						JSONResultInteger.class
+				);
+		return jsonresult.getData();
+	}
+	
+	public ArrayList<CouponInfoVo> getCouponInfoList() {
+		JSONResultCouponInfoList jsonResult = 
+				restTemplate.getForObject("http://localhost:8082/mall_coupon/api/coupon/info/list", JSONResultCouponInfoList.class);
+		return jsonResult.getData();
+	}
+	
+	public void totalIssueCoupon(CouponVo vo) {
+		restTemplate.postForObject("http://localhost:8082/mall_coupon/api/coupon/issue", vo, JSONResultInteger.class);
+	}
+	
 	private static class JSONResultMemberList extends JSONResult<List<MemberVo>>{	}
 	private static class JSONResultInteger extends JSONResult<Integer>{	}
 	private static class JSONResultGoodsList extends JSONResult<List<GoodsVo>>{}
@@ -156,13 +179,7 @@ public List<GoodsVo> selectGoodsList(Integer startCol) {
 	private static class JSONResultSmallCategoryList extends JSONResult<List<SmallCategoryVo>>{}
 	private static class JSONResultOrderList extends JSONResult<List<OrderDTO>>{}
 	private static class JSONResultSmallCategoryVo extends JSONResult<SmallCategoryVo>{}
-	
-	
-	
-	
-	
-	
-	
-
-
+	private static class JSONResultCouponVo extends JSONResult<CouponVo>{}
+	private static class JSONResultCouponInfoVo extends JSONResult<CouponInfoVo>{}
+	private static class JSONResultCouponInfoList extends JSONResult<ArrayList<CouponInfoVo>>{}
 }

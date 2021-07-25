@@ -39,8 +39,11 @@
 					</a>
 					</li>
 					
-					
-					
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.servletContext.contextPath}/admin/coupon"> <span class="menu-title">Coupon</span>
+							<i class="mdi mdi-ticket menu-icon"></i>
+					</a>
+					</li>
 					
 				</ul>
 			</nav>

@@ -23,7 +23,13 @@ public class CouponCreateConsumer {
     	System.out.println(vo);
         System.out.println("=============Consumer END===========");
         
-        couponService.couponAdd(vo);
+        if (isHaveRequireField(vo)) {
+        	couponService.couponAdd(vo);
+		} else {
+			// 발급 실패 로그처리
+			System.out.println("발급 실패");
+			System.out.println(vo);
+		}
     }
     
     private CouponVo getString2Couponvo(String rawMessage) {
@@ -48,6 +54,13 @@ public class CouponCreateConsumer {
     	vo.setIs_used(isUsedData[1]);
     	
     	return vo;
+    }
+    
+    private boolean isHaveRequireField(CouponVo vo) {
+    	if (vo.getName() == null || vo.getName().equals("null")) {
+			return false;
+		}
+    	return true;
     }
 
 }

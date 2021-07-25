@@ -3,22 +3,24 @@
 
 <mapper namespace="coupon">
 
-	<insert id="infoInsert">
+	<insert id="infoInsert" parameterType="couponInfoVo">
 		<![CDATA[
-			INSERT INTO tblCouponInfo(info_no, name, sale_type, sale_value, issued_timestamp)
+			INSERT INTO tblCouponInfo(info_no, name, sale_type, sale_value, ins_timestamp)
 			VALUES(null, #{name}, #{sale_type}, #{sale_value}, now())
 		]]>
-		<selectKey keyProperty="info_no" resultType="Long" order="AFTER">
+		<!-- 
+		<selectKey keyProperty="info_no" resultType="couponInfoVo" order="AFTER">
 	      <![CDATA[
 	         select last_insert_id()      
 	      ]]>
 		</selectKey>
+		 -->
 	</insert>
 	
 	<insert id="insert">
 		<![CDATA[
 			INSERT INTO tblCoupon(no, info_no, member_no, name, sale_type, sale_value, is_used, ins_timestamp)
-			VALUES(null, #{info_no}, #{member_no}, #{name}, #{sale_type}, #{sale_value}, #{is_used}, now())
+			VALUES(null, #{info_no}, #{member_no}, #{name}, #{sale_type}, #{sale_value}, 'F', now())
 		]]>
 	</insert>
 	
@@ -82,6 +84,12 @@
 	        WHERE info_no = #{info_no}
 	    ]]>
 	</update>
+	
+	<select id="getAllMemberNoList" resultType="String">
+	    <![CDATA[
+	        SELECT no FROM tblMember WHERE is_dormancy is null
+	    ]]>
+	</select>
 	
 	
 </mapper>

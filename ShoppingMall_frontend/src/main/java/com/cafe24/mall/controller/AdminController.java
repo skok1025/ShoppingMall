@@ -1,5 +1,6 @@
 package com.cafe24.mall.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.service.AdminService;
 import com.cafe24.mall.vo.BigCategoryVo;
+import com.cafe24.mall.vo.CouponInfoVo;
+import com.cafe24.mall.vo.CouponVo;
 import com.cafe24.mall.vo.GoodsVo;
 import com.cafe24.mall.vo.MemberVo;
 import com.cafe24.mall.vo.SmallCategoryVo;
@@ -231,6 +234,43 @@ public class AdminController {
 	public Integer smallCategoryEdit(@RequestParam("no") Long no, @RequestParam("name") String name){
 		
 		return adminService.smallCategoryEdit(no, name);
+	}
+	
+	@GetMapping("/coupon")
+	public String couponPage(Model model) {
+		ArrayList<CouponInfoVo> couponInfoList = adminService.getCouponInfoList();
+		model.addAttribute("couponInfoList", couponInfoList);
+		return "admin/coupon";
+	}
+	
+	@GetMapping("coupon/create")
+	public String couponCreatePage() {
+		return "admin/coupon_create";
+	}
+	
+	@PostMapping("coupon/create")
+	public String couponCreateAction(CouponInfoVo couponInfoVo, Model model) {
+		System.out.println(couponInfoVo);
+		Integer result = adminService.addCouponInfo(couponInfoVo);
+		System.out.println(result);
+		if(result == 1) {
+			return "redirect:/admin/coupon?addsuccess=yes";
+		}
+		
+		// 실패한 경우
+		model.addAttribute("addfail", "yes");
+		return "admin/coupon";
+	}
+	
+	@PostMapping("coupon/issue")
+	public String couponTotalIssue(CouponVo vo, Model model) {
+		adminService.totalIssueCoupon(vo);
+		
+		ArrayList<CouponInfoVo> couponInfoList = adminService.getCouponInfoList();
+		model.addAttribute("couponInfoList", couponInfoList);
+		model.addAttribute("issue_request", "yes");
+		
+		return "admin/coupon";
 	}
 	
 
