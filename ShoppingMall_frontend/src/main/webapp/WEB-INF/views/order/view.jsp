@@ -110,6 +110,14 @@ function openZipSearch() {
 	}).open();
 }
 
+function selectCoupon() {
+	var couponPopupUrl = "/skok1025/order/coupon-view";
+	var couponPopupName = "쿠폰 선택";
+	var option = "width = 500, height = 440, top = 100, left = 100";
+	
+	window.open(couponPopupUrl, couponPopupName, option);
+}
+
 $(document).ready(function(){
 	$("#samebox").change(function(){
         if($("#samebox").is(":checked")){
@@ -291,20 +299,28 @@ $(document).ready(function(){
 						
 					</div>
 					
+					<div id="input-box">
+						<div style="float: left;">
+							<button type="button" class="btn btn-gradient-primary btn-sm" onclick='selectCoupon();'>쿠폰적용하기</button>
+						</div>
+					</div>
+					
 					
 					<div style="clear: both;"></div>
 					
 					<hr />
 					<div class="total-price">
-						<span>총 구매금액: <fmt:formatNumber value="${totalPrice }" type="currency"></fmt:formatNumber></span>
+						<span id="orderPriceDisp">총 결제금액: <fmt:formatNumber value="${totalPrice }" type="currency"></fmt:formatNumber></span>
+						<input type="hidden" id="baseOrderPrice" name="baseOrderPrice" value="${totalPrice }">
+						<input type="hidden" id="saleOrderPrice" name="orderPrice" value="${totalPrice }">
+						<input type="hidden" id="orderCalcInfo" name="orderCalcInfo" value="">
+						<input type="hidden" id="applyCouponNo" name="applyCouponNo" value="">
 					</div>
 					<hr />
 
 
 					<div class="btns-box">
-						
-						<button type="submit" class="btn btn-gradient-primary btn-bg">주문하기</button>
-						
+						<button type="submit" class="btn btn-gradient-primary btn-bg">주문하기</button> 
 					</div>
 
 </form>

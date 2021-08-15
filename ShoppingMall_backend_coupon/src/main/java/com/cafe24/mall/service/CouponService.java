@@ -1,6 +1,8 @@
 package com.cafe24.mall.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,8 +53,11 @@ public class CouponService {
 		return couponDao.deleteCouponInfo(info_no);
 	}
 
-	public Integer deleteCoupon(String coupon_no) {
-		return couponDao.deleteCoupon(coupon_no);
+	public Integer deleteCoupon(String coupon_no, String isUsed) {
+		Map<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("coupon_no", coupon_no);
+		searchMap.put("isUsed", isUsed);
+		return couponDao.deleteCoupon(searchMap);
 	}
 
 	public Integer deleteCouponByInfoNo(String info_no) {
@@ -61,6 +66,10 @@ public class CouponService {
 
 	public List<String> getAllMemberNoList() {
 		return couponDao.getAllMemberNoList();
+	}
+
+	public List<CouponVo> getMemberCouponList(String memberNo) {
+		return couponDao.getMemberCouponList(memberNo);
 	}
 
 }

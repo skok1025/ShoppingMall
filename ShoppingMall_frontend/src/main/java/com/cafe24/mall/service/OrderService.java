@@ -54,6 +54,18 @@ public class OrderService {
 	}
 
 	public List<OrderGoodsDTO> getOrderList(Long memberNo) {
-		return orderProvider.selectOrderList(memberNo);
+		List<OrderGoodsDTO> orderList = orderProvider.selectOrderList(memberNo);
+		
+		for (OrderGoodsDTO orderGoodsDTO : orderList) {
+			String orderCode = orderGoodsDTO.getOrderCode();
+			
+			String orderPrice = orderProvider.getOrderPrice(orderCode);
+			String orderCalcInfo = orderProvider.getOrderCalcInfo(orderCode);
+			
+			orderGoodsDTO.setOrderPrice(orderPrice);
+			orderGoodsDTO.setOrderCalcInfo(orderCalcInfo);
+		}
+		
+		return orderList;
 	}
 }

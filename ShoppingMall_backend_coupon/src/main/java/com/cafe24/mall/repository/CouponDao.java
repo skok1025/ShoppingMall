@@ -1,6 +1,7 @@
 package com.cafe24.mall.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,8 +43,8 @@ public class CouponDao {
 		return sqlsession.update("coupon.deleteCouponInfo", info_no);
 	}
 
-	public Integer deleteCoupon(String coupon_no) {
-		return sqlsession.update("coupon.deleteCoupon", coupon_no);
+	public Integer deleteCoupon(Map<String, String> searchMap) {
+		return sqlsession.update("coupon.deleteCoupon", searchMap);
 	}
 
 	public Integer deleteCouponByInfoNo(String info_no) {
@@ -52,5 +53,9 @@ public class CouponDao {
 
 	public List<String> getAllMemberNoList() {
 		return sqlsession.selectList("coupon.getAllMemberNoList");
+	}
+
+	public List<CouponVo> getMemberCouponList(String memberNo) {
+		return sqlsession.selectList("coupon.getMemberCouponList", memberNo);
 	}
 }

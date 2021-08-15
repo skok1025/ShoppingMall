@@ -17,7 +17,9 @@ import com.cafe24.mall.dto.BasketItemDTO;
 import com.cafe24.mall.dto.OrderGoodsDTO;
 import com.cafe24.mall.security.SecurityUser;
 import com.cafe24.mall.service.BasketService;
+import com.cafe24.mall.service.CouponService;
 import com.cafe24.mall.service.OrderService;
+import com.cafe24.mall.vo.CouponVo;
 import com.cafe24.mall.vo.OrderVo;
 
 @Controller
@@ -29,6 +31,19 @@ public class OrderController {
 	@Autowired
 	private BasketService basketService;
 	
+	@Autowired
+	private CouponService couponService;
+	
+	@GetMapping("/coupon-view")
+	public String orderCouponPage(@AuthenticationPrincipal SecurityUser user, Model model) {
+		Long memberNo = user.getNo();
+		List<CouponVo> memberCouponList = couponService.getMemberCouponList(memberNo);
+		System.out.println(memberCouponList);
+		model.addAttribute("memberCouponList", memberCouponList);
+		
+		return "order/coupon";
+	}
+	
 	@PostMapping("/view")
 	public String orderPage(
 			@ModelAttribute BasketItemDTO basketItemDTO,
@@ -37,7 +52,7 @@ public class OrderController {
 		//System.out.println(basketItemDTO.getList().isEmpty());
 		Long memberNo = user.getNo();
 		List<BasketItemDTO> basketItemList = basketItemDTO.getList();
-		
+	
 		String userName = user.getName();
 		
 		System.out.println("로그인 중인 회원명: "+userName);
@@ -67,13 +82,12 @@ public class OrderController {
 			@AuthenticationPrincipal SecurityUser user,
 			Model model) {
 		
-		vo.setMemberNo(user.getNo());
-		
 		int result = orderService.addOrder(vo);
 		
 		if(result == 1) {
 			// 장바구니 비우기
 			basketService.allremove(user.getNo());
+			couponService.setUsedCoupon(vo.getApplyCouponNo());
 			
 			return "redirect:/order/list?ordersuccess=yes";
 		}
@@ -90,7 +104,7 @@ public class OrderController {
 			) {
 		
 		List<OrderGoodsDTO> list = orderService.getOrderList(user.getNo());
-		
+		System.out.println(list);
 		model.addAttribute("list", list);
 		return "order/list";
 	}

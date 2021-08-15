@@ -189,4 +189,18 @@
 			update tblGoodsDetail set inventory_qty = inventory_qty - #{cnt} where no = #{goodsDetailNo} 
 		]]>
 	</update>
+	
+	<insert id="insertOrderValue" parameterType="eavdto">
+	    <![CDATA[
+	        INSERT INTO tblOrderValue (no, order_code, config_name, config_value, ins_timestamp)
+	        VALUES (null, #{order_code}, #{config_name}, #{config_value}, now())
+	    ]]>
+	</insert>
+	
+	<select id="selectOrderDetailInfo" parameterType="map" resultType="String">
+	    <![CDATA[
+	        SELECT config_value FROM tblOrderValue WHERE order_code=#{orderCode} AND config_name = #{config_name}
+	    ]]>
+	</select>
+	
 </mapper>

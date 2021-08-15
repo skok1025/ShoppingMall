@@ -1,12 +1,15 @@
 package com.cafe24.mall.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.mall.dto.ChangeApplyDTO;
+import com.cafe24.mall.dto.EavDTO;
 import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.dto.OrderGoodsDTO;
 import com.cafe24.mall.repository.OrderDao;
@@ -25,8 +28,10 @@ public class OrderService {
 	public int addOrder(OrderVo ordervo) {
 		List<OrderGoodsVo> orderGoodsList = ordervo.getOrderGoodsList();
 		
+		String orderCode = orderDao.getGenerateOrderCode();
+		
 		// 주문코드 생성
-		ordervo.setCode(orderDao.getGenerateOrderCode());
+		ordervo.setCode(orderCode);
 		
 		int result =  orderDao.insertOrder(ordervo);
 		
@@ -44,8 +49,45 @@ public class OrderService {
 			}
 		}
 		
+		addOrderValueInfo(ordervo, orderCode);
 		
 		return result;
+	}
+	
+	private void addOrderValueInfo(OrderVo ordervo, String orderCode) {
+		String orderPrice = ordervo.getOrderPrice();
+		String orderCalcInfo = ordervo.getOrderCalcInfo();
+		String applyCouponNo = ordervo.getApplyCouponNo();
+		
+		System.out.println("test");
+		System.out.println(ordervo);
+		
+		if (!orderPrice.equals("null")) {
+			EavDTO dto = new EavDTO();
+			dto.setOrder_code(orderCode);
+			dto.setConfig_name("order_price");
+			dto.setConfig_value(orderPrice);
+			
+			orderDao.insertOrderValue(dto);
+		}
+		
+		if (!orderCalcInfo.equals("null")) {
+			EavDTO dto = new EavDTO();
+			dto.setOrder_code(orderCode);
+			dto.setConfig_name("order_calc_info");
+			dto.setConfig_value(orderCalcInfo);
+			
+			orderDao.insertOrderValue(dto);
+		}
+		
+		if (!applyCouponNo.equals("null")) {
+			EavDTO dto = new EavDTO();
+			dto.setOrder_code(orderCode);
+			dto.setConfig_name("apply_coupon_no");
+			dto.setConfig_value(applyCouponNo);
+			
+			orderDao.insertOrderValue(dto);
+		}
 	}
 
 	public List<OrderGoodsDTO> getOrderGoodsList(String orderCode) {
@@ -79,6 +121,14 @@ public class OrderService {
 
 	public List<OrderDTO> getOrderList(Long memberNo) {
 		return orderDao.selectOrderList(memberNo);
+	}
+
+	public String getOrderDetailInfo(String orderCode, String info) {
+		Map<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("orderCode", orderCode);
+		searchMap.put("config_name", info);
+		
+		return orderDao.selectOrderDetailInfo(searchMap);
 	}
 
 

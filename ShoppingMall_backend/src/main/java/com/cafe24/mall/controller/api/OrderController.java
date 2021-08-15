@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.ChangeApplyDTO;
@@ -50,6 +51,7 @@ public class OrderController {
 			@ApiImplicitParam(name = "ordervo", value = "고객이 주문한 orderVo", required = true, dataType = "OrderVo", defaultValue = "") })
 	@PostMapping("/")
 	public ResponseEntity<JSONResult> addOrder(@RequestBody /* @Valid */ OrderVo ordervo,BindingResult bindresult) {
+		
 		// 유효성 검사 실패시
 		if (bindresult.hasErrors()) {
 			List<FieldError> list = bindresult.getFieldErrors();
@@ -174,7 +176,18 @@ public class OrderController {
 		
 	}
 	
-	
+	@ApiOperation(value = "주문 상세정보 조회 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "orderCode", value = "주문상세조회 할 주문코드", required = true, dataType = "String", defaultValue = ""),
+		@ApiImplicitParam(name = "info", value = "조회할 내용 (order_price|order_calc_info)", required = true, dataType = "String", defaultValue = "")})
+	@GetMapping("/detail/{orderCode}")
+	public ResponseEntity<JSONResult> getOrderDetailInfo(
+			@PathVariable(value = "orderCode") String orderCode,
+			@RequestParam String info) {
+		String result = orderService.getOrderDetailInfo(orderCode, info);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 상세정보 조회 성공", result));
+	}
 	
 	
 	

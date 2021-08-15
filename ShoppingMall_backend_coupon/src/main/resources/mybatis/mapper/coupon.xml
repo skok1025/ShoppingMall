@@ -69,12 +69,20 @@
 	    ]]>
 	</update>
 	
-	<update id="deleteCoupon" parameterType="String">
+	<update id="deleteCoupon" parameterType="map">
 	    <![CDATA[
 	        UPDATE tblCoupon
-	        SET is_delete = 'T'
-	        WHERE no = #{couponNo}
+	        SET is_delete = 'T',
+	        upt_timestamp = now()
 	    ]]>
+	    <if test='isUsed == "T"'>
+	      <![CDATA[
+	        , is_used = 'T'
+	      ]]>
+	    </if>
+	    <![CDATA[
+	       WHERE no = #{coupon_no}
+	    ]]>  
 	</update>
 	
 	<update id="deleteCouponByInfoNo" parameterType="String">
@@ -88,6 +96,12 @@
 	<select id="getAllMemberNoList" resultType="String">
 	    <![CDATA[
 	        SELECT no FROM tblMember WHERE is_dormancy is null
+	    ]]>
+	</select>
+	
+	<select id="getMemberCouponList" parameterType="String" resultType="couponVo">
+	    <![CDATA[
+	        SELECT * FROM tblCoupon WHERE member_no=#{memberNo} AND is_used='F' AND is_delete='F'
 	    ]]>
 	</select>
 	

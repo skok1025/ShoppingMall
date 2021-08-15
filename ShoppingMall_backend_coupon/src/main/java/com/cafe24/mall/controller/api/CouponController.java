@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mall.dto.JSONResult;
@@ -37,6 +38,14 @@ public class CouponController {
 	public CouponController(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
+	
+	@GetMapping("/list/{memberNo}")
+	public ResponseEntity<JSONResult> couponList(@PathVariable(value = "memberNo") String memberNo) {
+		List<CouponVo> memberCouponList = couponService.getMemberCouponList(memberNo);
+		
+		return memberCouponList != null ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원쿠폰 리스트 조회 성공", memberCouponList))
+				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.success("회원쿠폰 리스트 조회 실패",memberCouponList));
+	}
 	
 	@ApiOperation(value = "쿠폰 정보 등록")
 	@ApiImplicitParams({
@@ -153,9 +162,11 @@ public class CouponController {
 		@ApiImplicitParam(name = "coupon_no", value = "삭제할 쿠폰 번호", required = true, dataType = "String")
 	})
 	@DeleteMapping("/{coupon_no}")
-	public ResponseEntity<JSONResult> couponDelete(@PathVariable(value = "coupon_no") String coupon_no) {
+	public ResponseEntity<JSONResult> couponDelete(
+			@PathVariable(value = "coupon_no") String coupon_no,
+			@RequestParam String isUsed) {
 		// is_delete 컬럼 update
-		Integer result = couponService.deleteCoupon(coupon_no);	
+		Integer result = couponService.deleteCoupon(coupon_no, isUsed);	
 		
 		return result != null ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("쿠폰발급정보 삭제 성공", result))
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.success("쿠폰발급정보 삭제 실패",result));

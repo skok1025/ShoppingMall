@@ -14,7 +14,24 @@ public class OrderGoodsDTO {
 	private String orderStatus;
 	private int sailingPrice;
 	private String invoiceCode;
+	private String orderPrice;
+	private String orderCalcInfo;
 	
+	
+	
+	
+	public String getOrderCalcInfo() {
+		return orderCalcInfo;
+	}
+	public void setOrderCalcInfo(String orderCalcInfo) {
+		this.orderCalcInfo = orderCalcInfo;
+	}
+	public String getOrderPrice() {
+		return orderPrice;
+	}
+	public void setOrderPrice(String orderPrice) {
+		this.orderPrice = orderPrice;
+	}
 	public String getThumbnail() {
 		return thumbnail;
 	}
@@ -68,9 +85,8 @@ public class OrderGoodsDTO {
 	public String toString() {
 		return "OrderGoodsDTO [goodsName=" + goodsName + ", optionName=" + optionName + ", orderCnt=" + orderCnt
 				+ ", orderCode=" + orderCode + ", orderStatus=" + orderStatus + ", sailingPrice=" + sailingPrice
-				+ ", invoiceCode=" + invoiceCode + ", thumbnail=" + thumbnail + "]";
+				+ ", invoiceCode=" + invoiceCode + ", orderPrice=" + orderPrice + ", orderCalcInfo=" + orderCalcInfo
+				+ ", thumbnail=" + thumbnail + "]";
 	}
-	
-	
 	
 }

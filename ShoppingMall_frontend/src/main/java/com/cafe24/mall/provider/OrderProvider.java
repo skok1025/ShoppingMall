@@ -39,12 +39,26 @@ public class OrderProvider {
 		
 		return jsonresult.getData();
 	}
+	
+	public String getOrderPrice(String orderCode) {
+		JSONResultString jsonresult = 
+				restTemplate.getForObject(
+						"http://localhost:8099/ShoppingMall_backend/api/order/detail/" + orderCode + "?info=order_price", JSONResultString.class);
+		return jsonresult.getData();
+	}
+	
+	public String getOrderCalcInfo(String orderCode) {
+		JSONResultString jsonresult = 
+				restTemplate.getForObject(
+						"http://localhost:8099/ShoppingMall_backend/api/order/detail/" + orderCode + "?info=order_calc_info", JSONResultString.class);
+		return jsonresult.getData();
+	}
+	
+	
 	private static class JSONResultBasketItemDTO extends JSONResult<BasketItemDTO>{}
 	private static class JSONResultInteger extends JSONResult<Integer>{}
+	private static class JSONResultString extends JSONResult<String>{}
 	private static class JSONResultOrderList extends JSONResult<List<OrderGoodsDTO>>{}
-	
-
-
 
 }
 

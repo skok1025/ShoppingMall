@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.mall.dto.ChangeApplyDTO;
+import com.cafe24.mall.dto.EavDTO;
 import com.cafe24.mall.dto.OrderDTO;
 import com.cafe24.mall.dto.OrderGoodsDTO;
 import com.cafe24.mall.vo.CancelApplyVo;
@@ -95,6 +96,14 @@ public class OrderDao {
 		map.put("goodsDetailNo", goodsDetailNo);
 		map.put("cnt", cnt);
 		sqlsession.update("order.updateInventoryCnt", map);
+	}
+
+	public void insertOrderValue(EavDTO dto) {
+		sqlsession.insert("order.insertOrderValue", dto);
+	}
+
+	public String selectOrderDetailInfo(Map<String, String> searchMap) {
+		return sqlsession.selectOne("order.selectOrderDetailInfo", searchMap);
 	}
 
 	

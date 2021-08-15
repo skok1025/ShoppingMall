@@ -23,6 +23,7 @@
 		<typeAlias type="com.cafe24.mall.dto.OrderDTO" alias="orderdto"/>
 		<typeAlias type="com.cafe24.mall.dto.BasketDTO" alias="basketdto"/>
 		<typeAlias type="com.cafe24.mall.dto.BasketItemDTO" alias="basketitemdto"/>
+		<typeAlias type="com.cafe24.mall.dto.EavDTO" alias="eavdto"/>
 		
 	</typeAliases>
 	<mappers>

@@ -29,6 +29,36 @@ public class OrderVo {
 	private String invoiceCode;
 	
 	private List<OrderGoodsVo> orderGoodsList;
+	
+	private String orderPrice;
+	private String orderCalcInfo;
+	private String applyCouponNo;
+	
+	
+	
+	public String getApplyCouponNo() {
+		return applyCouponNo;
+	}
+
+	public void setApplyCouponNo(String applyCouponNo) {
+		this.applyCouponNo = applyCouponNo;
+	}
+
+	public String getOrderCalcInfo() {
+		return orderCalcInfo;
+	}
+
+	public void setOrderCalcInfo(String orderCalcInfo) {
+		this.orderCalcInfo = orderCalcInfo;
+	}
+
+	public String getOrderPrice() {
+		return orderPrice;
+	}
+
+	public void setOrderPrice(String orderPrice) {
+		this.orderPrice = orderPrice;
+	}
 
 	public Long getNo() {
 		return no;
@@ -173,10 +203,9 @@ public class OrderVo {
 				+ ", orderStatus=" + orderStatus + ", paymentWay=" + paymentWay + ", receiverName=" + receiverName
 				+ ", receiverTel1=" + receiverTel1 + ", receiverTel2=" + receiverTel2 + ", receiverPostcode="
 				+ receiverPostcode + ", receiverAddress=" + receiverAddress + ", message=" + message + ", invoiceCode="
-				+ invoiceCode + ", orderGoodsList=" + orderGoodsList + "]";
+				+ invoiceCode + ", orderGoodsList=" + orderGoodsList + ", orderPrice=" + orderPrice + ", orderCalcInfo="
+				+ orderCalcInfo + ", applyCouponNo=" + applyCouponNo + "]";
 	}
-	
-	
 
 	
 	

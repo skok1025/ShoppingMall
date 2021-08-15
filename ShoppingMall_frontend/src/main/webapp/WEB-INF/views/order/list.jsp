@@ -127,8 +127,8 @@ $(document).ready(function(){
 						<h1 class=" h1">주문 리스트</h1>
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="#">UI Elements</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Buttons</li>
+								<li class="breadcrumb-item"><a href="#">주문</a></li>
+								<li class="breadcrumb-item active" aria-current="page">주문내역</li>
 							</ol>
 						</nav>
 					</div>
@@ -143,6 +143,7 @@ $(document).ready(function(){
 							<th>상품명 (상품옵션)</th>
 							<th>수량</th>
 							<th>상품가격</th>
+							<th>결제금액</th>
 							<th>송장번호</th>
 						</tr>
 					</thead>
@@ -156,6 +157,13 @@ $(document).ready(function(){
 							<td>${vo.goodsName }( ${vo.optionName })</td>
 							<td>${vo.orderCnt }</td>
 							<td><fmt:formatNumber value="${vo.sailingPrice }" type="currency"></fmt:formatNumber></td>
+							<td>
+								<fmt:formatNumber value="${vo.orderPrice }" type="currency"></fmt:formatNumber>
+								<div style="clear: both;"></div>
+								<c:if test="${vo.orderCalcInfo ne null}">
+								    <span style="font-size: 7px !important;">${vo.orderCalcInfo}</span>
+								</c:if>
+							</td>
 							<td>${vo.invoiceCode }</td>
 						</tr>						
 						</c:forEach>
