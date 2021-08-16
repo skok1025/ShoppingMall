@@ -196,7 +196,7 @@ $(document)
 
 					<div class="btns-box">
 						<sec:authorize access="isAuthenticated()">
-							<button type="submit" class="btn btn-gradient-primary btn-bg">주문하기</button>
+							<button type="submit" class="btn btn-gradient-primary btn-bg" onclick="$('.editBtn').click();">주문하기</button>
 							<a href="${pageContext.servletContext.contextPath }/basket/allremove/${memberNo}" class="btn btn-outline-danger btn-bg">장바구니 비우기</a>
 						</sec:authorize>
 						<sec:authorize access="isAnonymous()">

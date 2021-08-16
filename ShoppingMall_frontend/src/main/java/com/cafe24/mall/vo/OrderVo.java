@@ -35,8 +35,8 @@ public class OrderVo {
 	private String orderCalcInfo;
 	private String applyCouponNo;
 	
-	
-	
+	private List<OrderGoodsVo> orderGoodsList;
+
 	public String getApplyCouponNo() {
 		return applyCouponNo;
 	}
@@ -76,8 +76,6 @@ public class OrderVo {
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
 	}
-
-	private List<OrderGoodsVo> orderGoodsList;
 
 	public Long getNo() {
 		return no;

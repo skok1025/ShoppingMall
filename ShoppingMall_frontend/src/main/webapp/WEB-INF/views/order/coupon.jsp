@@ -97,6 +97,17 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 </style>
 <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
+    $(document).ready(function(){
+    	$("#select_coupon_info").change(function(){
+    		
+    		if($(this).val() != "none") {
+    			$("#applayBtn").removeClass("disabled");
+    		} else {
+    			$("#applayBtn").addClass("disabled");
+    		}
+    	});
+    });
+
 	String.format = function() {
 		let args = arguments;
 		return args[0].replace(/{(\d+)}/g, function(match, num) {
@@ -186,7 +197,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 							<label for="select_coupon">쿠폰 선택</label> <select
 								id="select_coupon_info" name="select_coupon_info"
 								class="form-control">
-								<option>적용할 쿠폰을 선택해주세요.</option>
+								<option value="none">적용할 쿠폰을 선택해주세요.</option>
 								<c:forEach items="${memberCouponList}" var="coupon">
 									<option
 										value="${coupon.no}|${coupon.sale_value}|${coupon.sale_type}">${coupon.name}
@@ -205,7 +216,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 					<div class="btns-box">
 
-						<button type="button" class="btn btn-gradient-primary btn-bg"
+						<button id="applayBtn" type="button" class="btn btn-gradient-primary btn-bg disabled"
 							onclick="applyCoupon();">쿠폰 적용하기</button>
 
 					</div>

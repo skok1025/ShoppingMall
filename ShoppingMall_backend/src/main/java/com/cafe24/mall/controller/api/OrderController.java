@@ -62,9 +62,12 @@ public class OrderController {
 			errMsg += "오류발생";
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errMsg));
 		}
-
+		
+		// 주문금액 검증
+		System.out.println("주문금액 검증 필요!!");
+        System.out.println(ordervo);
+		
 		int result = orderService.addOrder(ordervo);
-		// int result = 1;
 
 		return result == 1 ? ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success("고객 주문등록 성공", result))
 				: ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("고객 주문등록 실패"));

@@ -81,13 +81,16 @@ public class OrderController {
 			OrderVo vo,
 			@AuthenticationPrincipal SecurityUser user,
 			Model model) {
-		
+		vo.setMemberNo(user.getNo());
 		int result = orderService.addOrder(vo);
 		
 		if(result == 1) {
 			// 장바구니 비우기
 			basketService.allremove(user.getNo());
-			couponService.setUsedCoupon(vo.getApplyCouponNo());
+			System.out.println(vo);
+			if (!vo.getApplyCouponNo().equals("null") && !vo.getApplyCouponNo().isEmpty()) {
+				couponService.setUsedCoupon(vo.getApplyCouponNo());
+			}
 			
 			return "redirect:/order/list?ordersuccess=yes";
 		}
