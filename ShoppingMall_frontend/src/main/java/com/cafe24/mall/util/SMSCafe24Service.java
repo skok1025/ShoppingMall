@@ -12,6 +12,8 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
+import com.cafe24.mall.datasource.DataSource;
+
 @Service
 public class SMSCafe24Service {
 
@@ -75,15 +77,18 @@ public class SMSCafe24Service {
     	String charsetType = "UTF-8"; //EUC-KR 또는 UTF-8
     	String  action     = nullcheck("go", "");
         if(action.equals("go")) {
+        	
+        	DataSource.onLoad();
+        	
             String sms_url = "";
-            sms_url = "https://sslsms.cafe24.com/sms_sender.php"; // SMS 전송요청 URL
-            String user_id = base64Encode("skok1025"); // SMS아이디
-            String secure = base64Encode("c6636c913e4042af7ea8a5bf52c06788");//인증키
+            sms_url = DataSource.data.getCafe24sms().getSms_url(); // SMS 전송요청 URL
+            String user_id = base64Encode(DataSource.data.getCafe24sms().getUser_id()); // SMS아이디
+            String secure = base64Encode(DataSource.data.getCafe24sms().getSecure());//인증키
             String msg = base64Encode(nullcheck(message, ""));
             String rphone = base64Encode(nullcheck(receiverTel, "")); // 받는사람 번호
-            String sphone1 = base64Encode(nullcheck("010", ""));
-            String sphone2 = base64Encode(nullcheck("6866", ""));
-            String sphone3 = base64Encode(nullcheck("9202", ""));
+            String sphone1 = base64Encode(nullcheck(DataSource.data.getCafe24sms().getSender_phone1(), ""));
+            String sphone2 = base64Encode(nullcheck(DataSource.data.getCafe24sms().getSender_phone2(), ""));
+            String sphone3 = base64Encode(nullcheck(DataSource.data.getCafe24sms().getSender_phone3(), ""));
             String rdate = base64Encode(nullcheck(rDate, ""));
             String rtime = base64Encode(nullcheck(rTime, ""));
             String mode = base64Encode("1");

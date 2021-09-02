@@ -272,7 +272,12 @@
 			<version>2.3.0</version>
 		</dependency>
 
-
+		<!-- yaml 설정 -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.20</version>
+		</dependency>
 
 	</dependencies>
 

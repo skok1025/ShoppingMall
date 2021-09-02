@@ -18668,6 +18668,7 @@
     /* Cards */
     .card {
         border: 0;
+        height: 100%;
     }
     .card .card-body {
         padding: 2.5rem;
@@ -19543,12 +19544,12 @@
     .form-middle {
         width: 150px;
     }
-    /* 부트스트랩 버튼 크기 */
+    /* 遺��듃�뒪�듃�옪 踰꾪듉 �겕湲� */
     .sk-bootstrap-btn {
         padding: 0.6rem 2rem !important;
         margin: 0.3rem !important;
     }
-    /* title - BreadCrumb 사이 붙이기 */
+    /* title - BreadCrumb �궗�씠 遺숈씠湲� */
     .page-header {
         justify-content: initial !important;
     }

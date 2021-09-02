@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.mall.datasource.DataSource;
 import com.cafe24.mall.service.CustomerService;
 import com.cafe24.mall.util.SMSCafe24Service;
 import com.cafe24.mall.util.SMTPAuthenticatior;
@@ -101,15 +102,17 @@ public class CustomerController {
 		
 		Properties p = new Properties(); // 정보를 담을 객체
 		 
-		p.put("mail.smtp.host","smtp.naver.com"); // 네이버 SMTP
+		DataSource.onLoad();
+		
+		p.put("mail.smtp.host",DataSource.data.getNaversmtp().getHost()); // 네이버 SMTP
 		 
-		p.put("mail.smtp.port", "465");
-		p.put("mail.smtp.starttls.enable", "true");
-		p.put("mail.smtp.auth", "true");
-		p.put("mail.smtp.debug", "true");
-		p.put("mail.smtp.socketFactory.port", "465");
-		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		p.put("mail.smtp.socketFactory.fallback", "false");
+		p.put("mail.smtp.port", DataSource.data.getNaversmtp().getPort());
+		p.put("mail.smtp.starttls.enable", DataSource.data.getNaversmtp().getStarttlsEnable());
+		p.put("mail.smtp.auth", DataSource.data.getNaversmtp().getAuth());
+		p.put("mail.smtp.debug", DataSource.data.getNaversmtp().getDebug());
+		p.put("mail.smtp.socketFactory.port", DataSource.data.getNaversmtp().getSocketFactoryPort());
+		p.put("mail.smtp.socketFactory.class", DataSource.data.getNaversmtp().getSocketFactoryClass());
+		p.put("mail.smtp.socketFactory.fallback", DataSource.data.getNaversmtp().getSocketFactoryFallback());
 		// SMTP 서버에 접속하기 위한 정보들
 		
 		try{
