@@ -19,8 +19,7 @@ public class DataSource {
 	private DataSource() {}
 	
 	/**
-	 * 하나의 인스턴스 (싱글톤 객체) 만 리턴하는 함수
-	 * @return 싱글톤 객체
+	 * dataSource.yml 로드
 	 * @throws FileNotFoundException 
 	 */
 	public static void onLoad() {
