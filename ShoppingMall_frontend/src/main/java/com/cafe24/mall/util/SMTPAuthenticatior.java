@@ -2,11 +2,17 @@ package com.cafe24.mall.util;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
+
+import com.cafe24.mall.datasource.DataSource;
  
 public class SMTPAuthenticatior extends Authenticator{
  
     @Override
     protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication("skok1025@naver.com","sk12782478");
+    	DataSource.onLoad();
+        return new PasswordAuthentication(
+        		DataSource.data.getNaversmtp().getSenderEmail(),
+        		DataSource.data.getNaversmtp().getSenderEmailPassword()
+        );
     }
 }

@@ -80,6 +80,8 @@ public class dataSourceDTO {
 		private String socketFactoryPort;
 		private String socketFactoryClass;
 		private String socketFactoryFallback;
+		private String senderEmail;
+		private String senderEmailPassword;
 		
 		public String getHost() {
 			return host;
@@ -134,6 +136,18 @@ public class dataSourceDTO {
 		}
 		public void setSocketFactoryFallback(String socketFactoryFallback) {
 			this.socketFactoryFallback = socketFactoryFallback;
+		}
+		public String getSenderEmail() {
+			return senderEmail;
+		}
+		public void setSenderEmail(String senderEmail) {
+			this.senderEmail = senderEmail;
+		}
+		public String getSenderEmailPassword() {
+			return senderEmailPassword;
+		}
+		public void setSenderEmailPassword(String senderEmailPassword) {
+			this.senderEmailPassword = senderEmailPassword;
 		}
 	}
 
