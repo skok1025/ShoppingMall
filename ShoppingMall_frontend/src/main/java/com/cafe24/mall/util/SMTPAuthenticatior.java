@@ -9,7 +9,6 @@ public class SMTPAuthenticatior extends Authenticator{
  
     @Override
     protected PasswordAuthentication getPasswordAuthentication() {
-    	DataSource.onLoad();
         return new PasswordAuthentication(
         		DataSource.data.getNaversmtp().getSenderEmail(),
         		DataSource.data.getNaversmtp().getSenderEmailPassword()

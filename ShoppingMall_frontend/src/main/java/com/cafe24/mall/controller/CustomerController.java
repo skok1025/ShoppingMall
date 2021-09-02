@@ -102,8 +102,6 @@ public class CustomerController {
 		
 		Properties p = new Properties(); // 정보를 담을 객체
 		 
-		DataSource.onLoad();
-		
 		p.put("mail.smtp.host",DataSource.data.getNaversmtp().getHost()); // 네이버 SMTP
 		 
 		p.put("mail.smtp.port", DataSource.data.getNaversmtp().getPort());

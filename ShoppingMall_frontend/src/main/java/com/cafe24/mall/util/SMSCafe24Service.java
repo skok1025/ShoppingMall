@@ -77,9 +77,7 @@ public class SMSCafe24Service {
     	String charsetType = "UTF-8"; //EUC-KR 또는 UTF-8
     	String  action     = nullcheck("go", "");
         if(action.equals("go")) {
-        	
-        	DataSource.onLoad();
-        	
+ 
             String sms_url = "";
             sms_url = DataSource.data.getCafe24sms().getSms_url(); // SMS 전송요청 URL
             String user_id = base64Encode(DataSource.data.getCafe24sms().getUser_id()); // SMS아이디
